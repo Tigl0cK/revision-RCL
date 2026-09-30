@@ -1,665 +1,197 @@
-/* revision-RCL — logique de l'application
-   Les banques de questions sont chargées dans des fichiers séparés.
-*/
+const THEMES = [
+  { id: 1, name: "Signalisation au sol" },
+  { id: 2, name: "Circulation à contresens ou à contre-voie" },
+  { id: 3, name: "Mouvements de manœuvre guidés" },
+  { id: 4, name: "Mouvements de manœuvre non guidés" },
+  { id: 5, name: "Dispositions à appliquer sur certaines lignes" },
+  { id: 6, name: "Principes complémentaires" }
+];
 
-(() => {
-  "use strict";
+// Questions de démonstration uniquement. La banque définitive remplacera ce tableau.
+const QUESTIONS = [
+  { id:"DEMO-001", theme:1, type:"qcm", question:"Après arrêt devant un carré fermé, l'autorisation reçue permet-elle de franchir automatiquement un autre carré fermé rencontré ensuite ?", options:["Oui, si les deux signaux dépendent du même poste", "Oui, si le second carré est à moins de 500 m", "Non, une autorisation est nécessaire pour chaque signal fermé", "Oui, si la marche est effectuée à vitesse réduite"], correct:2, article:"A 11.08" },
+  { id:"DEMO-002", theme:1, type:"qcm", question:"Dans la procédure prévue avant le franchissement d'un signal fermé, dans quelle situation l'action sur le bouton FC est-elle réalisée ?", options:["En marche, dès la perception du signal", "À l'arrêt à moins de 100 m du signal et dans le délai prévu", "Après avoir franchi le signal", "Uniquement lorsque le signal ne possède pas de plaque"], correct:1, article:"A 11.08" },
+  { id:"DEMO-003", theme:1, type:"qcm", question:"Un avertissement est présenté en amont d'une indication imposant une réduction ou un arrêt. Quelle est l'attitude attendue du conducteur ?", options:["Maintenir la vitesse jusqu'au signal suivant", "Adapter sa marche pour être en mesure de respecter l'indication annoncée", "S'arrêter systématiquement au droit de l'avertissement", "Considérer l'avertissement comme annulé si la voie paraît libre"], correct:1, article:"A 12.01" },
+  { id:"DEMO-004", theme:2, type:"qcm", question:"Lors d'une circulation à contresens, les prescriptions remises au conducteur ont notamment pour rôle de préciser les conditions particulières de circulation. Quelle attitude convient ?", options:["Appliquer uniquement la signalisation rencontrée", "Respecter les prescriptions remises en complément de la signalisation applicable", "Ignorer les prescriptions dès que le premier signal est franchi", "Appliquer les règles de voie normale sans adaptation"], correct:1, article:"A 21.04" },
+  { id:"DEMO-005", theme:2, type:"qcm", question:"À la sortie d'une circulation à contresens, le conducteur doit identifier la fin du régime particulier et reprendre les règles correspondant à la voie sur laquelle il est dirigé.", options:["Vrai", "Faux"], correct:0, article:"A 21.05" },
+  { id:"DEMO-006", theme:3, type:"qcm", question:"Dans un mouvement de manœuvre guidé, les ordres transmis au conducteur doivent être interprétés dans le cadre des règles propres à la manœuvre.", options:["Vrai", "Faux"], correct:0, article:"A 32.01" },
+  { id:"DEMO-007", theme:3, type:"qcm", question:"Avant le début d'un mouvement de manœuvre guidé, certaines opérations doivent être réalisées avant la mise en mouvement.", options:["Vrai", "Faux"], correct:0, article:"A 33.02" },
+  { id:"DEMO-008", theme:4, type:"qcm", question:"Dans un mouvement de manœuvre non guidé, les règles de circulation restent liées à la position du conducteur, à l'observation et à la signalisation applicable.", options:["Vrai", "Faux"], correct:0, article:"A 42.03" },
+  { id:"DEMO-009", theme:4, type:"qcm", question:"Une anomalie concernant le frein au cours d'un mouvement non guidé relève de dispositions spécifiques du référentiel.", options:["Vrai", "Faux"], correct:0, article:"A 43.01" },
+  { id:"DEMO-010", theme:5, type:"qcm", question:"Sur certaines lignes, des dispositions particulières peuvent imposer une modération de vitesse dans des déclivités importantes.", options:["Vrai", "Faux"], correct:0, article:"A 50.02" },
+  { id:"DEMO-011", theme:5, type:"qcm", question:"La présence d'un panneau « POSTE » fait l'objet de dispositions identifiées dans le chapitre consacré à certaines lignes.", options:["Vrai", "Faux"], correct:0, article:"A 51.01" },
+  { id:"DEMO-012", theme:6, type:"qcm", question:"Le shuntage des circuits de voie fait l'objet d'un principe complémentaire spécifique dans le chapitre A.", options:["Vrai", "Faux"], correct:0, article:"A 60.01" }
+];
 
-  // Banque actuellement disponible : Référentiel A — Partie 2
-  const BANK =
-    typeof QUESTIONS_PARTIE_2 !== "undefined" &&
-    Array.isArray(QUESTIONS_PARTIE_2)
-      ? QUESTIONS_PARTIE_2
-      : [];
+const STORAGE_KEY = "revisionRCL_v1";
+let state = loadState();
+let session = { mode:null, theme:null, pool:[], current:null, answeredInSession:0, locked:false };
 
-  const STORAGE_KEY = "revisionRCL_state_v2";
-  const AUTO_NEXT_MS = 1500;
+const $ = id => document.getElementById(id);
+const views = { home: $("homeView"), quiz: $("quizView"), empty: $("emptyView") };
 
-  const THEMES = {
-    2: "Circulation à contresens ou à contre-voie"
-  };
+function defaultState() { return { seen:{}, errors:{}, totalAnswers:0, correctAnswers:0 }; }
+function loadState() {
+  try { return { ...defaultState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") }; }
+  catch { return defaultState(); }
+}
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function showView(name) {
+  Object.values(views).forEach(v => v.classList.remove("active"));
+  views[name].classList.add("active");
+  $("homeBtn").classList.toggle("hidden", name === "home");
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+function progressColor(pct) {
+  const hue = Math.round((Math.max(0, Math.min(100, pct)) / 100) * 120);
+  return `hsl(${hue} 72% 42%)`;
+}
+function themeQuestions(themeId) { return QUESTIONS.filter(q => q.theme === themeId); }
+function seenCount(list) { return list.filter(q => state.seen[q.id]).length; }
+function percentage(list) { return list.length ? Math.round((seenCount(list) / list.length) * 100) : 0; }
 
-  let mode = "theme";
-  let currentTheme = 2;
-  let currentQuestion = null;
-  let locked = false;
+function renderHome() {
+  const list = $("themeList");
+  list.innerHTML = "";
+  THEMES.forEach(theme => {
+    const qs = themeQuestions(theme.id);
+    const pct = percentage(qs);
+    const color = progressColor(pct);
+    const btn = document.createElement("button");
+    btn.className = "theme-card";
+    btn.type = "button";
+    btn.dataset.theme = theme.id;
+    btn.innerHTML = `<div class="theme-top"><span class="theme-number">${theme.id}</span><span class="theme-name">${theme.name}</span><span class="theme-percent" style="color:${color}">${pct} %</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>`;
+    btn.addEventListener("click", () => startSession("theme", theme.id));
+    list.appendChild(btn);
+  });
 
-  let state = loadState();
+  const allPct = percentage(QUESTIONS);
+  $("allPercent").textContent = `${allPct} %`;
+  $("allPercent").style.color = progressColor(allPct);
+  $("globalProgress").textContent = `${allPct} % parcouru`;
 
-  // =========================
-  // SAUVEGARDE LOCALE
-  // =========================
+  const activeErrors = Object.keys(state.errors).filter(id => QUESTIONS.some(q => q.id === id));
+  $("errorCount").textContent = activeErrors.length;
+  $("errorSubtitle").textContent = activeErrors.length ? `${activeErrors.length} question${activeErrors.length > 1 ? "s" : ""} à retravailler` : "Aucune question à retravailler";
+  $("answeredStat").textContent = state.totalAnswers;
+  $("successStat").textContent = state.totalAnswers ? `${Math.round(state.correctAnswers / state.totalAnswers * 100)} %` : "—";
+}
 
-  function loadState() {
-    try {
-      const saved = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "{}"
-      );
+function shuffled(arr) { return [...arr].sort(() => Math.random() - .5); }
+function startSession(mode, themeId = null) {
+  let pool;
+  if (mode === "theme") pool = themeQuestions(themeId);
+  else if (mode === "all") pool = QUESTIONS;
+  else pool = QUESTIONS.filter(q => state.errors[q.id]);
 
-      return {
-        seen: saved.seen || {},
-        errors: saved.errors || {},
-        history: saved.history || {}
-      };
-    } catch {
-      return {
-        seen: {},
-        errors: {},
-        history: {}
-      };
+  if (!pool.length) {
+    $("emptyTitle").textContent = mode === "errors" ? "Aucune erreur à retravailler" : "Aucune question disponible";
+    $("emptyText").textContent = mode === "errors" ? "Les questions auxquelles tu répondras mal apparaîtront ici jusqu'à deux bonnes réponses consécutives." : "Cette section sera alimentée lors de l'intégration de la banque complète.";
+    showView("empty");
+    return;
+  }
+
+  session = { mode, theme:themeId, pool:shuffled(pool), current:null, answeredInSession:0, locked:false };
+  const label = mode === "theme" ? THEMES.find(t => t.id === themeId).name : mode === "all" ? "Tous les thèmes" : "Mes erreurs";
+  $("quizTheme").textContent = label;
+  showView("quiz");
+  nextQuestion();
+}
+
+function chooseNext(pool) {
+  if (session.mode !== "errors") {
+    const unseen = pool.filter(q => !state.seen[q.id] && q.id !== session.current?.id);
+    if (unseen.length) return unseen[Math.floor(Math.random() * unseen.length)];
+  }
+  const candidates = pool.filter(q => q.id !== session.current?.id);
+  const source = candidates.length ? candidates : pool;
+  return source[Math.floor(Math.random() * source.length)];
+}
+
+function nextQuestion() {
+  if (session.mode === "errors") {
+    session.pool = QUESTIONS.filter(q => state.errors[q.id]);
+    if (!session.pool.length) {
+      $("emptyTitle").textContent = "Toutes les erreurs sont acquises";
+      $("emptyText").textContent = "Tu as obtenu deux bonnes réponses consécutives sur toutes les questions à retravailler.";
+      showView("empty"); renderHome(); return;
     }
   }
+  session.current = chooseNext(session.pool);
+  session.locked = false;
+  session.answeredInSession++;
+  renderQuestion();
+}
 
-  function saveState() {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(state)
-    );
-  }
+function renderQuestion() {
+  const q = session.current;
+  $("questionProgress").textContent = `Question ${session.answeredInSession}`;
+  $("questionText").textContent = q.question;
+  $("feedback").className = "feedback hidden";
+  $("feedback").innerHTML = "";
+  $("nextBtn").classList.add("hidden");
+  const mastery = $("errorMastery");
+  if (session.mode === "errors" && state.errors[q.id]) {
+    mastery.textContent = `Acquisition ${state.errors[q.id].streak || 0}/2`;
+    mastery.classList.remove("hidden");
+  } else mastery.classList.add("hidden");
 
-  // =========================
-  // QUESTIONS
-  // =========================
+  const answers = $("answers");
+  answers.innerHTML = "";
+  q.options.forEach((option, index) => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
+    btn.type = "button";
+    btn.innerHTML = `<span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${option}</span>`;
+    btn.addEventListener("click", () => answer(index));
+    answers.appendChild(btn);
+  });
+}
 
-  function qById(id) {
-    return BANK.find(q => q.id === id);
-  }
+function answer(index) {
+  if (session.locked) return;
+  session.locked = true;
+  const q = session.current;
+  const correct = index === q.correct;
+  state.totalAnswers++;
+  if (correct) state.correctAnswers++;
+  state.seen[q.id] = true;
 
-  function questionsForTheme(theme) {
-    return BANK.filter(
-      q => Number(q.theme) === Number(theme)
-    );
-  }
+  const buttons = [...$("answers").children];
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add("correct");
+    if (i === index && !correct) btn.classList.add("wrong");
+  });
 
-  function nextFromPool(pool) {
-    if (!pool.length) return null;
-
-    // Tant que toutes les questions n'ont pas été vues,
-    // priorité aux questions jamais rencontrées.
-    const unseen = pool.filter(
-      q => !state.seen[q.id]
-    );
-
-    const source =
-      unseen.length > 0 ? unseen : pool;
-
-    // Évite si possible de reproposer immédiatement
-    // la même question.
-    const candidates =
-      currentQuestion && source.length > 1
-        ? source.filter(
-            q => q.id !== currentQuestion.id
-          )
-        : source;
-
-    return candidates[
-      Math.floor(Math.random() * candidates.length)
-    ];
-  }
-
-  function nextQuestion() {
-    locked = false;
-
-    if (mode === "errors") {
-      const errorQuestions =
-        Object.keys(state.errors)
-          .filter(id =>
-            state.errors[id] &&
-            state.errors[id].mastery < 2
-          )
-          .map(qById)
-          .filter(Boolean);
-
-      currentQuestion =
-        nextFromPool(errorQuestions);
-    } else {
-      currentQuestion =
-        nextFromPool(
-          questionsForTheme(currentTheme)
-        );
+  if (correct) {
+    if (session.mode === "errors" && state.errors[q.id]) {
+      state.errors[q.id].streak = (state.errors[q.id].streak || 0) + 1;
+      if (state.errors[q.id].streak >= 2) delete state.errors[q.id];
     }
-
-    render();
+    saveState(); renderHome();
+    const fb = $("feedback");
+    fb.className = "feedback success";
+    fb.innerHTML = "<strong>Bonne réponse</strong>Passage à la question suivante…";
+    setTimeout(nextQuestion, 650);
+  } else {
+    if (!state.errors[q.id]) state.errors[q.id] = { streak:0, misses:0 };
+    state.errors[q.id].streak = 0;
+    state.errors[q.id].misses = (state.errors[q.id].misses || 0) + 1;
+    saveState(); renderHome();
+    const fb = $("feedback");
+    fb.className = "feedback error";
+    fb.innerHTML = `<strong>Mauvaise réponse</strong>La bonne réponse est : <b>${q.options[q.correct]}</b><div class="article">À consulter : article ${q.article}</div>`;
+    $("nextBtn").classList.remove("hidden");
   }
-
-  // =========================
-  // ENREGISTREMENT RÉPONSES
-  // =========================
-
-  function recordAnswer(question, isCorrect) {
-    state.seen[question.id] = true;
-
-    if (!state.history[question.id]) {
-      state.history[question.id] = {
-        correct: 0,
-        wrong: 0
-      };
-    }
-
-    if (isCorrect) {
-      state.history[question.id].correct++;
-
-      // Dans "Mes erreurs" :
-      // deux bonnes réponses consécutives
-      // permettent de retirer la question.
-      if (
-        mode === "errors" &&
-        state.errors[question.id]
-      ) {
-        state.errors[question.id].mastery =
-          Math.min(
-            2,
-            (state.errors[question.id].mastery || 0) + 1
-          );
-      }
-    } else {
-      state.history[question.id].wrong++;
-
-      // Première erreur :
-      // entrée dans "Mes erreurs" à 0/2.
-      if (!state.errors[question.id]) {
-        state.errors[question.id] = {
-          mastery: 0,
-          firstWrongAt: Date.now(),
-          wrongCount: 1
-        };
-      } else {
-        // Nouvelle erreur :
-        // retour à 0/2.
-        state.errors[question.id].mastery = 0;
-
-        state.errors[question.id].wrongCount =
-          (state.errors[question.id].wrongCount || 0) + 1;
-      }
-    }
-
-    saveState();
-  }
-
-  // =========================
-  // PROGRESSION
-  // =========================
-
-  function progress(theme) {
-    const pool =
-      questionsForTheme(theme);
-
-    if (!pool.length) return 0;
-
-    const seen =
-      pool.filter(
-        q => state.seen[q.id]
-      ).length;
-
-    return Math.round(
-      (seen / pool.length) * 100
-    );
-  }
-
-  function activeErrorsCount() {
-    return Object.values(state.errors)
-      .filter(
-        error =>
-          error &&
-          error.mastery < 2
-      ).length;
-  }
-
-  // =========================
-  // INTERFACE
-  // =========================
-
-  function ensureRoot() {
-    let root =
-      document.getElementById("app");
-
-    if (!root) {
-      root =
-        document.createElement("main");
-
-      root.id = "app";
-
-      document.body.innerHTML = "";
-      document.body.appendChild(root);
-    }
-
-    return root;
-  }
-
-  function render() {
-    const root = ensureRoot();
-
-    if (!BANK.length) {
-      root.innerHTML = `
-        <section class="app-card">
-          <h1>Révision RCL</h1>
-
-          <p class="error-message">
-            La banque de questions A2
-            n'a pas été chargée.
-          </p>
-
-          <p>
-            Vérifie que
-            <strong>questions-A2.js</strong>
-            est chargé avant
-            <strong>app.js</strong>
-            dans index.html.
-          </p>
-        </section>
-      `;
-
-      return;
-    }
-
-    if (!currentQuestion) {
-      renderHome(root);
-      return;
-    }
-
-    renderQuestion(root);
-  }
-
-  // =========================
-  // ACCUEIL
-  // =========================
-
-  function renderHome(root) {
-    const pct = progress(2);
-    const errors =
-      activeErrorsCount();
-
-    root.innerHTML = `
-      <section class="app-card home-card">
-
-        <div class="eyebrow">
-          Référentiel métier des conducteurs
-        </div>
-
-        <h1>Chapitre A</h1>
-
-        <p class="subtitle">
-          Signalisation / Règles d'exploitation
-        </p>
-
-        <div
-          class="theme-card"
-          id="start-theme-2"
-          role="button"
-          tabindex="0"
-        >
-
-          <div class="theme-card-top">
-
-            <div>
-              <div class="theme-number">
-                Partie 2
-              </div>
-
-              <h2>
-                ${THEMES[2]}
-              </h2>
-            </div>
-
-            <strong>
-              ${pct}%
-            </strong>
-
-          </div>
-
-          <div class="progress-track">
-            <div
-              class="progress-fill"
-              style="width:${pct}%"
-            ></div>
-          </div>
-
-          <div class="theme-meta">
-            ${BANK.length} questions
-          </div>
-
-        </div>
-
-        <button
-          class="secondary-button"
-          id="start-errors"
-          ${errors ? "" : "disabled"}
-        >
-          Mes erreurs (${errors})
-        </button>
-
-      </section>
-    `;
-
-    const theme =
-      document.getElementById(
-        "start-theme-2"
-      );
-
-    theme.addEventListener(
-      "click",
-      startTheme
-    );
-
-    theme.addEventListener(
-      "keydown",
-      event => {
-        if (
-          event.key === "Enter" ||
-          event.key === " "
-        ) {
-          startTheme();
-        }
-      }
-    );
-
-    document
-      .getElementById("start-errors")
-      .addEventListener(
-        "click",
-        () => {
-          if (!activeErrorsCount()) {
-            return;
-          }
-
-          mode = "errors";
-          currentQuestion = null;
-          nextQuestion();
-        }
-      );
-  }
-
-  function startTheme() {
-    mode = "theme";
-    currentTheme = 2;
-    currentQuestion = null;
-
-    nextQuestion();
-  }
-
-  // =========================
-  // AFFICHAGE QUESTION
-  // =========================
-
-  function renderQuestion(root) {
-    const q =
-      currentQuestion;
-
-    const pct =
-      progress(2);
-
-    const mastery =
-      state.errors[q.id]?.mastery ?? 0;
-
-    root.innerHTML = `
-      <section class="app-card question-card">
-
-        <div class="question-header">
-
-          <button
-            class="back-button"
-            id="back-home"
-            aria-label="Retour"
-          >
-            ←
-          </button>
-
-          <div class="question-context">
-            ${
-              mode === "errors"
-                ? "Mes erreurs"
-                : THEMES[2]
-            }
-          </div>
-
-          <div class="question-id">
-            ${escapeHtml(q.id)}
-          </div>
-
-        </div>
-
-        ${
-          mode === "errors"
-            ? `
-              <div class="mastery">
-                Maîtrise :
-                ${mastery}/2
-              </div>
-            `
-            : `
-              <div class="progress-track compact">
-                <div
-                  class="progress-fill"
-                  style="width:${pct}%"
-                ></div>
-              </div>
-            `
-        }
-
-        <h2 class="question-text">
-          ${escapeHtml(q.question)}
-        </h2>
-
-        <div class="answers">
-
-          ${q.choices
-            .map(
-              (choice, index) => `
-                <button
-                  class="answer-button"
-                  data-index="${index}"
-                >
-
-                  <span class="answer-letter">
-                    ${String.fromCharCode(
-                      65 + index
-                    )}
-                  </span>
-
-                  <span>
-                    ${escapeHtml(choice)}
-                  </span>
-
-                </button>
-              `
-            )
-            .join("")}
-
-        </div>
-
-        <div id="feedback"></div>
-
-      </section>
-    `;
-
-    document
-      .getElementById("back-home")
-      .addEventListener(
-        "click",
-        () => {
-          currentQuestion = null;
-          locked = false;
-          render();
-        }
-      );
-
-    document
-      .querySelectorAll(
-        ".answer-button"
-      )
-      .forEach(button => {
-        button.addEventListener(
-          "click",
-          () => {
-            answer(
-              Number(
-                button.dataset.index
-              )
-            );
-          }
-        );
-      });
-  }
-
-  // =========================
-  // VALIDATION RÉPONSE
-  // =========================
-
-  function answer(selectedIndex) {
-    if (
-      locked ||
-      !currentQuestion
-    ) {
-      return;
-    }
-
-    locked = true;
-
-    const q =
-      currentQuestion;
-
-    const correctIndex =
-      Number(q.correct);
-
-    const isCorrect =
-      selectedIndex === correctIndex;
-
-    recordAnswer(
-      q,
-      isCorrect
-    );
-
-    const buttons = [
-      ...document.querySelectorAll(
-        ".answer-button"
-      )
-    ];
-
-    buttons.forEach(
-      (button, index) => {
-        button.disabled = true;
-
-        if (
-          index === correctIndex
-        ) {
-          button.classList.add(
-            "correct"
-          );
-        }
-
-        if (
-          !isCorrect &&
-          index === selectedIndex
-        ) {
-          button.classList.add(
-            "wrong"
-          );
-        }
-      }
-    );
-
-    const feedback =
-      document.getElementById(
-        "feedback"
-      );
-
-    // BONNE RÉPONSE
-    if (isCorrect) {
-      feedback.innerHTML = `
-        <div
-          class="feedback correct-feedback"
-        >
-          Bonne réponse
-        </div>
-      `;
-
-      setTimeout(
-        () => {
-          currentQuestion = null;
-
-          if (
-            mode === "errors" &&
-            activeErrorsCount() === 0
-          ) {
-            render();
-          } else {
-            nextQuestion();
-          }
-        },
-        AUTO_NEXT_MS
-      );
-
-      return;
-    }
-
-    // MAUVAISE RÉPONSE
-    feedback.innerHTML = `
-      <div
-        class="feedback wrong-feedback"
-      >
-        <strong>
-          À consulter :
-          article ${escapeHtml(q.source)}
-        </strong>
-      </div>
-
-      <button
-        class="primary-button"
-        id="next-question"
-      >
-        Question suivante
-      </button>
-    `;
-
-    document
-      .getElementById(
-        "next-question"
-      )
-      .addEventListener(
-        "click",
-        () => {
-          currentQuestion = null;
-          nextQuestion();
-        }
-      );
-  }
-
-  // =========================
-  // SÉCURITÉ AFFICHAGE
-  // =========================
-
-  function escapeHtml(value) {
-    return String(
-      value ?? ""
-    )
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
-  }
-
-  // =========================
-  // DÉMARRAGE
-  // =========================
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    render
-  );
-})();
+}
+
+$("backBtn").addEventListener("click", () => { renderHome(); showView("home"); });
+$("homeBtn").addEventListener("click", () => { renderHome(); showView("home"); });
+$("emptyHomeBtn").addEventListener("click", () => { renderHome(); showView("home"); });
+$("nextBtn").addEventListener("click", nextQuestion);
+document.querySelector('[data-mode="all"]').addEventListener("click", () => startSession("all"));
+document.querySelector('[data-mode="errors"]').addEventListener("click", () => startSession("errors"));
+
+renderHome();
