@@ -1,856 +1,986 @@
-const QUESTIONS = [
+const QUESTIONS_PARTIE_2 = [
   {
-    "id": "Q0001",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un conducteur est arrêté devant un carré fermé. Il reçoit une autorisation de franchissement. Peu après son franchissement, il rencontre un second carré fermé. Que doit-il faire?",
-    "options": [
-      "Le franchir si aucune aiguille n’est rencontrée entre les deux carrés",
-      "S’arrêter et obtenir une nouvelle autorisation pour ce second carré",
-      "Le franchir également, l’autorisation restant valable jusqu’au prochain signal ouvert",
-      "Le franchir en marche à vue si les deux carrés dépendent du même poste"
-    ],
-    "correct": 1,
-    "article": "A 11.08"
-  },
-  {
-    "id": "Q0002",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Après avoir été autorisé à franchir un signal fermé, dans quelles conditions le conducteur doit-il actionner le bouton FC?",
-    "options": [
-      "Dès réception de l’autorisation, même s’il est encore à plus de 100 m du signal",
-      "À l’arrêt, à moins de 100 m du signal, dans les 60 secondes précédant son franchissement",
-      "En marche, au moment précis du franchissement du signal",
-      "À l’arrêt, à moins de 200 m du signal, sans contrainte de délai"
-    ],
-    "correct": 1,
-    "article": "A 11.08"
-  },
-  {
-    "id": "Q0003",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un conducteur est arrêté devant un sémaphore de BAL fermé. Avant qu’il ne le franchisse, le sémaphore s’ouvre. Quelle règle s’applique?",
-    "options": [
-      "Il doit attendre trois minutes avant de reprendre sa marche",
-      "Il peut reprendre sa marche en respectant l’indication désormais présentée par le signal",
-      "Il doit attendre l’autorisation du régulateur avant de repartir",
-      "Il doit tout de même appliquer les règles de franchissement du sémaphore fermé"
-    ],
-    "correct": 1,
-    "article": "A 11.10"
-  },
-  {
-    "id": "Q0004",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Plusieurs trains sont successivement arrêtés devant un sémaphore de BAPR fermé. Le signal s’ouvre après le passage du premier train. Quelle situation doit notamment envisager le conducteur du train suivant?",
-    "options": [
-      "Le signal doit obligatoirement se refermer avant son départ",
-      "Le BAPR interdit que plusieurs trains soient arrêtés successivement devant le même sémaphore",
-      "L’ouverture peut avoir été provoquée par le dégagement du canton par le train précédent",
-      "Le signal ne peut s’être ouvert que pour son propre train"
-    ],
-    "correct": 2,
-    "article": "A 11.11"
-  },
-  {
-    "id": "Q0005",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Après s’être arrêté devant un signal à plaque de repérage Nf fermé, le conducteur doit effectuer une reconnaissance. Il ne parvient pas immédiatement à entrer en communication. Quelle est, en principe, la conduite prévue?",
-    "options": [
-      "Attendre dix minutes dans tous les cas",
-      "Franchir le signal après deux minutes en marche à vue",
-      "Attendre cinq minutes avant de renouveler sa tentative, sauf nécessité urgente de communiquer",
-      "Repartir dès lors que le signal ne présente pas deux feux rouges"
-    ],
-    "correct": 2,
-    "article": "A 11.05"
-  },
-  {
-    "id": "Q0006",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Lors d’une vérification demandée avant le franchissement d’un signal fermé, le conducteur doit s’assurer de la position correcte d’une aiguille ou d’un cœur d’aiguille mobile. Quel est l’objectif de cette vérification?",
-    "options": [
-      "Vérifier uniquement la présence d’un dispositif de verrouillage",
-      "S’assurer de sa position et de son application pour l’itinéraire à parcourir",
-      "Vérifier uniquement que l’aiguille n’est pas talonnable",
-      "Déterminer si l’aiguille est commandée depuis un poste ou localement"
-    ],
-    "correct": 1,
-    "article": "A 11.07"
-  },
-  {
-    "id": "Q0007",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un conducteur rencontre un feu jaune clignotant précédant un ralentissement 60 fermé. Quelle information supplémentaire apporte le caractère clignotant par rapport à l’avertissement?",
-    "options": [
-      "La distance disponible permet de différer la mise en œuvre du freinage",
-      "Le signal suivant peut être franchi sans tenir compte de son indication",
-      "Le ralentissement 60 est obligatoirement ouvert",
-      "La vitesse doit immédiatement être réduite à 60 km/h"
+    "question": "Une circulation emprunte en sens inverse du sens normal une voie équipée d'une ICS. Comment est-elle qualifiée ?",
+    "choices": [
+      "Circulation à contresens.",
+      "Circulation à contre-voie."
     ],
     "correct": 0,
-    "article": "A 12.02"
-  },
-  {
-    "id": "Q0008",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un conducteur rencontre une bande lumineuse jaune horizontale. Quelle situation doit-il particulièrement prendre en compte?",
-    "options": [
-      "Il est dirigé vers une voie à quai particulièrement courte",
-      "Il va circuler à contresens",
-      "Il va obligatoirement rencontrer un TIV 30",
-      "Il est dirigé vers une voie dont la distance disponible jusqu’au signal d’arrêt est réduite"
-    ],
-    "correct": 3,
-    "article": "A 12.03"
-  },
-  {
-    "id": "Q0009",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un TIV fixe à distance de type ordinaire porte deux nombres correspondant à deux catégories de trains. Sur quoi le conducteur doit-il se baser pour déterminer la vitesse applicable?",
-    "options": [
-      "Sur la vitesse maximale de la ligne uniquement",
-      "Sur la catégorie de son train et l’indication correspondante du tableau",
-      "Toujours sur le nombre le plus faible",
-      "Toujours sur le nombre placé en partie supérieure du tableau"
-    ],
-    "correct": 1,
-    "article": "A 14.05"
-  },
-  {
-    "id": "Q0010",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Après avoir rencontré un TIV à distance, à partir de quel point la limitation annoncée doit-elle être effectivement respectée?",
-    "options": [
-      "À partir du signal ou repère marquant le point où commence la limitation",
-      "Uniquement après avoir rencontré un rappel 30 ou 60",
-      "100 mètres après le TIV à distance",
-      "Dès le franchissement du TIV à distance"
-    ],
-    "correct": 0,
-    "article": "A 14.04"
-  },
-  {
-    "id": "Q0011",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un conducteur rencontre un TIDD annonçant une direction différente de celle qu’il doit normalement emprunter. Quelle doit être sa réaction?",
-    "options": [
-      "Prendre les dispositions nécessaires en vue de l’arrêt et appliquer les règles prévues face à cette discordance",
-      "Attendre l’indicateur de direction suivant avant d’agir",
-      "Considérer l’indication comme sans valeur puisque le TIDD n’est qu’un signal d’annonce",
-      "Poursuivre normalement si le signal de protection de la bifurcation est ouvert"
-    ],
-    "correct": 0,
-    "article": "A 15.02"
-  },
-  {
-    "id": "Q0012",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Le train est prêt au départ et le signal correspondant est ouvert. Une plaque DD est présente. Quand le conducteur doit-il demander l’autorisation de mouvement?",
-    "options": [
-      "Lorsque le train est prêt et le signal ouvert, ou une minute avant l’heure prévue selon les conditions prévues",
-      "Uniquement après l’heure théorique de départ",
-      "Dès son arrivée en cabine, indépendamment de l’état du train",
-      "Seulement lorsque le signal est fermé"
-    ],
-    "correct": 0,
-    "article": "A 16.03"
-  },
-  {
-    "id": "Q0013",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Quelle présentation correspond au signal lumineux d’autorisation de mouvement?",
-    "options": [
-      "Un signal lumineux mi-blanc, mi-vert clignotant",
-      "Un feu vert clignotant",
-      "Un feu blanc fixe",
-      "Deux feux blancs disposés horizontalement"
-    ],
-    "correct": 0,
-    "article": "A 16.02"
-  },
-  {
-    "id": "Q0014",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Quel principe de base est utilisé pour assurer l’espacement des trains par cantonnement?",
-    "options": [
-      "Le cantonnement ne s’applique qu’aux lignes à voie unique",
-      "Plusieurs trains peuvent occuper un même canton dès lors qu’ils circulent dans le même sens",
-      "Chaque canton doit obligatoirement être délimité par deux gares",
-      "La ligne est divisée en cantons et un seul train est normalement admis dans chaque canton"
-    ],
-    "correct": 3,
-    "article": "A 10.02"
-  },
-  {
-    "id": "Q0015",
-    "theme": 1,
-    "type": "qcm",
-    "question": "En BAL, quelle longueur maximale de canton est indiquée comme principe général dans le référentiel?",
-    "options": [
-      "3 000 m dans tous les cas, sans exception",
-      "2 800 m, avec possibilité d’atteindre exceptionnellement 3 000 m",
-      "1 500 m, avec possibilité d’atteindre exceptionnellement 2 000 m",
-      "Environ 6 km, comme en BAPR"
-    ],
-    "correct": 1,
-    "article": "A 10.02"
-  },
-  {
-    "id": "Q0016",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Sur une section où la circulation se fait normalement à gauche, où un signal à demeure est-il normalement implanté par rapport à la voie à laquelle il s’adresse?",
-    "options": [
-      "Indifféremment à gauche ou à droite sans repérage particulier",
-      "À gauche de la voie ou au-dessus de celle-ci",
-      "Toujours dans l’entrevoie, au ras du sol",
-      "À droite de la voie uniquement"
-    ],
-    "correct": 1,
-    "article": "A 10.04"
-  },
-  {
-    "id": "Q0017",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un signal est exceptionnellement implanté du côté opposé à son implantation normale en raison de circonstances locales. Quel dispositif permet d’identifier la voie concernée?",
-    "options": [
-      "Une flèche oblique blanche orientée vers la voie intéressée",
-      "Une flèche verticale noire sur fond blanc",
-      "Une plaque DD orientée vers la voie intéressée",
-      "Un damier rouge et blanc placé sous le signal"
-    ],
-    "correct": 0,
-    "article": "A 10.04"
-  },
-  {
-    "id": "Q0018",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Qu’est-ce qui caractérise un signal « mobile » au sens du référentiel?",
-    "options": [
-      "Il peut présenter au moins deux aspects correspondant notamment aux positions ouvert et fermé",
-      "Il change physiquement d’emplacement selon l’itinéraire tracé",
-      "Il ne présente qu’un seul aspect, mais celui-ci peut clignoter",
-      "Il est nécessairement mécanique et ne peut pas être lumineux"
-    ],
-    "correct": 0,
-    "article": "A 10.05"
-  },
-  {
-    "id": "Q0019",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Quelle association entre plaque de repérage et type de signal est correcte?",
-    "options": [
-      "La lettre GA identifie un sémaphore de BAPR",
-      "La lettre F précède toujours le repérage d’un carré et PR celui d’un guidon d’arrêt",
-      "La lettre C ou Cv précède le repérage d’un carré ou carré violet, et GA celui d’un guidon d’arrêt",
-      "Les lettres C, Cv et GA sont des plaques de cantonnement et non de repérage"
-    ],
-    "correct": 2,
-    "article": "A 10.06"
-  },
-  {
-    "id": "Q0020",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Quelle plaque d’identification correspond à un panneau dont l’indication la plus impérative est un sémaphore de BAPR?",
-    "options": [
-      "Nf",
-      "PR",
-      "F",
-      "BM"
-    ],
-    "correct": 1,
-    "article": "A 10.07"
-  },
-  {
-    "id": "Q0021",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Dans quel but certains carrés à plaque Nf portent-ils en plus une plaque de cantonnement?",
-    "options": [
-      "Pour permettre au conducteur de déterminer le mode de cantonnement vers lequel le signal est ouvert",
-      "Pour indiquer la vitesse maximale autorisée dans le canton",
-      "Pour identifier le numéro kilométrique du signal",
-      "Pour remplacer la plaque d’identification lorsque le carré est ouvert"
-    ],
-    "correct": 0,
-    "article": "A 10.08"
-  },
-  {
-    "id": "Q0022",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Comment est normalement repérée l’approche d’un signal installé à demeure dont la visibilité est réduite?",
-    "options": [
-      "Par un feu blanc clignotant",
-      "Par une pancarte DD",
-      "Par des mirlitons",
-      "Par un tableau REF"
-    ],
-    "correct": 2,
-    "article": "A 10.09"
-  },
-  {
-    "id": "Q0023",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un signal lumineux annulé et non en service est rencontré. Quelle présentation est normalement utilisée?",
-    "options": [
-      "Une croix de Saint-André blanche, le signal n’étant normalement pas éclairé",
-      "Une bande lumineuse jaune horizontale",
-      "Un feu blanc fixe accompagné d’une plaque BM",
-      "Un feu rouge clignotant avec plaque Nf"
-    ],
-    "correct": 0,
-    "article": "A 10.10"
-  },
-  {
-    "id": "Q0024",
-    "theme": 1,
-    "type": "qcm",
-    "question": "La répétition en cabine d’un signal ne fonctionne pas. Quelle conséquence cela a-t-il sur l’obligation d’observer le signal au sol?",
-    "options": [
-      "Le conducteur doit s’arrêter systématiquement avant chaque signal jusqu’au rétablissement",
-      "Le conducteur peut considérer le signal comme ouvert si aucune alarme n’est reçue",
-      "La répétition en cabine prime sur l’observation du signal au sol",
-      "Aucune : la sécurité repose essentiellement sur l’observation directe du signal"
-    ],
-    "correct": 3,
-    "article": "A 10.11"
-  },
-  {
-    "id": "Q0025",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Une signalisation temporaire improvisée de limitation de vitesse peut être abordée à plus de 40 km/h. Quelle disposition est prévue?",
-    "options": [
-      "Elle est précédée d’un repère d’approche",
-      "Elle est obligatoirement précédée d’un feu rouge clignotant",
-      "Elle ne nécessite aucun repérage si le conducteur a été avisé oralement",
-      "Elle est précédée uniquement d’une pancarte POSTE"
-    ],
-    "correct": 0,
-    "article": "A 10.12"
-  },
-  {
-    "id": "Q0026",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un panneau présente un seul feu rouge fixe. Quelle vérification le conducteur doit-il effectuer?",
-    "options": [
-      "Considérer systématiquement qu’il s’agit d’un sémaphore de BAL",
-      "Considérer systématiquement qu’il s’agit d’un carré et effectuer une reconnaissance",
-      "Déterminer s’il s’agit d’un sémaphore ou d’un carré dont un feu serait éteint",
-      "Franchir le signal à 15 km/h sans autre vérification"
-    ],
-    "correct": 2,
-    "article": "A 11.14"
-  },
-  {
-    "id": "Q0027",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Quelle conduite est associée au franchissement d’un feu rouge clignotant?",
-    "options": [
-      "Poursuivre en marche normale jusqu’au signal suivant",
-      "Marquer obligatoirement l’arrêt puis repartir à 30 km/h maximum",
-      "S’avancer en marche en manœuvre sans dépasser 30 km/h",
-      "S’avancer en marche à vue sans marquer l’arrêt, sans dépasser 15 km/h au franchissement du signal"
-    ],
-    "correct": 3,
-    "article": "A 11.15"
-  },
-  {
-    "id": "Q0028",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Après un TIV à distance de chantier, le conducteur est dirigé sur une branche non concernée par la LTV et rencontre un tableau blanc à flèche noire verticale. Quelle est sa signification pratique?",
-    "options": [
-      "Il impose l’arrêt avant l’aiguille suivante",
-      "Il permet de reprendre la vitesse normale du train, sous réserve des autres restrictions applicables",
-      "Il annonce une nouvelle limitation temporaire plus restrictive",
-      "Il impose de maintenir la limitation annoncée jusqu’au prochain TIV d’exécution"
-    ],
-    "correct": 1,
-    "article": "A 14.09"
-  },
-  {
-    "id": "Q0029",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Sur un indicateur de direction lumineux, à quoi correspond habituellement le nombre de feux blancs présentés?",
-    "options": [
-      "Au numéro de voie de destination, compté à partir de la droite",
-      "Au nombre d’aiguilles à franchir avant la bifurcation",
-      "Au numéro d’ordre de la direction donnée, compté à partir de la gauche",
-      "À la vitesse maximale autorisée sur l’itinéraire"
-    ],
-    "correct": 2,
-    "article": "A 15.01"
-  },
-  {
-    "id": "Q0030",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Un TIP présente le numéro de la voie sur laquelle se trouve le mouvement. Que peut faire le conducteur si rien ne s’y oppose par ailleurs?",
-    "options": [
-      "Franchir le chevron pointe en haut et effectuer le mouvement vers le signal de groupe, même si celui-ci est fermé",
-      "Poursuivre jusqu’à la voie principale sans tenir compte du chevron",
-      "Considérer que le signal de groupe est nécessairement ouvert pour sa voie",
-      "Franchir automatiquement le signal de groupe fermé sans autre disposition"
-    ],
-    "correct": 0,
-    "article": "A 18.03"
-  },
-  {
-    "id": "Q0031",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Une zone doit être franchie pantographes abaissés. Quel signal repère l’origine de cette zone?",
-    "options": [
-      "Le signal « coupez courant » de fin de section",
-      "Le tableau complémentaire d’indication de tension uniquement",
-      "Le signal de fin de parcours « baissez panto »",
-      "Le signal d’exécution « baissez panto »"
-    ],
-    "correct": 3,
-    "article": "A 19.04"
-  },
-  {
-    "id": "Q0032",
-    "theme": 1,
-    "type": "qcm",
-    "question": "Quel est l’objectif principal de la signalisation « coupez courant »?",
-    "options": [
-      "Faire franchir certaines parties de caténaire sans consommation électrique du train, et le cas échéant sans freinage par récupération",
-      "Autoriser le maintien de la traction à puissance réduite dans la section",
-      "Imposer l’abaissement systématique de tous les pantographes sur la zone",
-      "Signaler uniquement un changement de tension sans action sur la traction"
-    ],
-    "correct": 0,
-    "article": "A 19.05"
-  },
-  {
-    "id": "Q0033",
+    "id": "A2Q001",
     "theme": 2,
     "type": "qcm",
-    "question": "Un train va être engagé à contre-voie. Une autorisation de franchissement d’un signal d’arrêt lui a été donnée pendant le mouvement de manœuvre précédant son expédition. Cette autorisation vaut-elle autorisation de mouvement pour le départ à contre-voie?",
-    "options": [
-      "Oui, dans tous les cas",
-      "Non, une autorisation de mouvement doit être délivrée séparément au moyen du signal prévu à cet effet",
-      "Oui, si le signal franchi protège l’origine du parcours à contre-voie",
-      "Non, sauf lorsque le mouvement est effectué en marche à vue"
+    "source": "A20.01"
+  },
+  {
+    "question": "Après une interception inopinée, aucune VUT n'est organisée. Un ou deux trains doivent emprunter en sens inverse la voie restée libre. Comment cette circulation est-elle qualifiée ?",
+    "choices": [
+      "Circulation à contresens.",
+      "Circulation à contre-voie."
     ],
     "correct": 1,
-    "article": "A 24.02"
-  },
-  {
-    "id": "Q0034",
+    "id": "A2Q002",
     "theme": 2,
     "type": "qcm",
-    "question": "Un conducteur circule à contre-voie et se trouve en tête du mouvement. Quelle règle de marche doit-il observer sur le parcours effectué à contre-voie?",
-    "options": [
-      "La marche à vue uniquement lorsque la vitesse dépasse 30 km/h",
-      "La marche à vue sur tout le parcours",
-      "La marche prudente",
-      "La marche à vue uniquement à l’approche des PN"
+    "source": "A20.01"
+  },
+  {
+    "question": "En gare, un mouvement à contre-voie est réalisé sur ordre écrit ou dépêche et le conducteur n'est pas en tête. Comment le mouvement doit-il être effectué ?",
+    "choices": [
+      "Il doit être guidé par des signaux de manœuvre.",
+      "Il doit être effectué en marche à vue sur tout le parcours."
+    ],
+    "correct": 0,
+    "id": "A2Q003",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A20.01"
+  },
+  {
+    "question": "En pleine voie, aucun agent sédentaire n'est présent sur le terrain pour diriger un mouvement à contre-voie. Le conducteur peut-il recevoir par dépêche l'ordre de refouler sans être guidé par signaux de manœuvre ?",
+    "choices": [
+      "Oui.",
+      "Non, le guidage par signaux de manœuvre reste obligatoire."
+    ],
+    "correct": 0,
+    "id": "A2Q004",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A20.01"
+  },
+  {
+    "question": "À l'entrée d'une IPCS, un arrêt préalable du train est-il normalement nécessaire pour permettre la circulation à contresens ?",
+    "choices": [
+      "Oui, comme pour une VUT.",
+      "Non, l'IPCS est accessible sans arrêt à l'entrée."
     ],
     "correct": 1,
-    "article": "A 24.03"
-  },
-  {
-    "id": "Q0035",
+    "id": "A2Q005",
     "theme": 2,
     "type": "qcm",
-    "question": "Pendant une circulation à contre-voie, le dispositif de répétition réagit au franchissement d’un signal rencontré à revers. Que doit faire le conducteur?",
-    "options": [
-      "Ne pas acquitter afin de conserver l’information jusqu’à la sortie du parcours",
-      "S’arrêter immédiatement et demander des instructions",
-      "Acquitter et ne pas tenir compte de l’indication donnée par le dispositif",
-      "Appliquer l’indication donnée par la répétition comme si le signal s’adressait à lui"
-    ],
-    "correct": 2,
-    "article": "A 24.03"
+    "source": "A21.01"
   },
   {
-    "id": "Q0036",
-    "theme": 2,
-    "type": "qcm",
-    "question": "Lors d’une circulation à contre-voie, le conducteur n’est pas en tête du mouvement. Comment la circulation doit-elle être réalisée?",
-    "options": [
-      "Guidée par des signaux de manœuvre",
-      "À 30 km/h maximum sans autre disposition",
-      "Uniquement après fermeture de tous les PN du parcours",
-      "En marche à vue sous la seule responsabilité du conducteur"
+    "question": "Sur IPCS, comment est assuré l'espacement des trains à contresens ?",
+    "choices": [
+      "Automatiquement.",
+      "Par cantonnement téléphonique."
     ],
     "correct": 0,
-    "article": "A 24.03"
-  },
-  {
-    "id": "Q0037",
+    "id": "A2Q006",
     "theme": 2,
     "type": "qcm",
-    "question": "À la sortie d’un parcours à contre-voie, quelle condition est nécessaire pour sortir du parcours?",
-    "options": [
-      "Recevoir une autorisation de mouvement (AuM)",
-      "Observer la marche à vue pendant cinq kilomètres supplémentaires",
-      "Recevoir obligatoirement un ordre écrit",
-      "Attendre obligatoirement l’ouverture d’un carré implanté à gauche"
+    "source": "A21.01"
+  },
+  {
+    "question": "Vous êtes dans la période annoncée de mise en service d'une ITCS. Qu'est-ce qui permet de constater qu'elle est effectivement en service ?",
+    "choices": [
+      "L'aspect de la signalisation présentée.",
+      "L'heure indiquée dans l'information liée au changement d'infrastructure."
     ],
     "correct": 0,
-    "article": "A 24.04"
-  },
-  {
-    "id": "Q0038",
+    "id": "A2Q007",
     "theme": 2,
     "type": "qcm",
-    "question": "Sur une IPCS, comment le conducteur est-il normalement préavisé qu’il va circuler à contresens?",
-    "options": [
-      "Par une dépêche systématique du régulateur, même si la signalisation est présentée",
-      "Par la signalisation, sans autre préavis nécessaire",
-      "Uniquement par les informations liées aux changements d’infrastructure",
-      "Par un ordre écrit remis obligatoirement avant chaque entrée à contresens"
+    "source": "A21.02"
+  },
+  {
+    "question": "Sur ITCS, comment est assuré l'espacement des trains à contresens ?",
+    "choices": [
+      "Automatiquement.",
+      "Comme en block manuel."
+    ],
+    "correct": 0,
+    "id": "A2Q008",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.02"
+  },
+  {
+    "question": "Le TECS est présenté. Que signifie-t-il notamment ?",
+    "choices": [
+      "Le train est dirigé et autorisé à s'engager à contresens.",
+      "Le train est dirigé à contresens mais doit encore recevoir un ordre écrit ou une dépêche pour s'engager."
+    ],
+    "correct": 0,
+    "id": "A2Q009",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.03"
+  },
+  {
+    "question": "À l'entrée d'une ICS, le TECS n'est pas présenté. Le conducteur peut-il néanmoins être autorisé à s'engager à contresens ?",
+    "choices": [
+      "Oui, par ordre écrit ou dépêche.",
+      "Non, la présentation du TECS est indispensable."
+    ],
+    "correct": 0,
+    "id": "A2Q010",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.03"
+  },
+  {
+    "question": "La présentation du TECS implique-t-elle nécessairement que le train emprunte une aiguille en déviation ?",
+    "choices": [
+      "Oui.",
+      "Non."
     ],
     "correct": 1,
-    "article": "A 21.01"
-  },
-  {
-    "id": "Q0039",
+    "id": "A2Q011",
     "theme": 2,
     "type": "qcm",
-    "question": "Une ITCS est annoncée dans les informations liées aux changements d’infrastructure. Entre les dates extrêmes indiquées, comment le conducteur constate-t-il sa mise en service effective?",
-    "options": [
-      "Par une autorisation verbale systématique de l’agent-circulation",
-      "Uniquement par l’heure exacte mentionnée dans l’avis",
-      "Par la présence d’un agent au sol à l’entrée de l’ITCS",
-      "Par l’aspect de la signalisation présentée, les heures indiquées n’étant qu’indicatives"
+    "source": "A21.03"
+  },
+  {
+    "question": "Sur une ligne où la circulation se fait normalement à gauche, à partir du TECS présenté, de quel côté le conducteur observe-t-il les signaux qui le concernent ?",
+    "choices": [
+      "À droite.",
+      "À gauche."
     ],
-    "correct": 3,
-    "article": "A 21.02"
-  },
-  {
-    "id": "Q0040",
+    "correct": 0,
+    "id": "A2Q012",
     "theme": 2,
     "type": "qcm",
-    "question": "Le TECS est présenté à l’entrée d’une ICS. Quelle information donne-t-il notamment au conducteur?",
-    "options": [
-      "Le parcours à contresens est terminé et les signaux reprennent leur implantation normale",
-      "Le train est autorisé à s’engager à contresens et le côté d’implantation des signaux à observer change à partir du tableau",
-      "Le train doit obligatoirement emprunter une aiguille en déviation",
-      "Le conducteur doit s’arrêter avant de s’engager à contresens"
+    "source": "A21.03"
+  },
+  {
+    "question": "Sur IPCS, la vitesse limite à contresens est déterminée comment ?",
+    "choices": [
+      "Par la vitesse indiquée aux livrets de lignes pour la circulation à contresens et l'indice/code du train.",
+      "Par la plus basse des vitesses des deux voies, avec un plafond de 100 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q013",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04"
+  },
+  {
+    "question": "Sur ITCS, les vitesses des deux voies pour l'indice du train sont 120 et 110 km/h. Quelle limite résulte de la règle propre à l'ITCS ?",
+    "choices": [
+      "100 km/h.",
+      "110 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q014",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04"
+  },
+  {
+    "question": "Sur ITCS, les vitesses des deux voies pour l'indice du train sont 90 et 110 km/h. Quelle limite résulte de la règle propre à l'ITCS ?",
+    "choices": [
+      "90 km/h.",
+      "100 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q015",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04"
+  },
+  {
+    "question": "À contresens sur ICS, comment le conducteur opère-t-il pour le cantonnement ?",
+    "choices": [
+      "Comme en block automatique.",
+      "Comme en block manuel."
+    ],
+    "correct": 0,
+    "id": "A2Q016",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04"
+  },
+  {
+    "question": "À contresens sur ICS, que devient la répétition des signaux rencontrés à revers ?",
+    "choices": [
+      "Elle est annulée.",
+      "Elle reste active ; le conducteur doit l'acquitter sans en tenir compte."
+    ],
+    "correct": 0,
+    "id": "A2Q017",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04"
+  },
+  {
+    "question": "Au droit d'un point de changement de voie, le TSCS du premier intervalle est éteint et la circulation se poursuit à contresens sur l'intervalle suivant. Est-ce compatible avec le référentiel ?",
+    "choices": [
+      "Oui.",
+      "Non, un TSCS présenté est obligatoire à chaque changement de voie."
+    ],
+    "correct": 0,
+    "id": "A2Q018",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04"
+  },
+  {
+    "question": "À la sortie d'une ICS, le TSCS n'est pas présenté. Comment le conducteur est-il informé de la fin du parcours à contresens ?",
+    "choices": [
+      "Verbalement.",
+      "Par ordre écrit ou dépêche."
+    ],
+    "correct": 0,
+    "id": "A2Q019",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.05"
+  },
+  {
+    "question": "La présentation du TSCS signifie-t-elle nécessairement que le train va emprunter une aiguille en déviation ?",
+    "choices": [
+      "Oui.",
+      "Non."
     ],
     "correct": 1,
-    "article": "A 21.03"
-  },
-  {
-    "id": "Q0041",
+    "id": "A2Q020",
     "theme": 2,
     "type": "qcm",
-    "question": "Sur une ITCS, quelle règle s’applique à la vitesse limite du train?",
-    "options": [
-      "Appliquer systématiquement la vitesse de la voie normalement utilisée par le train",
-      "Prendre la plus basse des vitesses limites prévues pour le train sur l’une ou l’autre voie, sans dépasser 100 km/h",
-      "Ne jamais dépasser 70 km/h, quelle que soit la section",
-      "Appliquer la vitesse de la voie parcourue dans le sens normal, sans autre plafond"
-    ],
-    "correct": 1,
-    "article": "A 21.04"
+    "source": "A21.05"
   },
   {
-    "id": "Q0042",
+    "question": "Un parcours à contresens sur IPCS est suivi d'un parcours à contresens sur ITCS. Quel tableau matérialise le point de transition ?",
+    "choices": [
+      "Le TECS.",
+      "Le TSCS."
+    ],
+    "correct": 0,
+    "id": "A2Q021",
     "theme": 2,
     "type": "qcm",
-    "question": "À la sortie d’un parcours à contresens sur ICS, le TSCS n’est pas présenté. Comment le conducteur est-il informé de la fin du parcours?",
-    "options": [
-      "Par l’extinction du dernier sémaphore de contresens",
-      "Verbalement",
-      "Par la répétition en cabine du premier signal rencontré à gauche",
-      "Par un ordre écrit obligatoire"
+    "source": "A21.06"
+  },
+  {
+    "question": "Lors du passage d'une IPCS à une ITCS, comment est obtenue la transition de vitesse limite ?",
+    "choices": [
+      "Par une signalisation de limitation de vitesse.",
+      "Par le seul TECS, qui fixe également la nouvelle vitesse limite."
+    ],
+    "correct": 0,
+    "id": "A2Q022",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.06"
+  },
+  {
+    "question": "Un train doit circuler en sens inverse du sens établi sur une ICS. Quelle formalité est prévue pour le conducteur ?",
+    "choices": [
+      "Recevoir un ordre écrit ou par dépêche et s'y conformer.",
+      "Appliquer spontanément les règles ordinaires de circulation à contresens sur ICS."
+    ],
+    "correct": 0,
+    "id": "A2Q023",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.06"
+  },
+  {
+    "question": "Une VUTP permet-elle normalement l'entrée à contresens sans arrêt préalable et sans préavis individuel au conducteur ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 0,
+    "id": "A2Q024",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.01"
+  },
+  {
+    "question": "Sur VUTP, comment est assuré l'espacement des trains à contresens ?",
+    "choices": [
+      "Automatiquement.",
+      "Par cantonnement téléphonique."
+    ],
+    "correct": 0,
+    "id": "A2Q025",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.01"
+  },
+  {
+    "question": "Le tableau VUT est présenté à l'entrée d'une VUTP. Le conducteur doit-il recevoir en plus un ordre écrit ou une dépêche pour s'engager à contresens ?",
+    "choices": [
+      "Oui.",
+      "Non."
     ],
     "correct": 1,
-    "article": "A 21.05"
+    "id": "A2Q026",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.02"
   },
   {
-    "id": "Q0043",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Qu’est-ce qu’un mouvement de manœuvre guidé au sens du référentiel?",
-    "options": [
-      "Un mouvement effectué sans intervention d’un chef de la manœuvre dès lors que l’engin est seul",
-      "Tout déplacement d’un engin moteur effectué uniquement sur voie de service",
-      "Un déplacement guidé par signaux de manœuvre, radio, etc., d’un ou plusieurs engins moteurs avec ou sans véhicules, sur une zone géographique limitée",
-      "Un train circulant à vitesse réduite entre deux gares sans signal de manœuvre"
-    ],
-    "correct": 2,
-    "article": "A 30.01"
-  },
-  {
-    "id": "Q0044",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Sous l’autorité de qui un conducteur peut-il exécuter un mouvement de manœuvre guidé?",
-    "options": [
-      "Du conducteur lui-même dès lors qu’il observe directement la voie",
-      "De l’aiguilleur uniquement, quel que soit le lieu du mouvement",
-      "Du régulateur, qui devient automatiquement chef de la manœuvre",
-      "D’un agent responsable désigné chef de la manœuvre"
-    ],
-    "correct": 3,
-    "article": "A 31.01"
-  },
-  {
-    "id": "Q0045",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Lors de mouvements de manœuvre guidés successifs sans changement de poste de conduite, quelle règle particulière s’applique à l’utilisation des pantographes?",
-    "options": [
-      "Utiliser systématiquement les deux pantographes pendant les refoulements",
-      "Changer de pantographe à chaque inversion du sens de déplacement",
-      "Abaisser tous les pantographes avant chaque changement de sens",
-      "Utiliser le même pantographe quel que soit le sens du déplacement"
-    ],
-    "correct": 3,
-    "article": "A 31.03"
-  },
-  {
-    "id": "Q0046",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Un mouvement de manœuvre guidé emprunte une voie principale. Quelle règle de freinage s’applique?",
-    "options": [
-      "Le mouvement doit être freiné au frein continu",
-      "Le frein continu n’est requis que si la rame comporte plus de cinq véhicules",
-      "Le frein continu est interdit afin de conserver une réponse plus rapide au freinage",
-      "Le seul frein de l’engin moteur est toujours suffisant sur voie principale"
+    "question": "À l'entrée d'une VUTP, le tableau VUT n'est pas présenté. Quelle possibilité subsiste ?",
+    "choices": [
+      "Être autorisé par ordre écrit ou dépêche.",
+      "Recevoir une AuM manuelle, qui remplace à elle seule le tableau VUT."
     ],
     "correct": 0,
-    "article": "A 31.04"
+    "id": "A2Q027",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.02"
   },
   {
-    "id": "Q0047",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Qui donne normalement les ordres de manœuvre au conducteur?",
-    "options": [
-      "Uniquement l’aiguilleur du poste dont dépend la zone",
-      "Le conducteur choisit lui-même l’ordre adapté à la situation",
-      "Le chef de la manœuvre ou l’agent qu’il a désigné",
-      "Tout agent présent sur le chantier, sans désignation préalable"
-    ],
-    "correct": 2,
-    "article": "A 32.01"
-  },
-  {
-    "id": "Q0048",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Pendant un mouvement de manœuvre guidé effectué à la radio, peut-on utiliser la liaison radio « sol-trains » pour transmettre les ordres de manœuvre?",
-    "options": [
-      "Oui, dès lors que la liaison interphonique reste disponible",
-      "Oui, elle est prioritaire sur la fréquence de manœuvre",
-      "Oui, mais uniquement pour les ordres de refoulement",
-      "Non, elle ne doit pas être utilisée pour l’exécution du mouvement de manœuvre guidé"
-    ],
-    "correct": 3,
-    "article": "A 32.03"
-  },
-  {
-    "id": "Q0049",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Quelle règle de marche s’applique à un mouvement de manœuvre guidé?",
-    "options": [
-      "La marche normale dès lors que le conducteur est en tête du mouvement",
-      "Une vitesse maximale de 40 km/h, sans autre règle particulière",
-      "La marche à vue, sans dépasser 50 km/h",
-      "La marche en manœuvre, sans dépasser 30 km/h et en restant prêt à obéir aux signaux"
-    ],
-    "correct": 3,
-    "article": "A 33.05"
-  },
-  {
-    "id": "Q0050",
-    "theme": 3,
-    "type": "qcm",
-    "question": "L’engin moteur est en tête d’un mouvement de manœuvre guidé. À qui incombe l’observation de la signalisation et des signaux de manœuvre?",
-    "options": [
-      "À l’agent placé en queue de rame",
-      "À l’aiguilleur uniquement",
-      "Au conducteur",
-      "Au chef de la manœuvre dans tous les cas"
-    ],
-    "correct": 2,
-    "article": "A 33.06"
-  },
-  {
-    "id": "Q0051",
-    "theme": 3,
-    "type": "qcm",
-    "question": "L’engin moteur refoule plusieurs véhicules lors d’un mouvement de manœuvre guidé. À qui incombe l’observation de la signalisation?",
-    "options": [
-      "Au chef de la manœuvre, ou à l’agent désigné selon les dispositions prévues",
-      "Au conducteur, même s’il ne peut pas observer la voie",
-      "Au régulateur par l’intermédiaire de la radio sol-trains",
-      "À l’aiguilleur, quelle que soit la zone où se déroule le mouvement"
+    "question": "Sur VUTP, les vitesses des deux voies pour l'indice du train sont 90 et 80 km/h. Quelle limite résulte de la règle propre à la VUTP ?",
+    "choices": [
+      "70 km/h.",
+      "80 km/h."
     ],
     "correct": 0,
-    "article": "A 33.07"
+    "id": "A2Q028",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.03"
   },
   {
-    "id": "Q0052",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Le conducteur constate ou présume un fonctionnement défectueux de la liaison radio pendant une manœuvre. Quelle est sa première réaction?",
-    "options": [
-      "Attendre la reprise de la radio sans modifier le mouvement",
-      "Poursuivre jusqu’au point prévu en réduisant la vitesse à 10 km/h",
-      "S’arrêter immédiatement et solliciter les instructions du chef de la manœuvre",
-      "Terminer systématiquement le refoulement en utilisant uniquement les rétroviseurs"
-    ],
-    "correct": 2,
-    "article": "A 35.01"
-  },
-  {
-    "id": "Q0053",
-    "theme": 3,
-    "type": "qcm",
-    "question": "Au cours d’un mouvement de manœuvre guidé électrique, le conducteur constate une mise hors tension de la caténaire. Que doit-il faire?",
-    "options": [
-      "S’arrêter d’urgence, quels que soient les signaux de manœuvre qu’il pourrait percevoir",
-      "Poursuivre jusqu’au prochain signal si celui-ci autorise le mouvement",
-      "Attendre quelques secondes pour vérifier si la tension revient avant de freiner",
-      "Abaisser le pantographe tout en poursuivant jusqu’au point initialement prévu"
+    "question": "Sur VUTP, les vitesses des deux voies pour l'indice du train sont 60 et 80 km/h. Quelle limite résulte de la règle propre à la VUTP ?",
+    "choices": [
+      "60 km/h.",
+      "70 km/h."
     ],
     "correct": 0,
-    "article": "A 35.03"
+    "id": "A2Q029",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.03"
   },
   {
-    "id": "Q0054",
-    "theme": 4,
-    "type": "qcm",
-    "question": "Quelle caractéristique distingue les mouvements de manœuvre non guidés décrits dans le référentiel?",
-    "options": [
-      "Ce sont des circulations de parcours limités qui ne peuvent être assimilées ni aux mouvements de manœuvre guidés ni aux trains",
-      "Ce sont des trains réguliers dont la vitesse est limitée à 30 km/h",
-      "Ce sont uniquement des locomotives seules circulant sur voie de service",
-      "Ce sont des mouvements obligatoirement guidés par radio mais sans chef de la manœuvre"
+    "question": "À contresens sur VUTP, comment le conducteur opère-t-il en matière de block, sauf indications contraires aux livrets de lignes ?",
+    "choices": [
+      "Comme en block manuel.",
+      "Comme en block automatique."
     ],
     "correct": 0,
-    "article": "A 40.01"
+    "id": "A2Q030",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.03"
   },
   {
-    "id": "Q0055",
-    "theme": 4,
-    "type": "qcm",
-    "question": "Quelles règles s’appliquent à la mise en marche d’un mouvement de manœuvre non guidé?",
-    "options": [
-      "Aucune autorisation n’est nécessaire dès lors que le conducteur est prêt",
-      "Une autorisation verbale du chef de la manœuvre est toujours exigée",
-      "Les règles des mouvements de manœuvre guidés, avec ordre « Tirez » obligatoire",
-      "Les mêmes règles de mise en marche que celles des trains, selon les prescriptions visées par l’article"
-    ],
-    "correct": 3,
-    "article": "A 42.02"
-  },
-  {
-    "id": "Q0056",
-    "theme": 4,
-    "type": "qcm",
-    "question": "Un mouvement de manœuvre non guidé refoule plus d’un véhicule. Quelle disposition s’applique concernant l’observation de la voie et de la signalisation?",
-    "options": [
-      "Il doit être guidé comme un mouvement de manœuvre guidé de refoulement",
-      "Le conducteur peut utiliser les rétroviseurs quelle que soit la locomotive",
-      "Le conducteur reste seul responsable depuis la cabine arrière, sans autre disposition",
-      "Un agent d’accompagnement n’est nécessaire qu’au-delà de 30 km/h"
+    "question": "À contresens sur VUTP, que devient la répétition des signaux rencontrés à revers ?",
+    "choices": [
+      "Elle est annulée.",
+      "Elle reste active et doit être acquittée sans en tenir compte."
     ],
     "correct": 0,
-    "article": "A 42.03"
+    "id": "A2Q031",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.03"
   },
   {
-    "id": "Q0057",
-    "theme": 4,
-    "type": "qcm",
-    "question": "Un mouvement de manœuvre non guidé sur voie principale est freiné au frein continu marchandises. Quelle vitesse doit-il observer?",
-    "options": [
-      "La vitesse limite des trains MA 80 sans dépasser 50 km/h",
-      "La vitesse limite des trains ME 100 sans dépasser 70 km/h",
-      "La vitesse des MA 100 sans dépasser 80 km/h",
-      "30 km/h dans tous les cas, même lorsque le conducteur est en tête"
+    "question": "À la sortie d'une VUTP commandée par un carré, le tableau « FIN de VUT » n'est pas présenté. Que doit recevoir le conducteur ?",
+    "choices": [
+      "Un ordre verbal pour sortir du parcours à contresens.",
+      "Un ordre écrit ou une dépêche."
     ],
     "correct": 0,
-    "article": "A 42.04"
+    "id": "A2Q032",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.04"
   },
   {
-    "id": "Q0058",
-    "theme": 4,
-    "type": "qcm",
-    "question": "Après un incident de frein, en pleine voie, la masse freinée restante d’un mouvement de manœuvre non guidé est au moins égale au freinage de dérive nécessaire. Quelle reprise de marche est prévue?",
-    "options": [
-      "Reprendre sans dépasser 20 km/h jusqu’à la première gare, avec les précautions prévues et adaptation des paramètres KVB",
-      "Reprendre à la vitesse normale du train dès lors que le freinage de dérive est atteint",
-      "Demander obligatoirement le secours même si le freinage de dérive reste assuré",
-      "Reprendre à 30 km/h jusqu’à destination sans modifier les paramètres KVB"
+    "question": "Une sortie de VUTP est commandée par un carré violet. Quel dispositif particulier précède le tableau de sortie ?",
+    "choices": [
+      "Un tableau à distance « FIN de VUT », éventuellement accompagné d'un TIV 30 à distance.",
+      "Un TSCS, éventuellement accompagné d'un TIV 30 à distance."
     ],
     "correct": 0,
-    "article": "A 43.01"
+    "id": "A2Q033",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.04"
   },
   {
-    "id": "Q0059",
-    "theme": 5,
-    "type": "qcm",
-    "question": "Après avoir rencontré une pancarte « POSTE », aucun signal d’arrêt n’est présenté au repère d’entrée. Quelle conduite doit adopter le conducteur?",
-    "options": [
-      "Franchir le poste à la vitesse de la ligne si le signal de sortie est visible",
-      "S’arrêter systématiquement au repère d’entrée",
-      "Observer la marche à vue depuis le repère d’entrée et s’avancer jusqu’à pouvoir observer le signal de sortie",
-      "Limiter sa vitesse à 30 km/h dès la pancarte POSTE et jusqu’à la gare suivante"
-    ],
-    "correct": 2,
-    "article": "A 51.01"
-  },
-  {
-    "id": "Q0060",
-    "theme": 5,
-    "type": "qcm",
-    "question": "Après une pancarte « POSTE », le conducteur a acquis l’assurance que le signal de sortie est ouvert. Quelle règle reste applicable?",
-    "options": [
-      "S’arrêter au poste avant de poursuivre",
-      "Reprendre immédiatement la vitesse de ligne",
-      "Poursuivre à 30 km/h jusqu’au prochain signal de cantonnement",
-      "Poursuivre en marche à vue jusqu’au franchissement du signal de sortie et ne pas dépasser 30 km/h sur l’aiguille de sortie"
-    ],
-    "correct": 3,
-    "article": "A 51.01"
-  },
-  {
-    "id": "Q0061",
-    "theme": 6,
-    "type": "qcm",
-    "question": "Un circuit de voie est libre puis une circulation y engage ses essieux. Quel est le principe électrique utilisé pour détecter l’occupation?",
-    "options": [
-      "Les essieux shuntent les deux files de rails, le récepteur n’est plus alimenté et le relais de voie n’est plus excité",
-      "Le conducteur déclenche manuellement l’occupation du circuit de voie depuis la cabine",
-      "Le circuit de voie ne détecte l’occupation qu’après le franchissement du signal de sortie du canton",
-      "Les essieux augmentent le courant reçu, ce qui excite davantage le relais de voie"
+    "question": "À la sortie d'une VUTP commandée par un carré violet, quelle marche est prescrite aux abords de la sortie ?",
+    "choices": [
+      "Marche à vue.",
+      "Marche en manœuvre."
     ],
     "correct": 0,
-    "article": "A 60.01"
+    "id": "A2Q034",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.04"
+  },
+  {
+    "question": "Une VUT est-elle normalement accessible à contresens sans arrêt à l'entrée ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q035",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.01"
+  },
+  {
+    "question": "En VUT, comment est assuré l'espacement des trains à contresens ?",
+    "choices": [
+      "Par cantonnement téléphonique.",
+      "Automatiquement."
+    ],
+    "correct": 0,
+    "id": "A2Q036",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.01"
+  },
+  {
+    "question": "Une VUT peut-elle comporter un ou plusieurs postes intermédiaires de cantonnement ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 0,
+    "id": "A2Q037",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.01"
+  },
+  {
+    "question": "Avant une entrée à contresens sur VUT, un mouvement de manœuvre guidé a nécessité le franchissement autorisé d'un signal d'arrêt. Cette autorisation vaut-elle AuM pour l'entrée en VUT ?",
+    "choices": [
+      "Oui.",
+      "Non, une AuM doit encore être délivrée."
+    ],
+    "correct": 1,
+    "id": "A2Q038",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.02"
+  },
+  {
+    "question": "L'ordre écrit de VUT reprend les limitations permanentes et temporaires de vitesse à partir de quel critère ?",
+    "choices": [
+      "Celles dont le taux est inférieur à 70 km/h.",
+      "Celles dont le taux est inférieur ou égal à 70 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q039",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.02"
+  },
+  {
+    "question": "Le conducteur a reçu l'ordre écrit de VUT mais n'a pas encore reçu l'AuM. Peut-il s'engager à contresens si le carré d'origine est ouvert ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q040",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.02"
+  },
+  {
+    "question": "Le carré éventuellement situé à l'origine d'un parcours à contresens sur VUT peut-il être implanté à gauche, à droite ou au-dessus de la voie ?",
+    "choices": [
+      "Oui.",
+      "Non, il est nécessairement du côté correspondant au contresens."
+    ],
+    "correct": 0,
+    "id": "A2Q041",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.02"
+  },
+  {
+    "question": "À contresens sur VUT, la répétition réagit à un signal rencontré à revers. Quelle conduite tenir ?",
+    "choices": [
+      "Acquitter sans tenir compte de l'indication donnée.",
+      "Ne pas acquitter, la répétition étant sans objet."
+    ],
+    "correct": 0,
+    "id": "A2Q042",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "Sur VUT, les vitesses des deux voies pour l'indice du train sont 100 et 80 km/h. Quelle limite résulte de la règle propre à la VUT ?",
+    "choices": [
+      "70 km/h.",
+      "80 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q043",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "Sur VUT, les vitesses des deux voies pour l'indice du train sont 60 et 80 km/h. Quelle limite résulte de la règle propre à la VUT ?",
+    "choices": [
+      "60 km/h.",
+      "70 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q044",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "À contresens sur VUT, quelles pancartes de l'autre voie le conducteur doit-il notamment observer ?",
+    "choices": [
+      "Les pancartes « S » et « canal radio ».",
+      "Uniquement les pancartes « S » ; les changements de canal restent ceux de la voie parcourue dans son sens normal."
+    ],
+    "correct": 0,
+    "id": "A2Q045",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "Un poste intermédiaire de cantonnement figure sur l'ordre. Le signal d'arrêt à main est effacé et l'AuM est donnée en temps utile. L'arrêt reste-t-il obligatoire ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q046",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "Au poste intermédiaire de cantonnement, le signal d'arrêt à main est effacé. Cela suffit-il à autoriser la poursuite ?",
+    "choices": [
+      "Oui.",
+      "Non, une AuM sous forme manuelle est également nécessaire."
+    ],
+    "correct": 1,
+    "id": "A2Q047",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "À contresens sur VUT, comment le conducteur opère-t-il en matière de block ?",
+    "choices": [
+      "Comme en block manuel.",
+      "Comme en block automatique."
+    ],
+    "correct": 0,
+    "id": "A2Q048",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03"
+  },
+  {
+    "question": "La signalisation de sortie d'une VUT à contresens est-elle annoncée ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q049",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.04"
+  },
+  {
+    "question": "Comment le conducteur doit-il aborder la sortie d'une VUT à contresens ?",
+    "choices": [
+      "En marche à vue.",
+      "En marche en manœuvre."
+    ],
+    "correct": 0,
+    "id": "A2Q050",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.04"
+  },
+  {
+    "question": "La sortie de VUT est commandée par un carré ouvert. Faut-il néanmoins s'arrêter pour recevoir une AuM ?",
+    "choices": [
+      "Oui.",
+      "Non, l'ouverture du carré constitue l'AuM."
+    ],
+    "correct": 1,
+    "id": "A2Q051",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.04"
+  },
+  {
+    "question": "La sortie de VUT est commandée par un signal d'arrêt à main déjà effacé et l'AuM est donnée en temps utile. L'arrêt est-il obligatoire ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q052",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.04"
+  },
+  {
+    "question": "Les mouvements à contre-voie sont-ils cantonnés ?",
+    "choices": [
+      "Oui, par cantonnement téléphonique.",
+      "Non, ils sont organisés isolément."
+    ],
+    "correct": 1,
+    "id": "A2Q053",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.01"
+  },
+  {
+    "question": "Un train arrêté en pleine voie doit revenir en arrière par ses propres moyens. Quel agent organise le mouvement à contre-voie ?",
+    "choices": [
+      "L'agent-circulation de la gare en arrière.",
+      "L'agent-circulation de la gare en avant."
+    ],
+    "correct": 0,
+    "id": "A2Q054",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.01"
+  },
+  {
+    "question": "À l'intérieur d'une gare, un mouvement à contre-voie peut-il être effectué comme un mouvement de manœuvre guidé ?",
+    "choices": [
+      "Oui.",
+      "Non, il nécessite toujours un ordre écrit ou une dépêche."
+    ],
+    "correct": 0,
+    "id": "A2Q055",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.01"
+  },
+  {
+    "question": "Pour un mouvement à contre-voie ayant son origine dans une gare, l'ordre écrit ou la dépêche suffit-il pour s'engager ?",
+    "choices": [
+      "Oui.",
+      "Non, une AuM est également nécessaire."
+    ],
+    "correct": 1,
+    "id": "A2Q056",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.02"
+  },
+  {
+    "question": "Un mouvement à contre-voie prend naissance en pleine voie. L'AuM prévue pour l'engagement à contre-voie est-elle requise ?",
+    "choices": [
+      "Oui, pour toute origine.",
+      "Non, cette AuM est prévue lorsque le mouvement a son origine dans une gare."
+    ],
+    "correct": 1,
+    "id": "A2Q057",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.02"
+  },
+  {
+    "question": "L'ordre de contre-voie reprend les limitations permanentes et temporaires de vitesse selon quel seuil ?",
+    "choices": [
+      "Celles dont le taux est inférieur à 30 km/h.",
+      "Celles dont le taux est inférieur à 70 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q058",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.02"
+  },
+  {
+    "question": "Avant une expédition à contre-voie depuis une gare, une autorisation de franchissement d'un signal d'arrêt a été délivrée pendant un mouvement de manœuvre guidé. Constitue-t-elle l'AuM nécessaire au départ à contre-voie ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q059",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.02"
+  },
+  {
+    "question": "Le conducteur est en tête d'un mouvement à contre-voie. Quelle marche doit-il observer ?",
+    "choices": [
+      "La marche à vue sur tout le parcours à contre-voie.",
+      "La marche à vue jusqu'au premier signal rencontré, puis la marche normale."
+    ],
+    "correct": 0,
+    "id": "A2Q060",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.03"
+  },
+  {
+    "question": "Le conducteur n'est pas en tête d'un mouvement à contre-voie. Comment la circulation doit-elle être guidée ?",
+    "choices": [
+      "Par des signaux de manœuvre.",
+      "Par les seuls signaux implantés pour le sens inverse."
+    ],
+    "correct": 0,
+    "id": "A2Q061",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.03"
+  },
+  {
+    "question": "À contre-voie, la répétition réagit à un signal rencontré à revers. Quelle conduite tenir ?",
+    "choices": [
+      "Acquitter et ne pas tenir compte de l'indication.",
+      "Ne pas acquitter, comme sur une ICS."
+    ],
+    "correct": 0,
+    "id": "A2Q062",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.03"
+  },
+  {
+    "question": "À contre-voie, le conducteur doit-il observer les pancartes « S » et « canal radio » de l'autre voie ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 0,
+    "id": "A2Q063",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.03"
+  },
+  {
+    "question": "À la sortie d'un parcours à contre-voie, l'ouverture du carré de sortie constitue-t-elle l'AuM ?",
+    "choices": [
+      "Oui.",
+      "Non, l'AuM doit toujours être distincte du signal."
+    ],
+    "correct": 0,
+    "id": "A2Q064",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.04"
+  },
+  {
+    "question": "La sortie à contre-voie est commandée par un signal d'arrêt à main effacé et l'AuM est donnée en temps utile. L'arrêt est-il obligatoire ?",
+    "choices": [
+      "Oui.",
+      "Non."
+    ],
+    "correct": 1,
+    "id": "A2Q065",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.04"
+  },
+  {
+    "question": "Exceptionnellement, la sortie à contre-voie n'est commandée ni par carré ni par signal d'arrêt à main. Que doit faire le conducteur ?",
+    "choices": [
+      "Se conformer aux instructions de l'agent-circulation ayant ordonné le mouvement.",
+      "S'arrêter au point kilométrique de sortie et attendre obligatoirement une AuM sous forme manuelle."
+    ],
+    "correct": 0,
+    "id": "A2Q066",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.04"
+  },
+  {
+    "question": "Le signal commandant la sortie à contre-voie est un carré violet ouvert. Quelle prescription s'applique à la reprise ou poursuite de la marche ?",
+    "choices": [
+      "Les prescriptions du feu blanc.",
+      "La marche à vue jusqu'au signal commandant l'entrée du canton suivant dans tous les cas."
+    ],
+    "correct": 0,
+    "id": "A2Q067",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A24.04"
+  },
+  {
+    "question": "Pour un même train, les deux voies sont limitées à 90 km/h. Quelle comparaison est correcte ?",
+    "choices": [
+      "Sur ITCS, la règle permet 90 km/h ; sur VUTP, elle limite à 70 km/h.",
+      "ITCS et VUTP conduisent toutes deux à 90 km/h puisque la plus basse vitesse des deux voies est identique."
+    ],
+    "correct": 0,
+    "id": "A2Q068",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04 / A22.03"
+  },
+  {
+    "question": "Les deux voies sont limitées à 120 km/h pour l'indice du train. Quelle comparaison est correcte ?",
+    "choices": [
+      "ITCS : 100 km/h maximum ; VUT : 70 km/h maximum.",
+      "ITCS et VUT : 100 km/h maximum."
+    ],
+    "correct": 0,
+    "id": "A2Q069",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04 / A23.03"
+  },
+  {
+    "question": "Pour un même train, les deux voies sont limitées à 80 km/h. Quelle comparaison est correcte ?",
+    "choices": [
+      "VUTP et VUT conduisent toutes deux à une limite de 70 km/h.",
+      "VUTP permet 80 km/h grâce au cantonnement automatique, tandis que la VUT est limitée à 70 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q070",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.03 / A23.03"
+  },
+  {
+    "question": "La répétition d'un signal rencontré à revers est sollicitée. Dans quelle situation cette réaction est-elle normalement annulée ?",
+    "choices": [
+      "À contresens sur ICS.",
+      "À contresens sur VUT."
+    ],
+    "correct": 0,
+    "id": "A2Q071",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04 / A23.03"
+  },
+  {
+    "question": "Quelle comparaison concernant la répétition des signaux rencontrés à revers est correcte ?",
+    "choices": [
+      "VUTP : répétition annulée ; contre-voie : répétition non annulée, à acquitter sans en tenir compte.",
+      "VUTP et contre-voie : répétition non annulée, à acquitter sans en tenir compte."
+    ],
+    "correct": 0,
+    "id": "A2Q072",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.03 / A24.03"
+  },
+  {
+    "question": "Quelle comparaison concernant le block est correcte ?",
+    "choices": [
+      "ICS : comme en block automatique ; VUTP : comme en block manuel sauf indication contraire.",
+      "ICS et VUTP : comme en block automatique puisque l'espacement à contresens est automatique dans les deux cas."
+    ],
+    "correct": 0,
+    "id": "A2Q073",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.04 / A22.03"
+  },
+  {
+    "question": "Quelle situation impose normalement l'arrêt du train à l'entrée avant circulation à contresens ?",
+    "choices": [
+      "La VUT.",
+      "La VUTP."
+    ],
+    "correct": 0,
+    "id": "A2Q074",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A22.01 / A23.01"
+  },
+  {
+    "question": "Quelle comparaison est correcte concernant l'avis au conducteur ?",
+    "choices": [
+      "IPCS : pas de préavis autre que la signalisation ; VUT : information écrite après arrêt à l'entrée.",
+      "IPCS et VUT : information écrite avant l'engagement à contresens."
+    ],
+    "correct": 0,
+    "id": "A2Q075",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.01 / A23.01"
+  },
+  {
+    "question": "Quelle différence de seuil est correcte pour les limitations permanentes et temporaires reprises dans les ordres ?",
+    "choices": [
+      "VUT : taux inférieur à 70 km/h ; contre-voie : taux inférieur à 30 km/h.",
+      "VUT et contre-voie : taux inférieur à 70 km/h."
+    ],
+    "correct": 0,
+    "id": "A2Q076",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.02 / A24.02"
+  },
+  {
+    "question": "Quelle différence caractérise la conduite sur le parcours ?",
+    "choices": [
+      "À contre-voie, conducteur en tête : marche à vue sur tout le parcours ; en VUT, cette marche à vue permanente n'est pas prescrite.",
+      "En VUT comme à contre-voie, la marche à vue est prescrite sur tout le parcours."
+    ],
+    "correct": 0,
+    "id": "A2Q077",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.03 / A24.03"
+  },
+  {
+    "question": "Quelle particularité est explicitement indiquée pour la sortie à contresens d'une VUT, mais pas comme règle générale de sortie à contre-voie ?",
+    "choices": [
+      "La signalisation de sortie n'est pas annoncée et la sortie doit être abordée en marche à vue.",
+      "L'ouverture du carré de sortie constitue l'AuM."
+    ],
+    "correct": 0,
+    "id": "A2Q078",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.04 / A24.04"
+  },
+  {
+    "question": "À défaut du tableau normalement présenté à l'entrée, quelle règle est commune à l'ICS et à la VUTP ?",
+    "choices": [
+      "Un ordre écrit ou une dépêche peut autoriser l'engagement à contresens.",
+      "Une AuM manuelle suffit à remplacer le tableau."
+    ],
+    "correct": 0,
+    "id": "A2Q079",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.03 / A22.02"
+  },
+  {
+    "question": "À défaut de présentation du tableau de sortie, quelle règle est commune à l'ICS et à la VUTP ?",
+    "choices": [
+      "Le conducteur est informé verbalement de la fin du parcours à contresens.",
+      "Le conducteur reçoit nécessairement un ordre écrit."
+    ],
+    "correct": 0,
+    "id": "A2Q080",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A21.05 / A22.04"
+  },
+  {
+    "question": "Dans les deux cas, la sortie est commandée par un signal d'arrêt à main effacé et l'AuM est donnée en temps utile. Quelle règle est commune à la VUT et à la contre-voie ?",
+    "choices": [
+      "Le train peut être dispensé de s'arrêter.",
+      "Le train doit marquer l'arrêt, l'AuM ne pouvant être donnée qu'après immobilisation."
+    ],
+    "correct": 0,
+    "id": "A2Q081",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A23.04 / A24.04"
+  },
+  {
+    "question": "Une voie est interceptée et une VUT peut être organisée. Le passage en sens inverse sur l'autre voie relève-t-il normalement de la contre-voie ?",
+    "choices": [
+      "Oui.",
+      "Non, la circulation est organisée en VUT et relève du contresens."
+    ],
+    "correct": 1,
+    "id": "A2Q082",
+    "theme": 2,
+    "type": "qcm",
+    "source": "A20.01 / A24.01"
   }
 ];
