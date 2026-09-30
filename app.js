@@ -13,28 +13,56 @@ const THEMES = [
 BANQUES DE QUESTIONS
 =========================================================
 
-Chaque partie du référentiel A sera stockée dans
-un fichier séparé :
+Chaque partie possède sa propre banque.
 
-questions-A1.js
-questions-A2.js
-questions-A3.js
-questions-A4.js
-questions-A5.js
-questions-A6.js
+A1 → questions-A1.js
+A2 → questions-A2.js
+A3 → questions-A3.js
+A4 → questions-A4.js
+A5 → questions-A5.js
+A6 → questions-A6.js
 
-Pour l'instant seule la partie A2 est disponible.
+Pour l'instant, seule A2 est disponible.
+*/
+
+const QUESTION_BANKS = {
+
+  1: [],
+
+  2:
+    typeof QUESTIONS_PARTIE_2 !== "undefined"
+      ? QUESTIONS_PARTIE_2
+      : [],
+
+  3: [],
+
+  4: [],
+
+  5: [],
+
+  6: []
+
+};
+
+
+/*
+Toutes les questions actuellement disponibles.
+
+Cette liste sera automatiquement complétée
+quand nous ajouterons A1, A3, A4, etc.
 */
 
 const QUESTIONS = [
-  ...(typeof QUESTIONS_PARTIE_2 !== "undefined"
-    ? QUESTIONS_PARTIE_2
-    : [])
+  ...QUESTION_BANKS[1],
+  ...QUESTION_BANKS[2],
+  ...QUESTION_BANKS[3],
+  ...QUESTION_BANKS[4],
+  ...QUESTION_BANKS[5],
+  ...QUESTION_BANKS[6]
 ];
 
 
 const STORAGE_KEY = "revisionRCL_v1";
-
 let state = loadState();
 
 let session = {
@@ -147,10 +175,7 @@ function progressColor(pct) {
 
 function themeQuestions(themeId) {
 
-  return QUESTIONS.filter(
-    question =>
-      question.theme === themeId
-  );
+  return QUESTION_BANKS[themeId] || [];
 
 }
 
