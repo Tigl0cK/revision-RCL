@@ -174,7 +174,7 @@ function answer(index) {
     const fb = $("feedback");
     fb.className = "feedback success";
     fb.innerHTML = "<strong>Bonne réponse</strong>Passage à la question suivante…";
-    setTimeout(nextQuestion, 650);
+    setTimeout(nextQuestion, 1500);
   } else {
     if (!state.errors[q.id]) state.errors[q.id] = { streak:0, misses:0 };
     state.errors[q.id].streak = 0;
