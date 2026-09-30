@@ -39,7 +39,9 @@ const QUESTION_BANKS = {
       ? QUESTIONS_PARTIE_3
       : [],
 
-  4: [],
+  4: typeof QUESTIONS_PARTIE_4 !== "undefined"
+      ? QUESTIONS_PARTIE_4
+      : [],
 
   5: [],
 
