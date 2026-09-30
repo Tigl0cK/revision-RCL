@@ -694,7 +694,7 @@ const QUESTIONS_PARTIE_4 = [
     theme: 4,
     type: "qcm",
     source: "A 42.04",
-    question: "Sur voie principale, quelle règle de marche doit être observée à proximité de la destination ou d'un point de rebroussement ?",
+    question: "Lors d'une manoeuvre non guidée, sur voie principale, quelle règle de marche doit être observée à proximité de la destination ou d'un point de rebroussement ?",
     choices: [
       "La marche en manœuvre.",
       "La marche à vue."
