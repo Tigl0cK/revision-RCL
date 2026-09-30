@@ -592,7 +592,7 @@ function renderQuestion() {
 
 
   $("questionProgress").textContent =
-    `Question ${session.answeredInSession}`;
+    `Question ${q.id}`;
 
 
   $("questionText").textContent =
