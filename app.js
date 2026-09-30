@@ -27,7 +27,9 @@ Pour l'instant, seule A2 est disponible.
 
 const QUESTION_BANKS = {
 
-  1: [],
+  1: typeof QUESTIONS_PARTIE_1 !== "undefined"
+      ? QUESTIONS_PARTIE_1
+      : [],
 
   2:
     typeof QUESTIONS_PARTIE_2 !== "undefined"
@@ -47,7 +49,9 @@ const QUESTION_BANKS = {
       ? QUESTIONS_PARTIE_5
       : [],
 
-  6: []
+  6: typeof QUESTIONS_PARTIE_6 !== "undefined"
+      ? QUESTIONS_PARTIE_6
+      : []
 
 };
 
