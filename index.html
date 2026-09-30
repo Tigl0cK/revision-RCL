@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Révision RCL</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#173b67">
+  <title>Révision RCL</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <h1>Révision RCL</h1>
-    <p>Appli en cours de développement !</p>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">MAINTIEN DES COMPÉTENCES</p>
+        <h1>Révision RCL</h1>
+      </div>
+      <button id="homeBtn" class="icon-btn hidden" type="button" aria-label="Retour à l'accueil">⌂</button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active">
+        <div class="chapter-card">
+          <label for="chapterSelect">Chapitre du référentiel</label>
+          <select id="chapterSelect">
+            <option value="A">A — Signalisation / Règles d'exploitation</option>
+          </select>
+          <p class="future-note">Les autres chapitres pourront être ajoutés ensuite.</p>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CHAPITRE A</p>
+            <h2>Choisir un thème</h2>
+          </div>
+          <div id="globalProgress" class="global-progress">0 % parcouru</div>
+        </div>
+
+        <div id="themeList" class="theme-list"></div>
+
+        <button class="special-card random-card" data-mode="all" type="button">
+          <span class="special-icon">↻</span>
+          <span class="special-copy">
+            <strong>Tous les thèmes</strong>
+            <small>Questions mélangées</small>
+          </span>
+          <span id="allPercent" class="special-value">0 %</span>
+        </button>
+
+        <button class="special-card error-card" data-mode="errors" type="button">
+          <span class="special-icon">!</span>
+          <span class="special-copy">
+            <strong>Mes erreurs</strong>
+            <small id="errorSubtitle">Aucune question à retravailler</small>
+          </span>
+          <span id="errorCount" class="error-count">0</span>
+        </button>
+
+        <div class="stats-card">
+          <div><strong id="answeredStat">0</strong><span>questions répondues</span></div>
+          <div><strong id="successStat">—</strong><span>de bonnes réponses</span></div>
+        </div>
+      </section>
+
+      <section id="quizView" class="view">
+        <div class="quiz-header">
+          <button id="backBtn" class="back-btn" type="button">← Accueil</button>
+          <span id="quizTheme" class="quiz-theme"></span>
+        </div>
+
+        <div class="question-card">
+          <div class="question-meta">
+            <span id="questionProgress">Question</span>
+            <span id="errorMastery" class="mastery hidden"></span>
+          </div>
+          <h2 id="questionText"></h2>
+          <div id="answers" class="answers"></div>
+          <div id="feedback" class="feedback hidden"></div>
+          <button id="nextBtn" class="primary-btn hidden" type="button">Question suivante</button>
+        </div>
+      </section>
+
+      <section id="emptyView" class="view">
+        <div class="empty-card">
+          <div class="empty-icon">✓</div>
+          <h2 id="emptyTitle">Rien à réviser ici</h2>
+          <p id="emptyText"></p>
+          <button id="emptyHomeBtn" class="primary-btn" type="button">Retour à l'accueil</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
 </body>
 </html>
