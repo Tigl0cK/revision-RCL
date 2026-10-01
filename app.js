@@ -8,26 +8,14 @@ const THEMES = [
 ];
 
 
-/*
-=========================================================
-BANQUES DE QUESTIONS
-=========================================================
-
-Chaque partie possède sa propre banque.
-
-A1 → questions-A1.js
-A2 → questions-A2.js
-A3 → questions-A3.js
-A4 → questions-A4.js
-A5 → questions-A5.js
-A6 → questions-A6.js
-
-Pour l'instant, seule A2 est disponible.
-*/
+// =====================================================
+// BANQUES DE QUESTIONS
+// =====================================================
 
 const QUESTION_BANKS = {
 
-  1: typeof QUESTIONS_PARTIE_1 !== "undefined"
+  1:
+    typeof QUESTIONS_PARTIE_1 !== "undefined"
       ? QUESTIONS_PARTIE_1
       : [],
 
@@ -41,27 +29,23 @@ const QUESTION_BANKS = {
       ? QUESTIONS_PARTIE_3
       : [],
 
-  4: typeof QUESTIONS_PARTIE_4 !== "undefined"
+  4:
+    typeof QUESTIONS_PARTIE_4 !== "undefined"
       ? QUESTIONS_PARTIE_4
       : [],
 
-  5: typeof QUESTIONS_PARTIE_5 !== "undefined"
+  5:
+    typeof QUESTIONS_PARTIE_5 !== "undefined"
       ? QUESTIONS_PARTIE_5
       : [],
 
-  6: typeof QUESTIONS_PARTIE_6 !== "undefined"
+  6:
+    typeof QUESTIONS_PARTIE_6 !== "undefined"
       ? QUESTIONS_PARTIE_6
       : []
 
 };
 
-
-/*
-Toutes les questions actuellement disponibles.
-
-Cette liste sera automatiquement complétée
-quand nous ajouterons A1, A3, A4, etc.
-*/
 
 const QUESTIONS = [
   ...QUESTION_BANKS[1],
@@ -74,6 +58,7 @@ const QUESTIONS = [
 
 
 const STORAGE_KEY = "revisionRCL_v1";
+
 let state = loadState();
 
 let session = {
@@ -85,12 +70,17 @@ let session = {
   locked: false
 };
 
+let revisionToDelete = null;
 
-const $ = id => document.getElementById(id);
+
+const $ = id =>
+  document.getElementById(id);
+
 
 const views = {
   home: $("homeView"),
   quiz: $("quizView"),
+  revisions: $("revisionsView"),
   empty: $("emptyView")
 };
 
@@ -100,12 +90,15 @@ const views = {
 // =====================================================
 
 function defaultState() {
+
   return {
     seen: {},
     errors: {},
+    revisions: {},
     totalAnswers: 0,
     correctAnswers: 0
   };
+
 }
 
 
@@ -113,14 +106,23 @@ function loadState() {
 
   try {
 
+    const saved =
+      JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "{}"
+      );
+
+
     return {
       ...defaultState(),
-      ...JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "{}"
-      )
+      ...saved,
+      seen: saved.seen || {},
+      errors: saved.errors || {},
+      revisions: saved.revisions || {}
     };
 
-  } catch {
+  }
+
+  catch {
 
     return defaultState();
 
@@ -146,15 +148,19 @@ function saveState() {
 function showView(name) {
 
   Object.values(views).forEach(
-    view => view.classList.remove("active")
+    view =>
+      view.classList.remove("active")
   );
 
+
   views[name].classList.add("active");
+
 
   $("homeBtn").classList.toggle(
     "hidden",
     name === "home"
   );
+
 
   window.scrollTo({
     top: 0,
@@ -170,14 +176,16 @@ function showView(name) {
 
 function progressColor(pct) {
 
-  const hue = Math.round(
-    (
-      Math.max(
-        0,
-        Math.min(100, pct)
-      ) / 100
-    ) * 120
-  );
+  const hue =
+    Math.round(
+      (
+        Math.max(
+          0,
+          Math.min(100, pct)
+        ) / 100
+      ) * 120
+    );
+
 
   return `hsl(${hue} 72% 42%)`;
 
@@ -204,13 +212,399 @@ function seenCount(list) {
 function percentage(list) {
 
   return list.length
+
     ? Math.round(
         (
           seenCount(list) /
           list.length
         ) * 100
       )
+
     : 0;
+
+}
+
+
+// =====================================================
+// MES RÉVISIONS
+// =====================================================
+
+function revisionQuestions() {
+
+  return QUESTIONS.filter(
+    question =>
+      state.revisions[question.id]
+  );
+
+}
+
+
+function revisionCategory(question) {
+
+  /*
+  A1Q001 → A1
+  A2Q050 → A2
+  B3Q010 → B3
+
+  Le système fonctionnera donc également
+  avec les futurs chapitres.
+  */
+
+  const match =
+    question.id.match(
+      /^([A-Z]+\d+)Q/i
+    );
+
+
+  if (match) {
+    return match[1].toUpperCase();
+  }
+
+
+  return "Autres";
+
+}
+
+
+function questionNumber(question) {
+
+  const match =
+    question.id.match(
+      /Q(\d+)$/i
+    );
+
+
+  return match
+    ? Number(match[1])
+    : 0;
+
+}
+
+
+function categoryName(category) {
+
+  /*
+  Pour le chapitre A actuellement disponible,
+  on affiche également le nom du thème.
+  */
+
+  const match =
+    category.match(
+      /^A(\d+)$/
+    );
+
+
+  if (match) {
+
+    const themeId =
+      Number(match[1]);
+
+
+    const theme =
+      THEMES.find(
+        item =>
+          item.id === themeId
+      );
+
+
+    if (theme) {
+      return theme.name;
+    }
+
+  }
+
+
+  return "";
+
+}
+
+
+function renderRevisions() {
+
+  const list =
+    $("revisionsList");
+
+
+  list.innerHTML = "";
+
+
+  const questions =
+    revisionQuestions();
+
+
+  $("revisionsDescription").textContent =
+    questions.length
+
+      ? `${questions.length} question${
+          questions.length > 1
+            ? "s"
+            : ""
+        } enregistrée${
+          questions.length > 1
+            ? "s"
+            : ""
+        }`
+
+      : "Aucune question enregistrée";
+
+
+  if (!questions.length) {
+
+    list.innerHTML = `
+
+      <div class="revisions-empty">
+        Aucune question dans tes révisions.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const groups = {};
+
+
+  questions.forEach(
+    question => {
+
+      const category =
+        revisionCategory(question);
+
+
+      if (!groups[category]) {
+
+        groups[category] = [];
+
+      }
+
+
+      groups[category].push(
+        question
+      );
+
+    }
+  );
+
+
+  const categories =
+    Object.keys(groups)
+      .sort(
+        (a, b) =>
+          a.localeCompare(
+            b,
+            undefined,
+            {
+              numeric: true,
+              sensitivity: "base"
+            }
+          )
+      );
+
+
+  categories.forEach(
+    category => {
+
+      const group =
+        document.createElement("div");
+
+
+      group.className =
+        "revision-group";
+
+
+      const title =
+        document.createElement("div");
+
+
+      title.className =
+        "revision-group-title";
+
+
+      const name =
+        categoryName(category);
+
+
+      title.innerHTML = `
+
+        <span class="revision-group-number">
+          ${category}
+        </span>
+
+        ${
+          name
+            ? `<strong>${name}</strong>`
+            : ""
+        }
+
+      `;
+
+
+      group.appendChild(title);
+
+
+      groups[category]
+        .sort(
+          (a, b) =>
+            questionNumber(a) -
+            questionNumber(b)
+        )
+        .forEach(
+          question => {
+
+            const article =
+              question.source ||
+              question.article ||
+              "";
+
+
+            const btn =
+              document.createElement(
+                "button"
+              );
+
+
+            btn.type =
+              "button";
+
+
+            btn.className =
+              "revision-item";
+
+
+            btn.innerHTML = `
+
+              <span class="revision-item-top">
+
+                <span class="revision-question-id">
+                  ${question.id}
+                </span>
+
+                <span class="revision-article">
+                  Article ${article}
+                </span>
+
+              </span>
+
+              <span class="revision-question-text">
+                ${question.question}
+              </span>
+
+            `;
+
+
+            btn.addEventListener(
+              "click",
+              () =>
+                openDeleteModal(
+                  question.id
+                )
+            );
+
+
+            group.appendChild(btn);
+
+          }
+        );
+
+
+      list.appendChild(group);
+
+    }
+  );
+
+}
+
+
+function addCurrentQuestionToRevisions() {
+
+  const q =
+    session.current;
+
+
+  if (!q) {
+    return;
+  }
+
+
+  state.revisions[q.id] =
+    true;
+
+
+  saveState();
+
+  renderHome();
+
+
+  const btn =
+    $("addRevisionBtn");
+
+
+  btn.textContent =
+    "✓ Ajouté à mes révisions";
+
+
+  btn.classList.add(
+    "added"
+  );
+
+
+  btn.disabled =
+    true;
+
+}
+
+
+// =====================================================
+// POP-UP SUPPRESSION
+// =====================================================
+
+function openDeleteModal(questionId) {
+
+  revisionToDelete =
+    questionId;
+
+
+  $("deleteModal")
+    .classList
+    .remove("hidden");
+
+}
+
+
+function closeDeleteModal() {
+
+  revisionToDelete =
+    null;
+
+
+  $("deleteModal")
+    .classList
+    .add("hidden");
+
+}
+
+
+function confirmDeleteRevision() {
+
+  if (!revisionToDelete) {
+    return;
+  }
+
+
+  delete state.revisions[
+    revisionToDelete
+  ];
+
+
+  saveState();
+
+  closeDeleteModal();
+
+  renderRevisions();
+
+  renderHome();
 
 }
 
@@ -221,88 +615,104 @@ function percentage(list) {
 
 function renderHome() {
 
-  const list = $("themeList");
+  const list =
+    $("themeList");
+
 
   list.innerHTML = "";
 
 
-  THEMES.forEach(theme => {
+  THEMES.forEach(
+    theme => {
 
-    const qs =
-      themeQuestions(theme.id);
-
-    const pct =
-      percentage(qs);
-
-    const color =
-      progressColor(pct);
-
-    const btn =
-      document.createElement("button");
-
-    btn.className =
-      "theme-card";
-
-    btn.type =
-      "button";
-
-    btn.dataset.theme =
-      theme.id;
-
-
-    btn.innerHTML = `
-
-      <div class="theme-top">
-
-        <span class="theme-number">
-          ${theme.id}
-        </span>
-
-        <span class="theme-name">
-          ${theme.name}
-        </span>
-
-        <span
-          class="theme-percent"
-          style="color:${color}"
-        >
-          ${pct} %
-        </span>
-
-      </div>
-
-      <div class="progress-track">
-
-        <div
-          class="progress-fill"
-          style="
-            width:${pct}%;
-            background:${color}
-          "
-        ></div>
-
-      </div>
-
-    `;
-
-
-    btn.addEventListener(
-      "click",
-      () =>
-        startSession(
-          "theme",
+      const qs =
+        themeQuestions(
           theme.id
-        )
-    );
+        );
 
 
-    list.appendChild(btn);
+      const pct =
+        percentage(qs);
 
-  });
+
+      const color =
+        progressColor(pct);
+
+
+      const btn =
+        document.createElement(
+          "button"
+        );
+
+
+      btn.className =
+        "theme-card";
+
+
+      btn.type =
+        "button";
+
+
+      btn.dataset.theme =
+        theme.id;
+
+
+      btn.innerHTML = `
+
+        <div class="theme-top">
+
+          <span class="theme-number">
+            ${theme.id}
+          </span>
+
+          <span class="theme-name">
+            ${theme.name}
+          </span>
+
+          <span
+            class="theme-percent"
+            style="color:${color}"
+          >
+            ${pct} %
+          </span>
+
+        </div>
+
+        <div class="progress-track">
+
+          <div
+            class="progress-fill"
+            style="
+              width:${pct}%;
+              background:${color}
+            "
+          ></div>
+
+        </div>
+
+      `;
+
+
+      btn.addEventListener(
+        "click",
+        () =>
+          startSession(
+            "theme",
+            theme.id
+          )
+      );
+
+
+      list.appendChild(btn);
+
+    }
+  );
 
 
   const allPct =
-    percentage(QUESTIONS);
+    percentage(
+      QUESTIONS
+    );
 
 
   $("allPercent").textContent =
@@ -310,7 +720,9 @@ function renderHome() {
 
 
   $("allPercent").style.color =
-    progressColor(allPct);
+    progressColor(
+      allPct
+    );
 
 
   $("globalProgress").textContent =
@@ -318,7 +730,9 @@ function renderHome() {
 
 
   const activeErrors =
-    Object.keys(state.errors)
+    Object.keys(
+      state.errors
+    )
       .filter(
         id =>
           QUESTIONS.some(
@@ -334,12 +748,38 @@ function renderHome() {
 
   $("errorSubtitle").textContent =
     activeErrors.length
+
       ? `${activeErrors.length} question${
           activeErrors.length > 1
             ? "s"
             : ""
         } à retravailler`
+
       : "Aucune question à retravailler";
+
+
+  const revisions =
+    revisionQuestions();
+
+
+  $("revisionCount").textContent =
+    revisions.length;
+
+
+  $("revisionSubtitle").textContent =
+    revisions.length
+
+      ? `${revisions.length} question${
+          revisions.length > 1
+            ? "s"
+            : ""
+        } enregistrée${
+          revisions.length > 1
+            ? "s"
+            : ""
+        }`
+
+      : "Aucune question enregistrée";
 
 
   $("answeredStat").textContent =
@@ -348,11 +788,13 @@ function renderHome() {
 
   $("successStat").textContent =
     state.totalAnswers
+
       ? `${Math.round(
           state.correctAnswers /
           state.totalAnswers *
           100
         )} %`
+
       : "—";
 
 }
@@ -384,7 +826,9 @@ function startSession(
   if (mode === "theme") {
 
     pool =
-      themeQuestions(themeId);
+      themeQuestions(
+        themeId
+      );
 
   }
 
@@ -418,11 +862,15 @@ function startSession(
 
     $("emptyText").textContent =
       mode === "errors"
+
         ? "Les questions auxquelles tu répondras mal apparaîtront ici jusqu'à deux bonnes réponses consécutives."
+
         : "Cette partie ne contient pas encore de questions.";
 
 
-    showView("empty");
+    showView(
+      "empty"
+    );
 
     return;
 
@@ -435,7 +883,9 @@ function startSession(
 
     theme: themeId,
 
-    pool: shuffled(pool),
+    pool: shuffled(
+      pool
+    ),
 
     current: null,
 
@@ -466,7 +916,10 @@ function startSession(
     label;
 
 
-  showView("quiz");
+  showView(
+    "quiz"
+  );
+
 
   nextQuestion();
 
@@ -494,7 +947,9 @@ function chooseNext(pool) {
       );
 
 
-    if (unseen.length) {
+    if (
+      unseen.length
+    ) {
 
       return unseen[
         Math.floor(
@@ -563,7 +1018,10 @@ function nextQuestion() {
         "Tu as obtenu deux bonnes réponses consécutives sur toutes les questions à retravailler.";
 
 
-      showView("empty");
+      showView(
+        "empty"
+      );
+
 
       renderHome();
 
@@ -623,6 +1081,24 @@ function renderQuestion() {
     .add("hidden");
 
 
+  $("addRevisionBtn")
+    .classList
+    .add("hidden");
+
+
+  $("addRevisionBtn")
+    .classList
+    .remove("added");
+
+
+  $("addRevisionBtn").disabled =
+    false;
+
+
+  $("addRevisionBtn").textContent =
+    "★ Ajouter à mes révisions";
+
+
   const mastery =
     $("errorMastery");
 
@@ -661,15 +1137,10 @@ function renderQuestion() {
     "";
 
 
-  /*
-  La nouvelle banque utilise "choices".
-  L'ancienne banque utilisait "options".
-
-  On accepte les deux formats.
-  */
-
   const options =
-    q.choices || q.options || [];
+    q.choices ||
+    q.options ||
+    [];
 
 
   options.forEach(
@@ -711,7 +1182,9 @@ function renderQuestion() {
       );
 
 
-      answers.appendChild(btn);
+      answers.appendChild(
+        btn
+      );
 
     }
   );
@@ -725,7 +1198,9 @@ function renderQuestion() {
 
 function answer(index) {
 
-  if (session.locked) {
+  if (
+    session.locked
+  ) {
     return;
   }
 
@@ -745,7 +1220,8 @@ function answer(index) {
 
 
   const correct =
-    index === q.correct;
+    index ===
+    q.correct;
 
 
   state.totalAnswers++;
@@ -824,7 +1300,9 @@ function answer(index) {
         state.errors[q.id].streak >= 2
       ) {
 
-        delete state.errors[q.id];
+        delete state.errors[
+          q.id
+        ];
 
       }
 
@@ -840,27 +1318,55 @@ function answer(index) {
       $("feedback");
 
 
+    const article =
+      q.source ||
+      q.article ||
+      "";
+
+
     fb.className =
       "feedback success";
 
 
-    const article =
-  q.source ||
-  q.article ||
-  "";
+    fb.innerHTML = `
+
+      <strong>
+        Bonne réponse
+      </strong>
+
+      <div class="article">
+        Article ${article}
+      </div>
+
+    `;
 
 
-fb.innerHTML = `
+    const revisionBtn =
+      $("addRevisionBtn");
 
-  <strong>
-    Bonne réponse
-  </strong>
 
-  <div class="article">
-    article ${article}
-  </div>
+    revisionBtn.classList.remove(
+      "hidden"
+    );
 
-`;
+
+    if (
+      state.revisions[q.id]
+    ) {
+
+      revisionBtn.textContent =
+        "✓ Ajouté à mes révisions";
+
+
+      revisionBtn.classList.add(
+        "added"
+      );
+
+
+      revisionBtn.disabled =
+        true;
+
+    }
 
 
     $("nextBtn")
@@ -913,15 +1419,6 @@ fb.innerHTML = `
       "feedback error";
 
 
-    /*
-    Pour une erreur :
-    - mauvaise réponse en rouge
-    - bonne réponse en vert
-    - article à consulter
-    - pas de passage automatique
-    */
-
-
     const article =
       q.source ||
       q.article ||
@@ -968,7 +1465,9 @@ $("backBtn")
 
       renderHome();
 
-      showView("home");
+      showView(
+        "home"
+      );
 
     }
   );
@@ -979,9 +1478,13 @@ $("homeBtn")
     "click",
     () => {
 
+      closeDeleteModal();
+
       renderHome();
 
-      showView("home");
+      showView(
+        "home"
+      );
 
     }
   );
@@ -994,7 +1497,9 @@ $("emptyHomeBtn")
 
       renderHome();
 
-      showView("home");
+      showView(
+        "home"
+      );
 
     }
   );
@@ -1007,6 +1512,75 @@ $("nextBtn")
   );
 
 
+$("addRevisionBtn")
+  .addEventListener(
+    "click",
+    addCurrentQuestionToRevisions
+  );
+
+
+$("revisionsBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      renderRevisions();
+
+      showView(
+        "revisions"
+      );
+
+    }
+  );
+
+
+$("revisionsBackBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      renderHome();
+
+      showView(
+        "home"
+      );
+
+    }
+  );
+
+
+$("confirmDeleteBtn")
+  .addEventListener(
+    "click",
+    confirmDeleteRevision
+  );
+
+
+$("cancelDeleteBtn")
+  .addEventListener(
+    "click",
+    closeDeleteModal
+  );
+
+
+$("deleteModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        $("deleteModal")
+      ) {
+
+        closeDeleteModal();
+
+      }
+
+    }
+  );
+
+
 document
   .querySelector(
     '[data-mode="all"]'
@@ -1014,7 +1588,9 @@ document
   .addEventListener(
     "click",
     () =>
-      startSession("all")
+      startSession(
+        "all"
+      )
   );
 
 
@@ -1025,7 +1601,9 @@ document
   .addEventListener(
     "click",
     () =>
-      startSession("errors")
+      startSession(
+        "errors"
+      )
   );
 
 
