@@ -857,7 +857,6 @@ fb.innerHTML = `
   </strong>
 
   <div class="article">
-    À consulter :
     article ${article}
   </div>
 
