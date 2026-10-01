@@ -845,7 +845,14 @@ function answer(index) {
 
 
     fb.innerHTML =
-      "<strong>Bonne réponse</strong>Passage à la question suivante…";
+  "<strong>Bonne réponse</strong>";
+
+
+$("nextBtn")
+  .classList
+  .remove("hidden");
+
+}
 
 
     /*
