@@ -18,6 +18,8 @@
     </header>
 
     <main>
+
+      <!-- ACCUEIL -->
       <section id="homeView" class="view active">
         <div class="chapter-card">
           <label for="chapterSelect">Chapitre du référentiel</label>
@@ -55,12 +57,29 @@
           <span id="errorCount" class="error-count">0</span>
         </button>
 
+        <button id="revisionsBtn" class="special-card revision-card" type="button">
+          <span class="special-icon">★</span>
+          <span class="special-copy">
+            <strong>Mes révisions</strong>
+            <small id="revisionSubtitle">Aucune question enregistrée</small>
+          </span>
+          <span id="revisionCount" class="revision-count">0</span>
+        </button>
+
         <div class="stats-card">
-          <div><strong id="answeredStat">0</strong><span>questions répondues</span></div>
-          <div><strong id="successStat">—</strong><span>de bonnes réponses</span></div>
+          <div>
+            <strong id="answeredStat">0</strong>
+            <span>questions répondues</span>
+          </div>
+          <div>
+            <strong id="successStat">—</strong>
+            <span>de bonnes réponses</span>
+          </div>
         </div>
       </section>
 
+
+      <!-- QUIZ -->
       <section id="quizView" class="view">
         <div class="quiz-header">
           <button id="backBtn" class="back-btn" type="button">← Accueil</button>
@@ -72,23 +91,73 @@
             <span id="questionProgress">Question</span>
             <span id="errorMastery" class="mastery hidden"></span>
           </div>
+
           <h2 id="questionText"></h2>
+
           <div id="answers" class="answers"></div>
+
           <div id="feedback" class="feedback hidden"></div>
-          <button id="nextBtn" class="primary-btn hidden" type="button">Question suivante</button>
+
+          <button id="addRevisionBtn" class="revision-add-btn hidden" type="button">
+            ★ Ajouter à mes révisions
+          </button>
+
+          <button id="nextBtn" class="primary-btn hidden" type="button">
+            Question suivante
+          </button>
         </div>
       </section>
 
+
+      <!-- MES RÉVISIONS -->
+      <section id="revisionsView" class="view">
+        <div class="quiz-header">
+          <button id="revisionsBackBtn" class="back-btn" type="button">← Accueil</button>
+        </div>
+
+        <div class="revision-header">
+          <p class="eyebrow">À RETRAVAILLER</p>
+          <h2>Mes révisions</h2>
+          <p id="revisionsDescription" class="revision-description"></p>
+        </div>
+
+        <div id="revisionsList" class="revisions-list"></div>
+      </section>
+
+
+      <!-- ÉCRAN VIDE -->
       <section id="emptyView" class="view">
         <div class="empty-card">
           <div class="empty-icon">✓</div>
           <h2 id="emptyTitle">Rien à réviser ici</h2>
           <p id="emptyText"></p>
-          <button id="emptyHomeBtn" class="primary-btn" type="button">Retour à l'accueil</button>
+          <button id="emptyHomeBtn" class="primary-btn" type="button">
+            Retour à l'accueil
+          </button>
         </div>
       </section>
+
     </main>
   </div>
+
+
+  <!-- POP-UP SUPPRESSION -->
+  <div id="deleteModal" class="modal-overlay hidden">
+    <div class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+      <h2 id="deleteModalTitle">Supprimer ?</h2>
+
+      <div class="delete-actions">
+        <button id="confirmDeleteBtn" class="delete-yes" type="button">
+          Oui
+        </button>
+
+        <button id="cancelDeleteBtn" class="delete-no" type="button">
+          Non
+        </button>
+      </div>
+    </div>
+  </div>
+
 
   <script src="questions-A1.js"></script>
   <script src="questions-A2.js"></script>
