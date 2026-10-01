@@ -853,11 +853,6 @@ function answer(index) {
     1,5 seconde avant la question suivante.
     */
 
-    setTimeout(
-      nextQuestion,
-      1500
-    );
-
   }
 
 
