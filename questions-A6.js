@@ -388,6 +388,32 @@ const QUESTIONS_PARTIE_6 = [
       "Un usage excessif peut provoquer le shuntage permanent du circuit de voie."
     ],
     correct: 0
-  }
+  },
+  
+  {
+  id: "A6Q031",
+  theme: 6,
+  type: "qcm",
+  source: "A 60.01",
+  question: "L'utilisation du sablage peut-elle faire l'objet de restrictions particulières en raison du risque de déshuntage ?",
+  choices: [
+    "Oui, elle peut être limitée ou interdite sur certaines portions de lignes reprises au livret de lignes.",
+    "Non, le risque de déshuntage lié au sable est traité uniquement par des mesures concernant les circuits de voie."
+  ],
+  correct: 0
+},
+
+{
+  id: "A6Q032",
+  theme: 6,
+  type: "qcm",
+  source: "A 60.01",
+  question: "Pourquoi le délai permettant une modification d'itinéraire est-il augmenté sur certaines lignes identifiées ?",
+  choices: [
+    "Pour tenir compte du temps nécessaire au nettoyage électrique du rail après sablage.",
+    "Pour répondre au problème posé par les matériels pouvant provoquer des déshuntages brefs."
+  ],
+  correct: 1
+}
 
 ];
