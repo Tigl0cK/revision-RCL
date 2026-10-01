@@ -845,20 +845,12 @@ function answer(index) {
 
 
     fb.innerHTML =
-  "<strong>Bonne réponse</strong>";
+      "<strong>Bonne réponse</strong>";
 
 
-$("nextBtn")
-  .classList
-  .remove("hidden");
-
-}
-
-
-    /*
-    Temps validé :
-    1,5 seconde avant la question suivante.
-    */
+    $("nextBtn")
+      .classList
+      .remove("hidden");
 
   }
 
