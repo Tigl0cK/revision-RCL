@@ -1126,5 +1126,70 @@ const QUESTIONS_PARTIE_3 = [
       "Non, il est inhibé tant que les tops sonores sont émis."
     ],
     "correct": 0
-  }
+  },
+  
+  {
+  id: "A3Q095",
+  theme: 3,
+  type: "qcm",
+  source: "A 33.01",
+  question: "Le chef de la manœuvre vient de communiquer au conducteur le thème complet du mouvement. Cela constitue-t-il l'ordre de mise en mouvement ?",
+  choices: [
+    "Oui, dès lors que l'itinéraire et l'objectif ont été précisés.",
+    "Non."
+  ],
+  correct: 1
+},
+
+{
+  id: "A3Q096",
+  theme: 3,
+  type: "qcm",
+  source: "A 33.01",
+  question: "Un mouvement de manœuvre guidé comporte plusieurs phases. Le chef de la manœuvre peut-il le décomposer en plusieurs mouvements ?",
+  choices: [
+    "Oui, en donnant les renseignements utiles avant chacun d'eux.",
+    "Non, le thème initial doit obligatoirement décrire l'intégralité du mouvement."
+  ],
+  correct: 0
+},
+
+{
+  id: "A3Q097",
+  theme: 3,
+  type: "qcm",
+  source: "A 33.01",
+  question: "Pourquoi le chef de la manœuvre peut-il préciser jusqu'où le conducteur doit tirer ou refouler ?",
+  choices: [
+    "Uniquement pour matérialiser le point où doit être donné l'ordre d'arrêt.",
+    "Pour lui permettre notamment d'apprécier la distance disponible pour s'arrêter compte tenu de la rame et de son freinage."
+  ],
+  correct: 1
+},
+
+{
+  id: "A3Q098",
+  theme: 3,
+  type: "qcm",
+  source: "A 33.01",
+  question: "Une manœuvre est effectuée en tête d'un train comportant une machine de pousse. Quand le conducteur de la pousse peut-il pousser le train ?",
+  choices: [
+    "Après avoir été informé que le mouvement de manœuvre guidé est terminé.",
+    "Dès qu'il a été avisé du début de la manœuvre."
+  ],
+  correct: 0
+},
+
+{
+  id: "A3Q099",
+  theme: 3,
+  type: "qcm",
+  source: "A 33.01",
+  question: "Lorsqu'un mouvement de manœuvre guidé est effectué à la radio, comment les renseignements préalables doivent-ils être donnés ?",
+  choices: [
+    "Sous la même forme qu'un ordre de manœuvre afin d'éviter toute ambiguïté.",
+    "De façon que le conducteur ne puisse pas les considérer comme un ordre de manœuvre."
+  ],
+  correct: 1
+}
 ];
