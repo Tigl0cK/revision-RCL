@@ -778,6 +778,84 @@ const QUESTIONS_PARTIE_4 = [
       "Reprendre la marche à 20 km/h jusqu'à la première gare."
     ],
     correct: 0
-  }
+  },
+  
+  {
+  id: "A4Q061",
+  theme: 4,
+  type: "qcm",
+  source: "A 43.01",
+  question: "Avant départ, les règles normales de freinage d'un mouvement de manœuvre non guidé composé d'une machine, d'une UM ou d'une machine remorquant une machine en véhicule ne sont plus satisfaites. Comment déterminer la vitesse limite ?",
+  choices: [
+    "En fonction de la catégorie de train pour laquelle les règles de freinage restent satisfaites.",
+    "En appliquant systématiquement la limitation à 20 km/h."
+  ],
+  correct: 0
+},
+
+{
+  id: "A4Q062",
+  theme: 4,
+  type: "qcm",
+  source: "A 43.01",
+  question: "Avant départ, les règles normales de freinage d'un mouvement de manœuvre non guidé composé de matériel ordinaire ne sont pas satisfaites. Comment le conducteur reçoit-il la vitesse à ne pas dépasser ?",
+  choices: [
+    "Il la détermine lui-même à partir du freinage de dérive.",
+    "Il en reçoit l'avis par écrit."
+  ],
+  correct: 1
+},
+
+{
+  id: "A4Q063",
+  theme: 4,
+  type: "qcm",
+  source: "A 43.01",
+  question: "Après incident de frein en gare, un agent-formation est présent. Le mouvement de manœuvre non guidé est composé de matériel ordinaire. Qui détermine les nouvelles conditions de freinage communiquées au conducteur ?",
+  choices: [
+    "Elles sont traitées comme avant départ, avec avis écrit de la vitesse à ne pas dépasser.",
+    "Le conducteur applique directement le contrôle du freinage de dérive prévu pour l'absence d'agent-formation."
+  ],
+  correct: 0
+},
+
+{
+  id: "A4Q064",
+  theme: 4,
+  type: "qcm",
+  source: "A 43.01",
+  question: "Après incident de frein en pleine voie, le pourcentage de masse freinée restante est au moins égal au freinage de dérive. Faut-il tenir compte de la répartition du freinage de dérive ?",
+  choices: [
+    "Oui, sa répartition doit rester conforme aux règles normales.",
+    "Non."
+  ],
+  correct: 1
+},
+
+{
+  id: "A4Q065",
+  theme: 4,
+  type: "qcm",
+  source: "A 43.01",
+  question: "Après incident de frein, le freinage restant est au moins égal au freinage de dérive. Avant de reprendre à 20 km/h jusqu'à la première gare, quelle opération KVB est prescrite ?",
+  choices: [
+    "Modifier les paramètres du KVB et valider.",
+    "Isoler le KVB jusqu'à la première gare."
+  ],
+  correct: 0
+},
+
+{
+  id: "A4Q066",
+  theme: 4,
+  type: "qcm",
+  source: "A 43.01",
+  question: "Après incident de frein en pleine voie, la masse freinée restante est inférieure au freinage de dérive nécessaire. Quelle conduite tenir ?",
+  choices: [
+    "Reprendre à 20 km/h jusqu'à la première gare.",
+    "Demander le secours."
+  ],
+  correct: 1
+}
 
 ];
