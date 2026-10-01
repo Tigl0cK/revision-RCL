@@ -844,8 +844,24 @@ function answer(index) {
       "feedback success";
 
 
-    fb.innerHTML =
-      "<strong>Bonne réponse</strong>";
+    const article =
+  q.source ||
+  q.article ||
+  "";
+
+
+fb.innerHTML = `
+
+  <strong>
+    Bonne réponse
+  </strong>
+
+  <div class="article">
+    À consulter :
+    article ${article}
+  </div>
+
+`;
 
 
     $("nextBtn")
