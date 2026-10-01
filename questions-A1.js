@@ -1558,6 +1558,357 @@ const QUESTIONS_PARTIE_1 = [
       "Oui."
     ],
     correct: 1
-  }
+  },
+  
+  {
+  id: "A1Q121",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.05",
+  question: "Arrêté devant un signal d'arrêt fermé muni d'une plaque de reconnaissance différée, sans appel par VAT ni autre moyen, quand le conducteur doit-il se faire reconnaître ?",
+  choices: [
+    "Après un délai de 5 minutes.",
+    "Sans délai dès lors que le signal ne s'ouvre pas immédiatement."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q122",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.05",
+  question: "Le signal porte une plaque de reconnaissance différée, mais le conducteur a une information à donner à l'aiguilleur. Doit-il attendre 5 minutes ?",
+  choices: [
+    "Oui, sauf appel par le VAT.",
+    "Non, la reconnaissance ne doit pas être différée."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q123",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.05",
+  question: "Un signal porte une plaque de dispense de reconnaissance. Dans quel cas le conducteur doit-il néanmoins se faire reconnaître ?",
+  choices: [
+    "S'il est appelé par le VAT ou s'il a une information à donner à l'aiguilleur.",
+    "Uniquement si le signal reste fermé plus de 5 minutes."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q124",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.05",
+  question: "Le VAT d'un téléphone de signal clignote. Quelle conduite tenir ?",
+  choices: [
+    "Attendre l'ouverture du signal pendant 5 minutes avant d'utiliser le téléphone.",
+    "Se rendre au téléphone."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q125",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.05",
+  question: "Signal d'arrêt fermé sans téléphone, GSM-R impossible, ligne équipée de téléphonie de pleine voie dématérialisée : comment se faire reconnaître en priorité ?",
+  choices: [
+    "Au moyen de l'application mobile dédiée.",
+    "En se rendant systématiquement à pied au poste."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q126",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.05",
+  question: "Signal sans téléphone, GSM-R impossible et pas de solution de téléphonie dématérialisée utilisable. Un agent d'accompagnement est présent dans la cabine : peut-il être envoyé au poste ?",
+  choices: [
+    "Non, seul le conducteur peut effectuer cette reconnaissance.",
+    "Oui."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q127",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.06",
+  question: "Après reconnaissance, l'aiguilleur demande au conducteur d'effectuer une vérification sur le terrain. Que doit faire le conducteur après l'opération ?",
+  choices: [
+    "Rendre compte de son exécution.",
+    "Attendre simplement l'ouverture du signal."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q128",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.07",
+  question: "Avant de pénétrer dans la zone dangereuse pour vérifier une aiguille sur ordre VAIG, quelle condition doit être satisfaite ?",
+  choices: [
+    "L'aiguille doit préalablement avoir été manœuvrée deux fois.",
+    "Le conducteur doit s'assurer que sa protection est assurée."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q129",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.07",
+  question: "Pour déterminer la direction donnée par une aiguille lors d'une vérification VAIG, comment le conducteur se place-t-il ?",
+  choices: [
+    "Face à la pointe de l'aiguille et au-dessus de celle-ci.",
+    "Face au talon de l'aiguille afin d'observer les deux lames."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q130",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.07",
+  question: "Lors du contrôle d'une aiguille à cœur mobile, quelle vérification supplémentaire est nécessaire ?",
+  choices: [
+    "Le cœur doit obligatoirement être dans sa position normale.",
+    "La pointe et le cœur doivent donner la même direction."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q131",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.07",
+  question: "Après une vérification réalisée sous ordre VAIG, que doit faire le conducteur à la fin de son intervention ?",
+  choices: [
+    "Rendre compte puis rendre la protection du personnel.",
+    "Rendre uniquement compte de la position de l'appareil."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q132",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.07",
+  question: "Le conducteur reçoit un ordre MAIL pour manœuvrer une aiguille. Après la manœuvre, que doit-il notamment vérifier ?",
+  choices: [
+    "Uniquement que le levier de manœuvre est revenu dans sa position initiale.",
+    "Que l'aiguille colle dans la position commandée et, si elle est à cœur mobile, que pointe et cœur sont correctement disposés."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q133",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.14",
+  question: "Un panneau présente un seul feu rouge fixe. Quelle est la première conduite à tenir ?",
+  choices: [
+    "S'arrêter avant le signal puis l'identifier.",
+    "L'identifier en marche avant de décider si l'arrêt est nécessaire."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q134",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.14",
+  question: "Un panneau pouvant présenter le carré présente un seul feu rouge fixe. L'œilleton est allumé et aucune plaque de cantonnement ne concerne la direction ouverte. Quelle réglementation appliquer ?",
+  choices: [
+    "Celle du carré dont un feu est éteint.",
+    "Celle du sémaphore de BAL fermé."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q135",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.14",
+  question: "Un panneau présente un seul feu rouge fixe, œilleton allumé, avec une plaque de cantonnement PR concernant la direction vers laquelle le signal est ouvert. Quelle réglementation appliquer ?",
+  choices: [
+    "Celle du sémaphore de BAPR fermé.",
+    "Celle du sémaphore de BAL fermé."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q136",
+  theme: 1,
+  type: "qcm",
+  source: "A 11.14",
+  question: "Un panneau présente un seul feu rouge fixe, œilleton allumé, avec une plaque de cantonnement BM concernant la direction vers laquelle il est ouvert. Quelle réglementation appliquer ?",
+  choices: [
+    "Celle du sémaphore de BAPR fermé.",
+    "Celle du sémaphore de BM fermé."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q137",
+  theme: 1,
+  type: "qcm",
+  source: "A 12.01",
+  question: "En signalisation lumineuse, un avertissement fermé peut-il annoncer un panneau éteint ?",
+  choices: [
+    "Oui.",
+    "Non, il annonce nécessairement une indication d'arrêt effectivement présentée."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q138",
+  theme: 1,
+  type: "qcm",
+  source: "A 12.01",
+  question: "À quelle distance environ du signal annoncé commence la zone d'approche utilisée pour l'application de la VISA ?",
+  choices: [
+    "500 m.",
+    "200 m."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q139",
+  theme: 1,
+  type: "qcm",
+  source: "A 12.01",
+  question: "En début de zone d'approche, le signal annoncé par l'avertissement est ouvert ou s'ouvre pendant l'approche. Quelle conduite tenir ?",
+  choices: [
+    "Reprendre la marche normale si rien ne s'y oppose, en tenant compte des indications éventuelles du KVB.",
+    "Maintenir obligatoirement la vitesse d'approche jusqu'au franchissement du signal."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q140",
+  theme: 1,
+  type: "qcm",
+  source: "A 12.01",
+  question: "Après un avertissement, le signal annoncé est éteint. Quelle est la conduite prescrite ?",
+  choices: [
+    "Poursuivre à vitesse maîtrisée jusqu'au signal sans chercher à s'arrêter puisqu'aucune indication n'est présentée.",
+    "Tenter de s'arrêter avant celui-ci."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q141",
+  theme: 1,
+  type: "qcm",
+  source: "A 12.01",
+  question: "En voie unique, un avertissement précède une gare. Où commence approximativement la zone d'approche VISA liée à la possibilité d'un signal d'arrêt à main ou d'un guidon d'arrêt au point habituel d'arrêt ?",
+  choices: [
+    "Environ 200 m en amont du point habituel d'arrêt.",
+    "Environ 200 m en amont de l'aiguille d'entrée."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q142",
+  theme: 1,
+  type: "qcm",
+  source: "A 12.01",
+  question: "Après un avertissement fermé précédant une gare de voie unique, quelle vitesse maximale doit être respectée pour aborder la zone d'approche ?",
+  choices: [
+    "40 km/h.",
+    "30 km/h."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q143",
+  theme: 1,
+  type: "qcm",
+  source: "A 14.02",
+  question: "Un ralentissement 30 et un rappel 30 peuvent-ils être présentés alors que l'aiguille intéressée n'est pas prise en déviation ?",
+  choices: [
+    "Oui, dans certains cas particuliers, notamment une entrée à contresens sur ICS.",
+    "Non, leur présentation implique nécessairement une aiguille prise en déviation."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q144",
+  theme: 1,
+  type: "qcm",
+  source: "A 14.02",
+  question: "À la sortie en déviation de certaines voies de gare, un rappel 30 peut concerner une aiguille prise en talon. Quel repère peut alors matérialiser son emplacement ?",
+  choices: [
+    "Un chevron pointe en bas.",
+    "Un chevron pointe en haut."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q145",
+  theme: 1,
+  type: "qcm",
+  source: "A 14.02",
+  question: "En signalisation mécanique, après avoir rencontré un ralentissement 30, le rappel 30 correspondant n'est pas présenté. Le conducteur peut-il reprendre sa vitesse normale ?",
+  choices: [
+    "Oui, si rien ne s'y oppose.",
+    "Non, il doit maintenir 30 km/h jusqu'à avoir identifié l'aiguille concernée."
+  ],
+  correct: 0
+},
+
+{
+  id: "A1Q146",
+  theme: 1,
+  type: "qcm",
+  source: "A 14.02",
+  question: "Dans une gare de voie unique, après ralentissement 30 et rappel 30, jusqu'où la limitation à 30 km/h s'applique-t-elle ?",
+  choices: [
+    "Jusqu'au dégagement de la dernière aiguille prise en déviation uniquement.",
+    "Jusqu'à ce que le dernier véhicule ait franchi l'aiguille de sortie."
+  ],
+  correct: 1
+},
+
+{
+  id: "A1Q147",
+  theme: 1,
+  type: "qcm",
+  source: "A 14.02",
+  question: "Un ralentissement 30 est précédé d'un feu jaune clignotant. Quelle particularité peut en résulter ?",
+  choices: [
+    "La distance entre le ralentissement 30 et le rappel 30 suivant peut être réduite.",
+    "Le rappel 30 suivant peut ne pas être présenté, y compris en signalisation lumineuse."
+  ],
+  correct: 0
+}
 
 ];
