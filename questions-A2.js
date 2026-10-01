@@ -982,5 +982,96 @@ const QUESTIONS_PARTIE_2 = [
     "theme": 2,
     "type": "qcm",
     "source": "A20.01 / A24.01"
-  }
+  },
+  
+  {
+  id: "A2Q083",
+  theme: 2,
+  type: "qcm",
+  source: "A 22.04",
+  question: "À la sortie d'une VUTP commandée par un carré, le tableau de sortie FIN de VUT n'est pas présenté. Comment le conducteur est-il informé de la fin du parcours à contresens ?",
+  choices: [
+    "Par un ordre verbal.",
+    "Par une AuM écrite."
+  ],
+  correct: 0
+},
+
+{
+  id: "A2Q084",
+  theme: 2,
+  type: "qcm",
+  source: "A 22.04",
+  question: "La sortie d'une VUTP est commandée par un carré violet. Quel tableau précède ce signal ?",
+  choices: [
+    "Le tableau de sortie FIN de VUT.",
+    "Le tableau à distance FIN de VUT."
+  ],
+  correct: 1
+},
+
+{
+  id: "A2Q085",
+  theme: 2,
+  type: "qcm",
+  source: "A 22.04",
+  question: "Sortie de VUTP commandée par carré violet : en block automatique, jusqu'où la marche à vue doit-elle être observée après la sortie ?",
+  choices: [
+    "Jusqu'au signal commandant l'entrée du canton suivant.",
+    "Uniquement jusqu'au dégagement complet des appareils de voie."
+  ],
+  correct: 0
+},
+
+{
+  id: "A2Q086",
+  theme: 2,
+  type: "qcm",
+  source: "A 22.04",
+  question: "Sortie de VUTP par carré violet, hors block automatique : aucun sémaphore ou carré n'est rencontré avant la sortie de la gare. Jusqu'où la marche à vue doit-elle être observée ?",
+  choices: [
+    "Jusqu'au dégagement de l'aiguille de sortie.",
+    "Dans toute la zone du poste ou, en présence de plusieurs postes successifs, jusqu'au plus prochain de ces postes."
+  ],
+  correct: 1
+},
+
+{
+  id: "A2Q087",
+  theme: 2,
+  type: "qcm",
+  source: "A 24.03",
+  question: "En circulation à contre-voie, que fait le conducteur des indications données par la répétition des signaux rencontrés à revers ?",
+  choices: [
+    "Il les acquitte mais n'en tient pas compte.",
+    "Il ne les acquitte pas afin de ne pas reconnaître une signalisation qui ne s'adresse pas à lui."
+  ],
+  correct: 0
+},
+
+{
+  id: "A2Q088",
+  theme: 2,
+  type: "qcm",
+  source: "A 24.03",
+  question: "À contre-voie, quelles pancartes de l'autre voie doivent notamment être observées ?",
+  choices: [
+    "Uniquement les pancartes S.",
+    "Les pancartes S et les pancartes de changement de canal radio."
+  ],
+  correct: 1
+},
+
+{
+  id: "A2Q089",
+  theme: 2,
+  type: "qcm",
+  source: "A 24.03",
+  question: "Pour les faits en liaison avec le cantonnement lors d'une circulation à contre-voie, comment le conducteur doit-il opérer ?",
+  choices: [
+    "Comme en block manuel.",
+    "Comme en VUT, quelle que soit la ligne."
+  ],
+  correct: 0
+}
 ];
