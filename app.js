@@ -1236,7 +1236,10 @@ function renderHome() {
 
         : "Aucune question enregistrée";
 
-
+  $("totalQuestionsStat")
+  .textContent =
+    QUESTIONS.length;
+  
   $("answeredStat")
     .textContent =
       state.totalAnswers;
