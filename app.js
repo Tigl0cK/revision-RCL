@@ -1241,8 +1241,17 @@ function renderHome() {
     QUESTIONS.length;
   
   $("answeredStat")
-    .textContent =
-      state.totalAnswers;
+  .textContent =
+    Object.keys(state.seen)
+      .filter(
+        id =>
+          state.seen[id] &&
+          QUESTIONS.some(
+            question =>
+              question.id === id
+          )
+      )
+      .length;
 
 
   $("successStat")
