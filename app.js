@@ -1100,9 +1100,17 @@ function renderHome() {
             ${theme.id}
           </span>
 
-          <span class="theme-name">
-            ${theme.name}
-          </span>
+          <span class="theme-info">
+
+  <span class="theme-name">
+    ${theme.name}
+  </span>
+
+  <span class="theme-question-count">
+    ${questions.length} questions
+  </span>
+
+</span>
 
           <span
             class="theme-percent"
