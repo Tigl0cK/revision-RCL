@@ -1,11 +1,27 @@
-const THEMES = [
-  { id: 1, name: "Signalisation au sol" },
-  { id: 2, name: "Circulation à contresens ou à contre-voie" },
-  { id: 3, name: "Mouvements de manœuvre guidés" },
-  { id: 4, name: "Mouvements de manœuvre non guidés" },
-  { id: 5, name: "Dispositions à appliquer sur certaines lignes" },
-  { id: 6, name: "Principes complémentaires" }
-];
+// =====================================================
+// CHAPITRES ET THÈMES
+// =====================================================
+
+const CHAPTERS = {
+  A: {
+    name: "Signalisation / Règles d'exploitation",
+    themes: [
+      { id: 1, name: "Signalisation au sol" },
+      { id: 2, name: "Circulation à contresens ou à contre-voie" },
+      { id: 3, name: "Mouvements de manœuvre guidés" },
+      { id: 4, name: "Mouvements de manœuvre non guidés" },
+      { id: 5, name: "Dispositions à appliquer sur certaines lignes" },
+      { id: 6, name: "Principes complémentaires" }
+    ]
+  },
+
+  B: {
+    name: "Composition – Freinage – Vitesse limite des trains",
+    themes: [
+      { id: 1, name: "Généralités" }
+    ]
+  }
+};
 
 
 // =====================================================
@@ -14,46 +30,62 @@ const THEMES = [
 
 const QUESTION_BANKS = {
 
-  1:
-    typeof QUESTIONS_PARTIE_1 !== "undefined"
-      ? QUESTIONS_PARTIE_1
-      : [],
+  A: {
+    1:
+      typeof QUESTIONS_PARTIE_1 !== "undefined"
+        ? QUESTIONS_PARTIE_1
+        : [],
 
-  2:
-    typeof QUESTIONS_PARTIE_2 !== "undefined"
-      ? QUESTIONS_PARTIE_2
-      : [],
+    2:
+      typeof QUESTIONS_PARTIE_2 !== "undefined"
+        ? QUESTIONS_PARTIE_2
+        : [],
 
-  3:
-    typeof QUESTIONS_PARTIE_3 !== "undefined"
-      ? QUESTIONS_PARTIE_3
-      : [],
+    3:
+      typeof QUESTIONS_PARTIE_3 !== "undefined"
+        ? QUESTIONS_PARTIE_3
+        : [],
 
-  4:
-    typeof QUESTIONS_PARTIE_4 !== "undefined"
-      ? QUESTIONS_PARTIE_4
-      : [],
+    4:
+      typeof QUESTIONS_PARTIE_4 !== "undefined"
+        ? QUESTIONS_PARTIE_4
+        : [],
 
-  5:
-    typeof QUESTIONS_PARTIE_5 !== "undefined"
-      ? QUESTIONS_PARTIE_5
-      : [],
+    5:
+      typeof QUESTIONS_PARTIE_5 !== "undefined"
+        ? QUESTIONS_PARTIE_5
+        : [],
 
-  6:
-    typeof QUESTIONS_PARTIE_6 !== "undefined"
-      ? QUESTIONS_PARTIE_6
-      : []
+    6:
+      typeof QUESTIONS_PARTIE_6 !== "undefined"
+        ? QUESTIONS_PARTIE_6
+        : []
+  },
 
+  B: {
+    1:
+      typeof QUESTIONS_PARTIE_B1 !== "undefined"
+        ? QUESTIONS_PARTIE_B1
+        : []
+  }
 };
 
 
+// =====================================================
+// TOUTES LES QUESTIONS
+// =====================================================
+
 const QUESTIONS = [
-  ...QUESTION_BANKS[1],
-  ...QUESTION_BANKS[2],
-  ...QUESTION_BANKS[3],
-  ...QUESTION_BANKS[4],
-  ...QUESTION_BANKS[5],
-  ...QUESTION_BANKS[6]
+
+  ...QUESTION_BANKS.A[1],
+  ...QUESTION_BANKS.A[2],
+  ...QUESTION_BANKS.A[3],
+  ...QUESTION_BANKS.A[4],
+  ...QUESTION_BANKS.A[5],
+  ...QUESTION_BANKS.A[6],
+
+  ...QUESTION_BANKS.B[1]
+
 ];
 
 
@@ -61,8 +93,11 @@ const STORAGE_KEY = "revisionRCL_v1";
 
 let state = loadState();
 
+let currentChapter = "A";
+
 let session = {
   mode: null,
+  chapter: "A",
   theme: null,
   pool: [],
   current: null,
@@ -171,6 +206,42 @@ function showView(name) {
 
 
 // =====================================================
+// CHAPITRE ACTUEL
+// =====================================================
+
+function chapterThemes(chapter = currentChapter) {
+
+  return CHAPTERS[chapter]?.themes || [];
+
+}
+
+
+function chapterQuestions(chapter = currentChapter) {
+
+  const banks =
+    QUESTION_BANKS[chapter] || {};
+
+
+  return Object.values(banks)
+    .flat();
+
+}
+
+
+function themeQuestions(
+  themeId,
+  chapter = currentChapter
+) {
+
+  return (
+    QUESTION_BANKS[chapter]?.[themeId] ||
+    []
+  );
+
+}
+
+
+// =====================================================
 // PROGRESSION
 // =====================================================
 
@@ -188,13 +259,6 @@ function progressColor(pct) {
 
 
   return `hsl(${hue} 72% 42%)`;
-
-}
-
-
-function themeQuestions(themeId) {
-
-  return QUESTION_BANKS[themeId] || [];
 
 }
 
@@ -242,12 +306,10 @@ function revisionQuestions() {
 function revisionCategory(question) {
 
   /*
-  A1Q001 → A1
-  A2Q050 → A2
-  B3Q010 → B3
-
-  Le système fonctionnera donc également
-  avec les futurs chapitres.
+    A1Q001 → A1
+    A2Q050 → A2
+    B1Q010 → B1
+    B3Q010 → B3
   */
 
   const match =
@@ -283,38 +345,35 @@ function questionNumber(question) {
 
 function categoryName(category) {
 
-  /*
-  Pour le chapitre A actuellement disponible,
-  on affiche également le nom du thème.
-  */
-
   const match =
     category.match(
-      /^A(\d+)$/
+      /^([A-Z]+)(\d+)$/
     );
 
 
-  if (match) {
-
-    const themeId =
-      Number(match[1]);
-
-
-    const theme =
-      THEMES.find(
-        item =>
-          item.id === themeId
-      );
-
-
-    if (theme) {
-      return theme.name;
-    }
-
+  if (!match) {
+    return "";
   }
 
 
-  return "";
+  const chapter =
+    match[1].toUpperCase();
+
+
+  const themeId =
+    Number(match[2]);
+
+
+  const theme =
+    CHAPTERS[chapter]?.themes.find(
+      item =>
+        item.id === themeId
+    );
+
+
+  return theme
+    ? theme.name
+    : "";
 
 }
 
@@ -622,7 +681,11 @@ function renderHome() {
   list.innerHTML = "";
 
 
-  THEMES.forEach(
+  const themes =
+    chapterThemes();
+
+
+  themes.forEach(
     theme => {
 
       const qs =
@@ -709,9 +772,13 @@ function renderHome() {
   );
 
 
+  const currentQuestions =
+    chapterQuestions();
+
+
   const allPct =
     percentage(
-      QUESTIONS
+      currentQuestions
     );
 
 
@@ -835,7 +902,7 @@ function startSession(
   else if (mode === "all") {
 
     pool =
-      QUESTIONS;
+      chapterQuestions();
 
   }
 
@@ -881,6 +948,8 @@ function startSession(
 
     mode: mode,
 
+    chapter: currentChapter,
+
     theme: themeId,
 
     pool: shuffled(
@@ -896,20 +965,39 @@ function startSession(
   };
 
 
-  const label =
+  let label;
 
-    mode === "theme"
 
-      ? THEMES.find(
-          theme =>
-            theme.id === themeId
-        ).name
+  if (mode === "theme") {
 
-      : mode === "all"
+    const theme =
+      chapterThemes()
+        .find(
+          item =>
+            item.id === themeId
+        );
 
-        ? "Tous les thèmes"
 
-        : "Mes erreurs";
+    label =
+      theme
+        ? theme.name
+        : "";
+
+  }
+
+  else if (mode === "all") {
+
+    label =
+      `Chapitre ${currentChapter} — Tous les thèmes`;
+
+  }
+
+  else {
+
+    label =
+      "Mes erreurs";
+
+  }
 
 
   $("quizTheme").textContent =
@@ -943,7 +1031,7 @@ function chooseNext(pool) {
             question.id
           ] &&
           question.id !==
-          session.current?.id
+            session.current?.id
       );
 
 
@@ -967,7 +1055,7 @@ function chooseNext(pool) {
     pool.filter(
       question =>
         question.id !==
-        session.current?.id
+          session.current?.id
     );
 
 
@@ -1081,9 +1169,13 @@ function renderQuestion() {
     .add("hidden");
 
 
-  $("addRevisionBtn")
-    .classList
-    .add("hidden");
+  /*
+    Le bouton "Ajouter à mes révisions"
+    est caché tant que la réponse n'est pas correcte.
+  */
+
+  $("addRevisionBtn").style.display =
+    "none";
 
 
   $("addRevisionBtn")
@@ -1345,9 +1437,14 @@ function answer(index) {
       $("addRevisionBtn");
 
 
-    revisionBtn.classList.remove(
-      "hidden"
-    );
+    /*
+      Affichage forcé du bouton.
+      Cette méthode évite le problème rencontré
+      précédemment sur iPhone.
+    */
+
+    revisionBtn.style.display =
+      "block";
 
 
     if (
@@ -1450,6 +1547,76 @@ function answer(index) {
       .remove("hidden");
 
   }
+
+}
+
+
+// =====================================================
+// SÉLECTEUR DE CHAPITRE
+// =====================================================
+
+function setupChapterSelect() {
+
+  const select =
+    $("chapterSelect");
+
+
+  if (!select) {
+    return;
+  }
+
+
+  /*
+    On recrée les options ici.
+    Il n'est donc pas nécessaire de modifier
+    le <select> dans index.html.
+  */
+
+  select.innerHTML = "";
+
+
+  Object.entries(CHAPTERS)
+    .forEach(
+      ([chapter, data]) => {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          chapter;
+
+
+        option.textContent =
+          `${chapter} — ${data.name}`;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+  select.value =
+    currentChapter;
+
+
+  select.addEventListener(
+    "change",
+    () => {
+
+      currentChapter =
+        select.value;
+
+
+      renderHome();
+
+    }
+  );
 
 }
 
@@ -1610,5 +1777,7 @@ document
 // =====================================================
 // INITIALISATION
 // =====================================================
+
+setupChapterSelect();
 
 renderHome();
