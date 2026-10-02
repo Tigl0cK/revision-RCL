@@ -300,6 +300,9 @@ let session = {
 let revisionToDelete =
   null;
 
+let resetCountdown = 
+  null;
+
 
 const $ = id =>
   document.getElementById(id);
@@ -2318,6 +2321,142 @@ $("revisionsBackBtn")
 
   );
 
+// =====================================================
+// RÉINITIALISATION DE L'APPLICATION
+// =====================================================
+
+function openResetModal() {
+
+  const modal =
+    $("resetModal");
+
+  const confirmBtn =
+    $("confirmResetBtn");
+
+  let seconds = 10;
+
+  confirmBtn.disabled = true;
+
+  confirmBtn.textContent =
+    `Oui (${seconds} s)`;
+
+  modal.classList.remove(
+    "hidden"
+  );
+
+  clearInterval(
+    resetCountdown
+  );
+
+  resetCountdown =
+    setInterval(
+      () => {
+
+        seconds--;
+
+        if (seconds > 0) {
+
+          confirmBtn.textContent =
+            `Oui (${seconds} s)`;
+
+        }
+
+        else {
+
+          clearInterval(
+            resetCountdown
+          );
+
+          resetCountdown = null;
+
+          confirmBtn.disabled = false;
+
+          confirmBtn.textContent =
+            "Oui";
+
+        }
+
+      },
+      1000
+    );
+
+}
+
+function closeResetModal() {
+
+  clearInterval(
+    resetCountdown
+  );
+
+  resetCountdown = null;
+
+  $("resetModal")
+    .classList
+    .add(
+      "hidden"
+    );
+
+}
+
+function resetApplication() {
+
+  state =
+    defaultState();
+
+  saveState();
+
+  closeResetModal();
+
+  currentChapter = "A";
+
+  $("chapterSelect").value =
+    "A";
+
+  renderHome();
+
+  showView(
+    "home"
+  );
+
+}
+
+$("resetAppBtn")
+  .addEventListener(
+    "click",
+    openResetModal
+  );
+
+
+$("confirmResetBtn")
+  .addEventListener(
+    "click",
+    resetApplication
+  );
+
+
+$("cancelResetBtn")
+  .addEventListener(
+    "click",
+    closeResetModal
+  );
+
+
+$("resetModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        $("resetModal")
+      ) {
+
+        closeResetModal();
+
+      }
+
+    }
+  );
 
 $("confirmDeleteBtn")
   .addEventListener(
