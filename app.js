@@ -291,6 +291,14 @@ let session = {
   current: null,
 
   answeredInSession: 0,
+  
+  alreadyComplete:
+  pool.every(
+    question =>
+      state.seen[
+        question.id
+      ]
+  ),
 
   locked: false
 
@@ -1599,6 +1607,32 @@ function nextQuestion() {
 
   }
 
+if (
+  session.mode !== "errors" &&
+  !session.alreadyComplete &&
+  session.pool.every(
+    question =>
+      state.seen[
+        question.id
+      ]
+  )
+) {
+
+  $("emptyTitle").textContent =
+    "Vous avez répondu à toutes les questions !";
+
+  $("emptyText").textContent =
+    "Toutes les questions de cette section ont été parcourues.";
+
+  showView(
+    "empty"
+  );
+
+  renderHome();
+
+  return;
+
+}
 
   session.current =
     chooseNext(
