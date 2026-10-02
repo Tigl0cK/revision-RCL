@@ -1638,9 +1638,10 @@ function renderQuestion() {
   */
 
   $("addRevisionBtn")
-    .style
-    .display =
-      "none";
+  .classList
+  .add(
+    "hidden"
+  );
 
 
   $("addRevisionBtn")
@@ -1973,9 +1974,10 @@ function answer(index) {
     */
 
     revisionBtn
-      .style
-      .display =
-        "block";
+  .classList
+  .remove(
+    "hidden"
+  );
 
 
     if (
