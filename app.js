@@ -67,6 +67,31 @@ const QUESTION_BANKS = {
       typeof QUESTIONS_PARTIE_B1 !== "undefined"
         ? QUESTIONS_PARTIE_B1
         : []
+
+    2:
+      typeof QUESTIONS_PARTIE_B2 !== "undefined"
+        ? QUESTIONS_PARTIE_B2
+        : []
+
+    3:
+      typeof QUESTIONS_PARTIE_B3 !== "undefined"
+        ? QUESTIONS_PARTIE_B3
+        : []
+
+    4:
+      typeof QUESTIONS_PARTIE_B4 !== "undefined"
+        ? QUESTIONS_PARTIE_B4
+        : []
+
+    5:
+      typeof QUESTIONS_PARTIE_B5 !== "undefined"
+        ? QUESTIONS_PARTIE_B5
+        : []
+
+    6:
+      typeof QUESTIONS_PARTIE_B6 !== "undefined"
+        ? QUESTIONS_PARTIE_B6
+        : []
   }
 };
 
@@ -84,7 +109,12 @@ const QUESTIONS = [
   ...QUESTION_BANKS.A[5],
   ...QUESTION_BANKS.A[6],
 
-  ...QUESTION_BANKS.B[1]
+  ...QUESTION_BANKS.B[1],
+  ...QUESTION_BANKS.B[2],
+  ...QUESTION_BANKS.B[3],
+  ...QUESTION_BANKS.B[4],
+  ...QUESTION_BANKS.B[5],
+  ...QUESTION_BANKS.B[6]
 
 ];
 
