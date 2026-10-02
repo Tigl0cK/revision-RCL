@@ -292,13 +292,7 @@ let session = {
 
   answeredInSession: 0,
 
-alreadyComplete:
-  pool.every(
-    question =>
-      state.seen[
-        question.id
-      ]
-  ),
+  alreadyComplete: false,
 
   locked: false
 
@@ -308,7 +302,8 @@ alreadyComplete:
 let revisionToDelete =
   null;
 
-let resetCountdown = 
+
+let resetCountdown =
   null;
 
 
@@ -1040,8 +1035,6 @@ function renderHome() {
     "";
 
 
-  // Mise à jour du titre CHAPITRE A / B / C / D / E / F
-
   const chapterEyebrow =
     $("chapterEyebrow");
 
@@ -1110,15 +1103,15 @@ function renderHome() {
 
           <span class="theme-info">
 
-  <span class="theme-name">
-    ${theme.name}
-  </span>
+            <span class="theme-name">
+              ${theme.name}
+            </span>
 
-  <span class="theme-question-count">
-    ${qs.length} questions
-  </span>
+            <span class="theme-question-count">
+              ${qs.length} questions
+            </span>
 
-</span>
+          </span>
 
           <span
             class="theme-percent"
@@ -1195,8 +1188,6 @@ function renderHome() {
       `${allPct} % parcouru`;
 
 
-   // Mes erreurs regroupe les erreurs de tous les chapitres.
-
   const activeErrors =
     Object.keys(state.errors)
       .filter(
@@ -1227,8 +1218,6 @@ function renderHome() {
         : "Aucune question à retravailler";
 
 
-  // Mes révisions restent globales à toute l'application.
-
   const revisions =
     revisionQuestions();
 
@@ -1255,22 +1244,24 @@ function renderHome() {
 
         : "Aucune question enregistrée";
 
+
   $("totalQuestionsStat")
-  .textContent =
-    QUESTIONS.length;
-  
+    .textContent =
+      QUESTIONS.length;
+
+
   $("answeredStat")
-  .textContent =
-    Object.keys(state.seen)
-      .filter(
-        id =>
-          state.seen[id] &&
-          QUESTIONS.some(
-            question =>
-              question.id === id
-          )
-      )
-      .length;
+    .textContent =
+      Object.keys(state.seen)
+        .filter(
+          id =>
+            state.seen[id] &&
+            QUESTIONS.some(
+              question =>
+                question.id === id
+            )
+        )
+        .length;
 
 
   $("successStat")
@@ -1339,10 +1330,7 @@ function startSession(
   }
 
 
-  
-     else {
-
-    // Mes erreurs de tous les chapitres.
+  else {
 
     pool =
       QUESTIONS.filter(
@@ -1353,6 +1341,7 @@ function startSession(
       );
 
   }
+
 
   if (
     !pool.length
@@ -1410,6 +1399,14 @@ function startSession(
     answeredInSession:
       0,
 
+    alreadyComplete:
+      pool.every(
+        question =>
+          state.seen[
+            question.id
+          ]
+      ),
+
     locked:
       false
 
@@ -1457,7 +1454,7 @@ function startSession(
   else {
 
     label =
-      `Chapitre ${session.chapter} — Mes erreurs`;
+      "Mes erreurs";
 
   }
 
@@ -1566,10 +1563,6 @@ function nextQuestion() {
     "errors"
   ) {
 
-       /*
-      On recharge les erreurs de tous les chapitres.
-    */
-
     session.pool =
       QUESTIONS.filter(
         question =>
@@ -1607,32 +1600,40 @@ function nextQuestion() {
 
   }
 
-if (
-  session.mode !== "errors" &&
-  !session.alreadyComplete &&
-  session.pool.every(
-    question =>
-      state.seen[
-        question.id
-      ]
-  )
-) {
 
-  $("emptyTitle").textContent =
-    "Vous avez répondu à toutes les questions !";
+  if (
+    session.mode !== "errors" &&
+    !session.alreadyComplete &&
+    session.pool.every(
+      question =>
+        state.seen[
+          question.id
+        ]
+    )
+  ) {
 
-  $("emptyText").textContent =
-    "Toutes les questions de cette section ont été parcourues.";
+    $("emptyTitle")
+      .textContent =
+        "Vous avez répondu à toutes les questions !";
 
-  showView(
-    "empty"
-  );
 
-  renderHome();
+    $("emptyText")
+      .textContent =
+        "Toutes les questions de cette section ont été parcourues.";
 
-  return;
 
-}
+    showView(
+      "empty"
+    );
+
+
+    renderHome();
+
+
+    return;
+
+  }
+
 
   session.current =
     chooseNext(
@@ -1689,16 +1690,11 @@ function renderQuestion() {
     );
 
 
-  /*
-    Le bouton "Ajouter à mes révisions"
-    est caché tant que la réponse n'est pas correcte.
-  */
-
   $("addRevisionBtn")
-  .classList
-  .add(
-    "hidden"
-  );
+    .classList
+    .add(
+      "hidden"
+    );
 
 
   $("addRevisionBtn")
@@ -1937,10 +1933,6 @@ function answer(index) {
   );
 
 
-  // ===================================================
-  // BONNE RÉPONSE
-  // ===================================================
-
   if (
     correct
   ) {
@@ -2025,16 +2017,11 @@ function answer(index) {
       $("addRevisionBtn");
 
 
-    /*
-      On conserve volontairement le fonctionnement
-      de ton app actuelle pour ce bouton.
-    */
-
     revisionBtn
-  .classList
-  .remove(
-    "hidden"
-  );
+      .classList
+      .remove(
+        "hidden"
+      );
 
 
     if (
@@ -2068,10 +2055,6 @@ function answer(index) {
 
   }
 
-
-  // ===================================================
-  // MAUVAISE RÉPONSE
-  // ===================================================
 
   else {
 
@@ -2363,6 +2346,7 @@ $("revisionsBackBtn")
 
   );
 
+
 // =====================================================
 // RÉINITIALISATION DE L'APPLICATION
 // =====================================================
@@ -2377,7 +2361,8 @@ function openResetModal() {
 
   let seconds = 10;
 
-  confirmBtn.disabled = true;
+  confirmBtn.disabled =
+    true;
 
   confirmBtn.textContent =
     `Oui (${seconds} s)`;
@@ -2396,7 +2381,9 @@ function openResetModal() {
 
         seconds--;
 
-        if (seconds > 0) {
+        if (
+          seconds > 0
+        ) {
 
           confirmBtn.textContent =
             `Oui (${seconds} s)`;
@@ -2409,9 +2396,11 @@ function openResetModal() {
             resetCountdown
           );
 
-          resetCountdown = null;
+          resetCountdown =
+            null;
 
-          confirmBtn.disabled = false;
+          confirmBtn.disabled =
+            false;
 
           confirmBtn.textContent =
             "Oui";
@@ -2424,13 +2413,15 @@ function openResetModal() {
 
 }
 
+
 function closeResetModal() {
 
   clearInterval(
     resetCountdown
   );
 
-  resetCountdown = null;
+  resetCountdown =
+    null;
 
   $("resetModal")
     .classList
@@ -2439,6 +2430,7 @@ function closeResetModal() {
     );
 
 }
+
 
 function resetApplication() {
 
@@ -2449,7 +2441,8 @@ function resetApplication() {
 
   closeResetModal();
 
-  currentChapter = "A";
+  currentChapter =
+    "A";
 
   $("chapterSelect").value =
     "A";
@@ -2461,6 +2454,7 @@ function resetApplication() {
   );
 
 }
+
 
 $("resetAppBtn")
   .addEventListener(
@@ -2499,6 +2493,7 @@ $("resetModal")
 
     }
   );
+
 
 $("confirmDeleteBtn")
   .addEventListener(
