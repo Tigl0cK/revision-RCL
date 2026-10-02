@@ -169,10 +169,22 @@ main {
   font-weight: 900;
 }
 
+.theme-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .theme-name {
   font-weight: 750;
   line-height: 1.25;
   font-size: 15px;
+}
+
+.theme-question-count {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .theme-percent {
