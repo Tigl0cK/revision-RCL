@@ -3,6 +3,7 @@
 // =====================================================
 
 const CHAPTERS = {
+
   A: {
     name: "Signalisation / Règles d'exploitation",
     themes: [
@@ -18,9 +19,56 @@ const CHAPTERS = {
   B: {
     name: "Composition – Freinage – Vitesse limite des trains",
     themes: [
-      { id: 1, name: "Généralités" }
+      { id: 1, name: "Généralités" },
+      { id: 2, name: "Trains de voyageurs" },
+      { id: 3, name: "Trains de messageries" },
+      { id: 4, name: "Trains de marchandises" },
+      { id: 5, name: "Haut le pied – Trains de machines" },
+      { id: 6, name: "Trains comportant plusieurs engins moteurs" }
+    ]
+  },
+
+  C: {
+    name: "Technique",
+    themes: [
+      { id: 1, name: "Frein" },
+      { id: 2, name: "Engins moteurs" },
+      { id: 3, name: "Répétition – Automatismes – Système de contrôle" }
+    ]
+  },
+
+  D: {
+    name: "Circulation et conduite des trains",
+    themes: [
+      { id: 1, name: "Circulation des trains" },
+      { id: 2, name: "Conduite des trains" }
+    ]
+  },
+
+  E: {
+    name: "Sécurité du personnel – Organisation – Communication – Sûreté",
+    themes: [
+      { id: 1, name: "Sécurité du personnel" },
+      { id: 2, name: "Organisation" },
+      { id: 3, name: "Communication" },
+      { id: 4, name: "NAVIBOOK – Généralités" },
+      { id: 5, name: "Sûreté" }
+    ]
+  },
+
+  F: {
+    name: "Anomalies – Incidents – Accidents",
+    themes: [
+      { id: 1, name: "Faits d'origine indéterminée" },
+      { id: 2, name: "Faits en liaison avec le frein" },
+      { id: 3, name: "Faits en liaison avec la signalisation" },
+      { id: 4, name: "Faits en liaison avec la circulation des trains" },
+      { id: 5, name: "Faits en liaison avec les engins moteurs" },
+      { id: 6, name: "Faits en relation avec le matériel remorqué" },
+      { id: 7, name: "Faits en liaison avec la sécurité des personnes" }
     ]
   }
+
 };
 
 
@@ -31,6 +79,7 @@ const CHAPTERS = {
 const QUESTION_BANKS = {
 
   A: {
+
     1:
       typeof QUESTIONS_PARTIE_1 !== "undefined"
         ? QUESTIONS_PARTIE_1
@@ -60,39 +109,149 @@ const QUESTION_BANKS = {
       typeof QUESTIONS_PARTIE_6 !== "undefined"
         ? QUESTIONS_PARTIE_6
         : []
+
   },
 
+
   B: {
+
     1:
       typeof QUESTIONS_PARTIE_B1 !== "undefined"
         ? QUESTIONS_PARTIE_B1
-        : []
+        : [],
 
     2:
       typeof QUESTIONS_PARTIE_B2 !== "undefined"
         ? QUESTIONS_PARTIE_B2
-        : []
+        : [],
 
     3:
       typeof QUESTIONS_PARTIE_B3 !== "undefined"
         ? QUESTIONS_PARTIE_B3
-        : []
+        : [],
 
     4:
       typeof QUESTIONS_PARTIE_B4 !== "undefined"
         ? QUESTIONS_PARTIE_B4
-        : []
+        : [],
 
     5:
       typeof QUESTIONS_PARTIE_B5 !== "undefined"
         ? QUESTIONS_PARTIE_B5
-        : []
+        : [],
 
     6:
       typeof QUESTIONS_PARTIE_B6 !== "undefined"
         ? QUESTIONS_PARTIE_B6
         : []
+
+  },
+
+
+  C: {
+
+    1:
+      typeof QUESTIONS_PARTIE_C1 !== "undefined"
+        ? QUESTIONS_PARTIE_C1
+        : [],
+
+    2:
+      typeof QUESTIONS_PARTIE_C2 !== "undefined"
+        ? QUESTIONS_PARTIE_C2
+        : [],
+
+    3:
+      typeof QUESTIONS_PARTIE_C3 !== "undefined"
+        ? QUESTIONS_PARTIE_C3
+        : []
+
+  },
+
+
+  D: {
+
+    1:
+      typeof QUESTIONS_PARTIE_D1 !== "undefined"
+        ? QUESTIONS_PARTIE_D1
+        : [],
+
+    2:
+      typeof QUESTIONS_PARTIE_D2 !== "undefined"
+        ? QUESTIONS_PARTIE_D2
+        : []
+
+  },
+
+
+  E: {
+
+    1:
+      typeof QUESTIONS_PARTIE_E1 !== "undefined"
+        ? QUESTIONS_PARTIE_E1
+        : [],
+
+    2:
+      typeof QUESTIONS_PARTIE_E2 !== "undefined"
+        ? QUESTIONS_PARTIE_E2
+        : [],
+
+    3:
+      typeof QUESTIONS_PARTIE_E3 !== "undefined"
+        ? QUESTIONS_PARTIE_E3
+        : [],
+
+    4:
+      typeof QUESTIONS_PARTIE_E4 !== "undefined"
+        ? QUESTIONS_PARTIE_E4
+        : [],
+
+    5:
+      typeof QUESTIONS_PARTIE_E5 !== "undefined"
+        ? QUESTIONS_PARTIE_E5
+        : []
+
+  },
+
+
+  F: {
+
+    1:
+      typeof QUESTIONS_PARTIE_F1 !== "undefined"
+        ? QUESTIONS_PARTIE_F1
+        : [],
+
+    2:
+      typeof QUESTIONS_PARTIE_F2 !== "undefined"
+        ? QUESTIONS_PARTIE_F2
+        : [],
+
+    3:
+      typeof QUESTIONS_PARTIE_F3 !== "undefined"
+        ? QUESTIONS_PARTIE_F3
+        : [],
+
+    4:
+      typeof QUESTIONS_PARTIE_F4 !== "undefined"
+        ? QUESTIONS_PARTIE_F4
+        : [],
+
+    5:
+      typeof QUESTIONS_PARTIE_F5 !== "undefined"
+        ? QUESTIONS_PARTIE_F5
+        : [],
+
+    6:
+      typeof QUESTIONS_PARTIE_F6 !== "undefined"
+        ? QUESTIONS_PARTIE_F6
+        : [],
+
+    7:
+      typeof QUESTIONS_PARTIE_F7 !== "undefined"
+        ? QUESTIONS_PARTIE_F7
+        : []
+
   }
+
 };
 
 
@@ -100,42 +259,46 @@ const QUESTION_BANKS = {
 // TOUTES LES QUESTIONS
 // =====================================================
 
-const QUESTIONS = [
-
-  ...QUESTION_BANKS.A[1],
-  ...QUESTION_BANKS.A[2],
-  ...QUESTION_BANKS.A[3],
-  ...QUESTION_BANKS.A[4],
-  ...QUESTION_BANKS.A[5],
-  ...QUESTION_BANKS.A[6],
-
-  ...QUESTION_BANKS.B[1],
-  ...QUESTION_BANKS.B[2],
-  ...QUESTION_BANKS.B[3],
-  ...QUESTION_BANKS.B[4],
-  ...QUESTION_BANKS.B[5],
-  ...QUESTION_BANKS.B[6]
-
-];
+const QUESTIONS =
+  Object.values(QUESTION_BANKS)
+    .flatMap(
+      chapter =>
+        Object.values(chapter).flat()
+    );
 
 
 const STORAGE_KEY = "revisionRCL_v1";
 
-let state = loadState();
 
-let currentChapter = "A";
+let state =
+  loadState();
+
+
+let currentChapter =
+  "A";
+
 
 let session = {
+
   mode: null,
+
   chapter: "A",
+
   theme: null,
+
   pool: [],
+
   current: null,
+
   answeredInSession: 0,
+
   locked: false
+
 };
 
-let revisionToDelete = null;
+
+let revisionToDelete =
+  null;
 
 
 const $ = id =>
@@ -143,10 +306,19 @@ const $ = id =>
 
 
 const views = {
-  home: $("homeView"),
-  quiz: $("quizView"),
-  revisions: $("revisionsView"),
-  empty: $("emptyView")
+
+  home:
+    $("homeView"),
+
+  quiz:
+    $("quizView"),
+
+  revisions:
+    $("revisionsView"),
+
+  empty:
+    $("emptyView")
+
 };
 
 
@@ -157,11 +329,17 @@ const views = {
 function defaultState() {
 
   return {
+
     seen: {},
+
     errors: {},
+
     revisions: {},
+
     totalAnswers: 0,
+
     correctAnswers: 0
+
   };
 
 }
@@ -173,16 +351,27 @@ function loadState() {
 
     const saved =
       JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "{}"
+        localStorage.getItem(
+          STORAGE_KEY
+        ) || "{}"
       );
 
 
     return {
+
       ...defaultState(),
+
       ...saved,
-      seen: saved.seen || {},
-      errors: saved.errors || {},
-      revisions: saved.revisions || {}
+
+      seen:
+        saved.seen || {},
+
+      errors:
+        saved.errors || {},
+
+      revisions:
+        saved.revisions || {}
+
     };
 
   }
@@ -199,8 +388,13 @@ function loadState() {
 function saveState() {
 
   localStorage.setItem(
+
     STORAGE_KEY,
-    JSON.stringify(state)
+
+    JSON.stringify(
+      state
+    )
+
   );
 
 }
@@ -212,24 +406,36 @@ function saveState() {
 
 function showView(name) {
 
-  Object.values(views).forEach(
-    view =>
-      view.classList.remove("active")
-  );
+  Object.values(views)
+    .forEach(
+      view =>
+        view.classList.remove(
+          "active"
+        )
+    );
 
 
-  views[name].classList.add("active");
+  views[name]
+    .classList
+    .add(
+      "active"
+    );
 
 
-  $("homeBtn").classList.toggle(
-    "hidden",
-    name === "home"
-  );
+  $("homeBtn")
+    .classList
+    .toggle(
+      "hidden",
+      name === "home"
+    );
 
 
   window.scrollTo({
+
     top: 0,
+
     behavior: "smooth"
+
   });
 
 }
@@ -239,21 +445,30 @@ function showView(name) {
 // CHAPITRE ACTUEL
 // =====================================================
 
-function chapterThemes(chapter = currentChapter) {
+function chapterThemes(
+  chapter = currentChapter
+) {
 
-  return CHAPTERS[chapter]?.themes || [];
+  return (
+    CHAPTERS[chapter]?.themes ||
+    []
+  );
 
 }
 
 
-function chapterQuestions(chapter = currentChapter) {
+function chapterQuestions(
+  chapter = currentChapter
+) {
 
   const banks =
-    QUESTION_BANKS[chapter] || {};
+    QUESTION_BANKS[chapter] ||
+    {};
 
 
-  return Object.values(banks)
-    .flat();
+  return Object.values(
+    banks
+  ).flat();
 
 }
 
@@ -264,8 +479,13 @@ function themeQuestions(
 ) {
 
   return (
-    QUESTION_BANKS[chapter]?.[themeId] ||
+
+    QUESTION_BANKS[chapter]?.[
+      themeId
+    ] ||
+
     []
+
   );
 
 }
@@ -279,12 +499,17 @@ function progressColor(pct) {
 
   const hue =
     Math.round(
+
       (
         Math.max(
           0,
-          Math.min(100, pct)
+          Math.min(
+            100,
+            pct
+          )
         ) / 100
       ) * 120
+
     );
 
 
@@ -296,8 +521,12 @@ function progressColor(pct) {
 function seenCount(list) {
 
   return list.filter(
+
     question =>
-      state.seen[question.id]
+      state.seen[
+        question.id
+      ]
+
   ).length;
 
 }
@@ -308,10 +537,12 @@ function percentage(list) {
   return list.length
 
     ? Math.round(
+
         (
           seenCount(list) /
           list.length
         ) * 100
+
       )
 
     : 0;
@@ -326,21 +557,20 @@ function percentage(list) {
 function revisionQuestions() {
 
   return QUESTIONS.filter(
+
     question =>
-      state.revisions[question.id]
+      state.revisions[
+        question.id
+      ]
+
   );
 
 }
 
 
-function revisionCategory(question) {
-
-  /*
-    A1Q001 → A1
-    A2Q050 → A2
-    B1Q010 → B1
-    B3Q010 → B3
-  */
+function revisionCategory(
+  question
+) {
 
   const match =
     question.id.match(
@@ -349,7 +579,10 @@ function revisionCategory(question) {
 
 
   if (match) {
-    return match[1].toUpperCase();
+
+    return match[1]
+      .toUpperCase();
+
   }
 
 
@@ -358,7 +591,9 @@ function revisionCategory(question) {
 }
 
 
-function questionNumber(question) {
+function questionNumber(
+  question
+) {
 
   const match =
     question.id.match(
@@ -367,13 +602,17 @@ function questionNumber(question) {
 
 
   return match
-    ? Number(match[1])
+    ? Number(
+        match[1]
+      )
     : 0;
 
 }
 
 
-function categoryName(category) {
+function categoryName(
+  category
+) {
 
   const match =
     category.match(
@@ -382,22 +621,32 @@ function categoryName(category) {
 
 
   if (!match) {
+
     return "";
+
   }
 
 
   const chapter =
-    match[1].toUpperCase();
+    match[1]
+      .toUpperCase();
 
 
   const themeId =
-    Number(match[2]);
+    Number(
+      match[2]
+    );
 
 
   const theme =
-    CHAPTERS[chapter]?.themes.find(
+    CHAPTERS[
+      chapter
+    ]?.themes.find(
+
       item =>
-        item.id === themeId
+        item.id ===
+        themeId
+
     );
 
 
@@ -414,30 +663,35 @@ function renderRevisions() {
     $("revisionsList");
 
 
-  list.innerHTML = "";
+  list.innerHTML =
+    "";
 
 
   const questions =
     revisionQuestions();
 
 
-  $("revisionsDescription").textContent =
-    questions.length
+  $("revisionsDescription")
+    .textContent =
 
-      ? `${questions.length} question${
-          questions.length > 1
-            ? "s"
-            : ""
-        } enregistrée${
-          questions.length > 1
-            ? "s"
-            : ""
-        }`
+      questions.length
 
-      : "Aucune question enregistrée";
+        ? `${questions.length} question${
+            questions.length > 1
+              ? "s"
+              : ""
+          } enregistrée${
+            questions.length > 1
+              ? "s"
+              : ""
+          }`
+
+        : "Aucune question enregistrée";
 
 
-  if (!questions.length) {
+  if (
+    !questions.length
+  ) {
 
     list.innerHTML = `
 
@@ -447,56 +701,81 @@ function renderRevisions() {
 
     `;
 
+
     return;
 
   }
 
 
-  const groups = {};
+  const groups =
+    {};
 
 
   questions.forEach(
+
     question => {
 
       const category =
-        revisionCategory(question);
+        revisionCategory(
+          question
+        );
 
 
-      if (!groups[category]) {
+      if (
+        !groups[
+          category
+        ]
+      ) {
 
-        groups[category] = [];
+        groups[
+          category
+        ] = [];
 
       }
 
 
-      groups[category].push(
+      groups[
+        category
+      ].push(
         question
       );
 
     }
+
   );
 
 
   const categories =
-    Object.keys(groups)
+    Object.keys(
+      groups
+    )
       .sort(
+
         (a, b) =>
           a.localeCompare(
+
             b,
+
             undefined,
+
             {
               numeric: true,
               sensitivity: "base"
             }
+
           )
+
       );
 
 
   categories.forEach(
+
     category => {
 
       const group =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
 
       group.className =
@@ -504,7 +783,9 @@ function renderRevisions() {
 
 
       const title =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
 
       title.className =
@@ -512,7 +793,9 @@ function renderRevisions() {
 
 
       const name =
-        categoryName(category);
+        categoryName(
+          category
+        );
 
 
       title.innerHTML = `
@@ -530,16 +813,24 @@ function renderRevisions() {
       `;
 
 
-      group.appendChild(title);
+      group.appendChild(
+        title
+      );
 
 
-      groups[category]
+      groups[
+        category
+      ]
         .sort(
+
           (a, b) =>
             questionNumber(a) -
             questionNumber(b)
+
         )
+
         .forEach(
+
           question => {
 
             const article =
@@ -584,23 +875,32 @@ function renderRevisions() {
 
 
             btn.addEventListener(
+
               "click",
+
               () =>
                 openDeleteModal(
                   question.id
                 )
+
             );
 
 
-            group.appendChild(btn);
+            group.appendChild(
+              btn
+            );
 
           }
+
         );
 
 
-      list.appendChild(group);
+      list.appendChild(
+        group
+      );
 
     }
+
   );
 
 }
@@ -613,15 +913,19 @@ function addCurrentQuestionToRevisions() {
 
 
   if (!q) {
+
     return;
+
   }
 
 
-  state.revisions[q.id] =
-    true;
+  state.revisions[
+    q.id
+  ] = true;
 
 
   saveState();
+
 
   renderHome();
 
@@ -649,7 +953,9 @@ function addCurrentQuestionToRevisions() {
 // POP-UP SUPPRESSION
 // =====================================================
 
-function openDeleteModal(questionId) {
+function openDeleteModal(
+  questionId
+) {
 
   revisionToDelete =
     questionId;
@@ -657,7 +963,9 @@ function openDeleteModal(questionId) {
 
   $("deleteModal")
     .classList
-    .remove("hidden");
+    .remove(
+      "hidden"
+    );
 
 }
 
@@ -670,15 +978,21 @@ function closeDeleteModal() {
 
   $("deleteModal")
     .classList
-    .add("hidden");
+    .add(
+      "hidden"
+    );
 
 }
 
 
 function confirmDeleteRevision() {
 
-  if (!revisionToDelete) {
+  if (
+    !revisionToDelete
+  ) {
+
     return;
+
   }
 
 
@@ -689,9 +1003,12 @@ function confirmDeleteRevision() {
 
   saveState();
 
+
   closeDeleteModal();
 
+
   renderRevisions();
+
 
   renderHome();
 
@@ -708,7 +1025,24 @@ function renderHome() {
     $("themeList");
 
 
-  list.innerHTML = "";
+  list.innerHTML =
+    "";
+
+
+  // Mise à jour du titre CHAPITRE A / B / C / D / E / F
+
+  const chapterEyebrow =
+    $("chapterEyebrow");
+
+
+  if (
+    chapterEyebrow
+  ) {
+
+    chapterEyebrow.textContent =
+      `CHAPITRE ${currentChapter}`;
+
+  }
 
 
   const themes =
@@ -716,6 +1050,7 @@ function renderHome() {
 
 
   themes.forEach(
+
     theme => {
 
       const qs =
@@ -725,11 +1060,15 @@ function renderHome() {
 
 
       const pct =
-        percentage(qs);
+        percentage(
+          qs
+        );
 
 
       const color =
-        progressColor(pct);
+        progressColor(
+          pct
+        );
 
 
       const btn =
@@ -771,6 +1110,7 @@ function renderHome() {
 
         </div>
 
+
         <div class="progress-track">
 
           <div
@@ -787,18 +1127,24 @@ function renderHome() {
 
 
       btn.addEventListener(
+
         "click",
+
         () =>
           startSession(
             "theme",
             theme.id
           )
+
       );
 
 
-      list.appendChild(btn);
+      list.appendChild(
+        btn
+      );
 
     }
+
   );
 
 
@@ -812,18 +1158,36 @@ function renderHome() {
     );
 
 
-  $("allPercent").textContent =
-    `${allPct} %`;
+  $("allPercent")
+    .textContent =
+      `${allPct} %`;
 
 
-  $("allPercent").style.color =
-    progressColor(
-      allPct
+  $("allPercent")
+    .style
+    .color =
+      progressColor(
+        allPct
+      );
+
+
+  $("globalProgress")
+    .textContent =
+      `${allPct} % parcouru`;
+
+
+  // Les erreurs affichées correspondent uniquement
+  // au chapitre actuellement sélectionné.
+
+  const currentQuestionIds =
+    new Set(
+
+      currentQuestions.map(
+        question =>
+          question.id
+      )
+
     );
-
-
-  $("globalProgress").textContent =
-    `${allPct} % parcouru`;
 
 
   const activeErrors =
@@ -831,68 +1195,82 @@ function renderHome() {
       state.errors
     )
       .filter(
+
         id =>
-          QUESTIONS.some(
-            question =>
-              question.id === id
+          currentQuestionIds.has(
+            id
           )
+
       );
 
 
-  $("errorCount").textContent =
-    activeErrors.length;
+  $("errorCount")
+    .textContent =
+      activeErrors.length;
 
 
-  $("errorSubtitle").textContent =
-    activeErrors.length
+  $("errorSubtitle")
+    .textContent =
 
-      ? `${activeErrors.length} question${
-          activeErrors.length > 1
-            ? "s"
-            : ""
-        } à retravailler`
+      activeErrors.length
 
-      : "Aucune question à retravailler";
+        ? `${activeErrors.length} question${
+            activeErrors.length > 1
+              ? "s"
+              : ""
+          } à retravailler`
 
+        : "Aucune question à retravailler";
+
+
+  // Mes révisions restent globales à toute l'application.
 
   const revisions =
     revisionQuestions();
 
 
-  $("revisionCount").textContent =
-    revisions.length;
+  $("revisionCount")
+    .textContent =
+      revisions.length;
 
 
-  $("revisionSubtitle").textContent =
-    revisions.length
+  $("revisionSubtitle")
+    .textContent =
 
-      ? `${revisions.length} question${
-          revisions.length > 1
-            ? "s"
-            : ""
-        } enregistrée${
-          revisions.length > 1
-            ? "s"
-            : ""
-        }`
+      revisions.length
 
-      : "Aucune question enregistrée";
+        ? `${revisions.length} question${
+            revisions.length > 1
+              ? "s"
+              : ""
+          } enregistrée${
+            revisions.length > 1
+              ? "s"
+              : ""
+          }`
 
-
-  $("answeredStat").textContent =
-    state.totalAnswers;
+        : "Aucune question enregistrée";
 
 
-  $("successStat").textContent =
-    state.totalAnswers
+  $("answeredStat")
+    .textContent =
+      state.totalAnswers;
 
-      ? `${Math.round(
-          state.correctAnswers /
-          state.totalAnswers *
-          100
-        )} %`
 
-      : "—";
+  $("successStat")
+    .textContent =
+
+      state.totalAnswers
+
+        ? `${Math.round(
+
+            state.correctAnswers /
+            state.totalAnswers *
+            100
+
+          )} %`
+
+        : "—";
 
 }
 
@@ -905,8 +1283,11 @@ function shuffled(arr) {
 
   return [...arr]
     .sort(
+
       () =>
-        Math.random() - 0.5
+        Math.random() -
+        0.5
+
     );
 
 }
@@ -920,7 +1301,9 @@ function startSession(
   let pool;
 
 
-  if (mode === "theme") {
+  if (
+    mode === "theme"
+  ) {
 
     pool =
       themeQuestions(
@@ -929,45 +1312,63 @@ function startSession(
 
   }
 
-  else if (mode === "all") {
+
+  else if (
+    mode === "all"
+  ) {
 
     pool =
       chapterQuestions();
 
   }
 
+
   else {
 
+    // Mes erreurs du chapitre actuellement sélectionné.
+
     pool =
-      QUESTIONS.filter(
-        question =>
-          state.errors[
-            question.id
-          ]
-      );
+      chapterQuestions()
+        .filter(
+
+          question =>
+            state.errors[
+              question.id
+            ]
+
+        );
 
   }
 
 
-  if (!pool.length) {
+  if (
+    !pool.length
+  ) {
 
-    $("emptyTitle").textContent =
-      mode === "errors"
-        ? "Aucune erreur à retravailler"
-        : "Aucune question disponible";
+    $("emptyTitle")
+      .textContent =
+
+        mode === "errors"
+
+          ? "Aucune erreur à retravailler"
+
+          : "Aucune question disponible";
 
 
-    $("emptyText").textContent =
-      mode === "errors"
+    $("emptyText")
+      .textContent =
 
-        ? "Les questions auxquelles tu répondras mal apparaîtront ici jusqu'à deux bonnes réponses consécutives."
+        mode === "errors"
 
-        : "Cette partie ne contient pas encore de questions.";
+          ? "Les questions auxquelles tu répondras mal apparaîtront ici jusqu'à deux bonnes réponses consécutives."
+
+          : "Cette partie ne contient pas encore de questions.";
 
 
     showView(
       "empty"
     );
+
 
     return;
 
@@ -976,21 +1377,28 @@ function startSession(
 
   session = {
 
-    mode: mode,
+    mode:
+      mode,
 
-    chapter: currentChapter,
+    chapter:
+      currentChapter,
 
-    theme: themeId,
+    theme:
+      themeId,
 
-    pool: shuffled(
-      pool
-    ),
+    pool:
+      shuffled(
+        pool
+      ),
 
-    current: null,
+    current:
+      null,
 
-    answeredInSession: 0,
+    answeredInSession:
+      0,
 
-    locked: false
+    locked:
+      false
 
   };
 
@@ -998,13 +1406,20 @@ function startSession(
   let label;
 
 
-  if (mode === "theme") {
+  if (
+    mode === "theme"
+  ) {
 
     const theme =
-      chapterThemes()
+      chapterThemes(
+        session.chapter
+      )
         .find(
+
           item =>
-            item.id === themeId
+            item.id ===
+            themeId
+
         );
 
 
@@ -1015,23 +1430,28 @@ function startSession(
 
   }
 
-  else if (mode === "all") {
+
+  else if (
+    mode === "all"
+  ) {
 
     label =
-      `Chapitre ${currentChapter} — Tous les thèmes`;
+      `Chapitre ${session.chapter} — Tous les thèmes`;
 
   }
+
 
   else {
 
     label =
-      "Mes erreurs";
+      `Chapitre ${session.chapter} — Mes erreurs`;
 
   }
 
 
-  $("quizTheme").textContent =
-    label;
+  $("quizTheme")
+    .textContent =
+      label;
 
 
   showView(
@@ -1051,17 +1471,24 @@ function startSession(
 function chooseNext(pool) {
 
   if (
-    session.mode !== "errors"
+    session.mode !==
+    "errors"
   ) {
 
     const unseen =
       pool.filter(
+
         question =>
+
           !state.seen[
             question.id
-          ] &&
+          ]
+
+          &&
+
           question.id !==
             session.current?.id
+
       );
 
 
@@ -1070,10 +1497,14 @@ function chooseNext(pool) {
     ) {
 
       return unseen[
+
         Math.floor(
+
           Math.random() *
           unseen.length
+
         )
+
       ];
 
     }
@@ -1083,9 +1514,11 @@ function chooseNext(pool) {
 
   const candidates =
     pool.filter(
+
       question =>
         question.id !==
-          session.current?.id
+        session.current?.id
+
     );
 
 
@@ -1096,10 +1529,14 @@ function chooseNext(pool) {
 
 
   return source[
+
     Math.floor(
+
       Math.random() *
       source.length
+
     )
+
   ];
 
 }
@@ -1112,28 +1549,41 @@ function chooseNext(pool) {
 function nextQuestion() {
 
   if (
-    session.mode === "errors"
+    session.mode ===
+    "errors"
   ) {
 
+    /*
+      On recharge uniquement les erreurs du chapitre
+      auquel appartient la session.
+    */
+
     session.pool =
-      QUESTIONS.filter(
-        question =>
-          state.errors[
-            question.id
-          ]
-      );
+      chapterQuestions(
+        session.chapter
+      )
+        .filter(
+
+          question =>
+            state.errors[
+              question.id
+            ]
+
+        );
 
 
     if (
       !session.pool.length
     ) {
 
-      $("emptyTitle").textContent =
-        "Toutes les erreurs sont acquises";
+      $("emptyTitle")
+        .textContent =
+          "Toutes les erreurs sont acquises";
 
 
-      $("emptyText").textContent =
-        "Tu as obtenu deux bonnes réponses consécutives sur toutes les questions à retravailler.";
+      $("emptyText")
+        .textContent =
+          "Tu as obtenu deux bonnes réponses consécutives sur toutes les questions à retravailler.";
 
 
       showView(
@@ -1142,6 +1592,7 @@ function nextQuestion() {
 
 
       renderHome();
+
 
       return;
 
@@ -1178,25 +1629,31 @@ function renderQuestion() {
     session.current;
 
 
-  $("questionProgress").textContent =
-    `Question ${q.id}`;
+  $("questionProgress")
+    .textContent =
+      `Question ${q.id}`;
 
 
-  $("questionText").textContent =
-    q.question;
+  $("questionText")
+    .textContent =
+      q.question;
 
 
-  $("feedback").className =
-    "feedback hidden";
+  $("feedback")
+    .className =
+      "feedback hidden";
 
 
-  $("feedback").innerHTML =
-    "";
+  $("feedback")
+    .innerHTML =
+      "";
 
 
   $("nextBtn")
     .classList
-    .add("hidden");
+    .add(
+      "hidden"
+    );
 
 
   /*
@@ -1204,21 +1661,27 @@ function renderQuestion() {
     est caché tant que la réponse n'est pas correcte.
   */
 
-  $("addRevisionBtn").style.display =
-    "none";
+  $("addRevisionBtn")
+    .style
+    .display =
+      "none";
 
 
   $("addRevisionBtn")
     .classList
-    .remove("added");
+    .remove(
+      "added"
+    );
 
 
-  $("addRevisionBtn").disabled =
-    false;
+  $("addRevisionBtn")
+    .disabled =
+      false;
 
 
-  $("addRevisionBtn").textContent =
-    "★ Ajouter à mes révisions";
+  $("addRevisionBtn")
+    .textContent =
+      "★ Ajouter à mes révisions";
 
 
   const mastery =
@@ -1226,27 +1689,42 @@ function renderQuestion() {
 
 
   if (
-    session.mode === "errors" &&
-    state.errors[q.id]
+
+    session.mode ===
+      "errors"
+
+    &&
+
+    state.errors[
+      q.id
+    ]
+
   ) {
 
     mastery.textContent =
       `Acquisition ${
-        state.errors[q.id].streak || 0
+        state.errors[
+          q.id
+        ].streak || 0
       }/2`;
 
 
-    mastery.classList.remove(
-      "hidden"
-    );
+    mastery
+      .classList
+      .remove(
+        "hidden"
+      );
 
   }
 
+
   else {
 
-    mastery.classList.add(
-      "hidden"
-    );
+    mastery
+      .classList
+      .add(
+        "hidden"
+      );
 
   }
 
@@ -1266,6 +1744,7 @@ function renderQuestion() {
 
 
   options.forEach(
+
     (option, index) => {
 
       const btn =
@@ -1285,22 +1764,32 @@ function renderQuestion() {
       btn.innerHTML = `
 
         <span class="answer-letter">
+
           ${String.fromCharCode(
             65 + index
           )}
+
         </span>
 
+
         <span>
+
           ${option}
+
         </span>
 
       `;
 
 
       btn.addEventListener(
+
         "click",
+
         () =>
-          answer(index)
+          answer(
+            index
+          )
+
       );
 
 
@@ -1309,6 +1798,7 @@ function renderQuestion() {
       );
 
     }
+
   );
 
 }
@@ -1323,7 +1813,9 @@ function answer(index) {
   if (
     session.locked
   ) {
+
     return;
+
   }
 
 
@@ -1349,24 +1841,29 @@ function answer(index) {
   state.totalAnswers++;
 
 
-  if (correct) {
+  if (
+    correct
+  ) {
 
     state.correctAnswers++;
 
   }
 
 
-  state.seen[q.id] =
-    true;
+  state.seen[
+    q.id
+  ] = true;
 
 
   const buttons =
     [
-      ...$("answers").children
+      ...$("answers")
+        .children
     ];
 
 
   buttons.forEach(
+
     (btn, i) => {
 
       btn.disabled =
@@ -1374,7 +1871,8 @@ function answer(index) {
 
 
       if (
-        i === q.correct
+        i ===
+        q.correct
       ) {
 
         btn.classList.add(
@@ -1385,8 +1883,13 @@ function answer(index) {
 
 
       if (
-        i === index &&
+
+        i === index
+
+        &&
+
         !correct
+
       ) {
 
         btn.classList.add(
@@ -1396,6 +1899,7 @@ function answer(index) {
       }
 
     }
+
   );
 
 
@@ -1403,23 +1907,42 @@ function answer(index) {
   // BONNE RÉPONSE
   // ===================================================
 
-  if (correct) {
+  if (
+    correct
+  ) {
 
 
     if (
-      session.mode === "errors" &&
-      state.errors[q.id]
+
+      session.mode ===
+        "errors"
+
+      &&
+
+      state.errors[
+        q.id
+      ]
+
     ) {
 
-      state.errors[q.id].streak =
+      state.errors[
+        q.id
+      ].streak =
+
         (
-          state.errors[q.id].streak ||
+          state.errors[
+            q.id
+          ].streak ||
           0
         ) + 1;
 
 
       if (
-        state.errors[q.id].streak >= 2
+
+        state.errors[
+          q.id
+        ].streak >= 2
+
       ) {
 
         delete state.errors[
@@ -1432,6 +1955,7 @@ function answer(index) {
 
 
     saveState();
+
 
     renderHome();
 
@@ -1468,26 +1992,31 @@ function answer(index) {
 
 
     /*
-      Affichage forcé du bouton.
-      Cette méthode évite le problème rencontré
-      précédemment sur iPhone.
+      On conserve volontairement le fonctionnement
+      de ton app actuelle pour ce bouton.
     */
 
-    revisionBtn.style.display =
-      "block";
+    revisionBtn
+      .style
+      .display =
+        "block";
 
 
     if (
-      state.revisions[q.id]
+      state.revisions[
+        q.id
+      ]
     ) {
 
       revisionBtn.textContent =
         "✓ Ajouté à mes révisions";
 
 
-      revisionBtn.classList.add(
-        "added"
-      );
+      revisionBtn
+        .classList
+        .add(
+          "added"
+        );
 
 
       revisionBtn.disabled =
@@ -1498,7 +2027,9 @@ function answer(index) {
 
     $("nextBtn")
       .classList
-      .remove("hidden");
+      .remove(
+        "hidden"
+      );
 
   }
 
@@ -1511,29 +2042,44 @@ function answer(index) {
 
 
     if (
-      !state.errors[q.id]
+      !state.errors[
+        q.id
+      ]
     ) {
 
-      state.errors[q.id] = {
+      state.errors[
+        q.id
+      ] = {
+
         streak: 0,
+
         misses: 0
+
       };
 
     }
 
 
-    state.errors[q.id].streak =
+    state.errors[
+      q.id
+    ].streak =
       0;
 
 
-    state.errors[q.id].misses =
+    state.errors[
+      q.id
+    ].misses =
+
       (
-        state.errors[q.id].misses ||
+        state.errors[
+          q.id
+        ].misses ||
         0
       ) + 1;
 
 
     saveState();
+
 
     renderHome();
 
@@ -1561,7 +2107,9 @@ function answer(index) {
       La bonne réponse est :
 
       <b>
-        ${options[q.correct]}
+        ${options[
+          q.correct
+        ]}
       </b>
 
       <div class="article">
@@ -1574,7 +2122,9 @@ function answer(index) {
 
     $("nextBtn")
       .classList
-      .remove("hidden");
+      .remove(
+        "hidden"
+      );
 
   }
 
@@ -1591,22 +2141,24 @@ function setupChapterSelect() {
     $("chapterSelect");
 
 
-  if (!select) {
+  if (
+    !select
+  ) {
+
     return;
+
   }
 
 
-  /*
-    On recrée les options ici.
-    Il n'est donc pas nécessaire de modifier
-    le <select> dans index.html.
-  */
-
-  select.innerHTML = "";
+  select.innerHTML =
+    "";
 
 
-  Object.entries(CHAPTERS)
+  Object.entries(
+    CHAPTERS
+  )
     .forEach(
+
       ([chapter, data]) => {
 
         const option =
@@ -1628,6 +2180,7 @@ function setupChapterSelect() {
         );
 
       }
+
     );
 
 
@@ -1636,7 +2189,9 @@ function setupChapterSelect() {
 
 
   select.addEventListener(
+
     "change",
+
     () => {
 
       currentChapter =
@@ -1646,6 +2201,7 @@ function setupChapterSelect() {
       renderHome();
 
     }
+
   );
 
 }
@@ -1657,117 +2213,154 @@ function setupChapterSelect() {
 
 $("backBtn")
   .addEventListener(
+
     "click",
+
     () => {
 
       renderHome();
+
 
       showView(
         "home"
       );
 
     }
+
   );
 
 
 $("homeBtn")
   .addEventListener(
+
     "click",
+
     () => {
 
       closeDeleteModal();
 
+
       renderHome();
+
 
       showView(
         "home"
       );
 
     }
+
   );
 
 
 $("emptyHomeBtn")
   .addEventListener(
+
     "click",
+
     () => {
 
       renderHome();
+
 
       showView(
         "home"
       );
 
     }
+
   );
 
 
 $("nextBtn")
   .addEventListener(
+
     "click",
+
     nextQuestion
+
   );
 
 
 $("addRevisionBtn")
   .addEventListener(
+
     "click",
+
     addCurrentQuestionToRevisions
+
   );
 
 
 $("revisionsBtn")
   .addEventListener(
+
     "click",
+
     () => {
 
       renderRevisions();
+
 
       showView(
         "revisions"
       );
 
     }
+
   );
 
 
 $("revisionsBackBtn")
   .addEventListener(
+
     "click",
+
     () => {
 
       renderHome();
+
 
       showView(
         "home"
       );
 
     }
+
   );
 
 
 $("confirmDeleteBtn")
   .addEventListener(
+
     "click",
+
     confirmDeleteRevision
+
   );
 
 
 $("cancelDeleteBtn")
   .addEventListener(
+
     "click",
+
     closeDeleteModal
+
   );
 
 
 $("deleteModal")
   .addEventListener(
+
     "click",
+
     event => {
 
       if (
+
         event.target ===
         $("deleteModal")
+
       ) {
 
         closeDeleteModal();
@@ -1775,6 +2368,7 @@ $("deleteModal")
       }
 
     }
+
   );
 
 
@@ -1783,11 +2377,14 @@ document
     '[data-mode="all"]'
   )
   .addEventListener(
+
     "click",
+
     () =>
       startSession(
         "all"
       )
+
   );
 
 
@@ -1796,11 +2393,14 @@ document
     '[data-mode="errors"]'
   )
   .addEventListener(
+
     "click",
+
     () =>
       startSession(
         "errors"
       )
+
   );
 
 
@@ -1809,5 +2409,6 @@ document
 // =====================================================
 
 setupChapterSelect();
+
 
 renderHome();
