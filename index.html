@@ -76,6 +76,11 @@
         </button>
 
         <div class="stats-card">
+          
+          <button id="resetAppBtn" class="reset-app-btn" type="button">
+  Réinitialiser les résultats
+</button>
+          
   <div>
     <strong id="totalQuestionsStat">0</strong>
     <span>questions au total</span>
@@ -153,6 +158,31 @@
     </main>
   </div>
 
+  <!-- POP-UP RÉINITIALISATION -->
+  <div id="resetModal" class="modal-overlay hidden">
+    <div class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+
+      <h2 id="resetModalTitle">
+        Réinitialiser l'application ?
+      </h2>
+
+      <p class="reset-warning">
+        Êtes-vous sûr de vouloir réinitialiser l'appli ?
+        Toutes les réponses, erreurs et révisions seront supprimées.
+      </p>
+
+      <div class="delete-actions">
+        <button id="confirmResetBtn" class="delete-yes" type="button" disabled>
+          Oui (10 s)
+        </button>
+
+        <button id="cancelResetBtn" class="delete-no" type="button">
+          Non
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- POP-UP SUPPRESSION -->
   <div id="deleteModal" class="modal-overlay hidden">
