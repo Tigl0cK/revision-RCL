@@ -1308,8 +1308,7 @@ function startSession(
   }
 
 
-  else {
-
+  
      else {
 
     // Mes erreurs de tous les chapitres.
