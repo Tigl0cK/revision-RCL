@@ -291,8 +291,8 @@ let session = {
   current: null,
 
   answeredInSession: 0,
-  
-  alreadyComplete:
+
+alreadyComplete:
   pool.every(
     question =>
       state.seen[
