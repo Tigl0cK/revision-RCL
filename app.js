@@ -1176,31 +1176,16 @@ function renderHome() {
       `${allPct} % parcouru`;
 
 
-  // Les erreurs affichées correspondent uniquement
-  // au chapitre actuellement sélectionné.
-
-  const currentQuestionIds =
-    new Set(
-
-      currentQuestions.map(
-        question =>
-          question.id
-      )
-
-    );
-
+   // Mes erreurs regroupe les erreurs de tous les chapitres.
 
   const activeErrors =
-    Object.keys(
-      state.errors
-    )
+    Object.keys(state.errors)
       .filter(
-
         id =>
-          currentQuestionIds.has(
-            id
+          QUESTIONS.some(
+            question =>
+              question.id === id
           )
-
       );
 
 
@@ -1325,21 +1310,19 @@ function startSession(
 
   else {
 
-    // Mes erreurs du chapitre actuellement sélectionné.
+     else {
+
+    // Mes erreurs de tous les chapitres.
 
     pool =
-      chapterQuestions()
-        .filter(
-
-          question =>
-            state.errors[
-              question.id
-            ]
-
-        );
+      QUESTIONS.filter(
+        question =>
+          state.errors[
+            question.id
+          ]
+      );
 
   }
-
 
   if (
     !pool.length
@@ -1553,23 +1536,17 @@ function nextQuestion() {
     "errors"
   ) {
 
-    /*
-      On recharge uniquement les erreurs du chapitre
-      auquel appartient la session.
+       /*
+      On recharge les erreurs de tous les chapitres.
     */
 
     session.pool =
-      chapterQuestions(
-        session.chapter
-      )
-        .filter(
-
-          question =>
-            state.errors[
-              question.id
-            ]
-
-        );
+      QUESTIONS.filter(
+        question =>
+          state.errors[
+            question.id
+          ]
+      );
 
 
     if (
