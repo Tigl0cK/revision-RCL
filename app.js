@@ -1107,7 +1107,7 @@ function renderHome() {
   </span>
 
   <span class="theme-question-count">
-    ${questions.length} questions
+    ${qs.length} questions
   </span>
 
 </span>
