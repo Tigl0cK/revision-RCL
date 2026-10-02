@@ -301,6 +301,32 @@ main {
   font-size: 11px;
 }
 
+/* RÉINITIALISATION */
+
+.reset-app-btn {
+  width: 100%;
+  margin-top: 18px;
+  border: 0;
+  background: transparent;
+  color: var(--red);
+  padding: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.reset-warning {
+  margin: -6px 0 20px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#confirmResetBtn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
 
 .quiz-header {
   display: flex;
